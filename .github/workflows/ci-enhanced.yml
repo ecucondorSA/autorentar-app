@@ -1,0 +1,223 @@
+name: CI Pipeline Enhanced
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+  issues: write
+
+jobs:
+  lint-and-test:
+    name: Lint & Test
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run linter
+        run: npm run lint
+      
+      - name: Type check
+        run: npm run type-check
+      
+      - name: Format check
+        run: npm run format:check
+      
+      - name: Run unit tests with coverage
+        run: npm run test:coverage
+        continue-on-error: true
+      
+      # 📊 Test Results Reporter
+      - name: Test Report
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: Unit Test Results
+          path: 'coverage/junit.xml'
+          reporter: jest-junit
+          fail-on-error: false
+      
+      # 📈 Coverage Report in PR
+      - name: Coverage Report
+        uses: romeovs/lcov-reporter-action@v0.3.1
+        if: github.event_name == 'pull_request'
+        with:
+          lcov-file: ./coverage/lcov.info
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          delete-old-comments: true
+      
+      # 📊 Upload coverage to Codecov
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        if: success()
+        with:
+          files: ./coverage/lcov.info
+          fail_ci_if_error: false
+          flags: unittests
+          name: codecov-umbrella
+      
+      # 💾 Save coverage artifacts
+      - name: Upload coverage artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-report
+          path: coverage/
+          retention-days: 30
+      
+      # 💾 Upload test logs
+      - name: Upload test logs
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: test-logs
+          path: |
+            **/*.log
+            **/test-results/
+          retention-days: 14
+      
+      - name: Build application
+        run: npm run build
+        env:
+          NODE_ENV: production
+
+  e2e-tests:
+    name: E2E Tests
+    runs-on: ubuntu-latest
+    needs: lint-and-test
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+      
+      # 🎬 Run E2E tests with video recording
+      - name: Run E2E tests
+        run: npm run e2e:ci
+        continue-on-error: true
+      
+      # 📊 E2E Test Report
+      - name: E2E Test Report
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: E2E Test Results
+          path: 'test-results/*.xml'
+          reporter: java-junit
+          fail-on-error: false
+      
+      # 📸 Upload screenshots of failed tests
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: e2e-screenshots
+          path: test-results/**/screenshots/
+          retention-days: 14
+      
+      # 🎬 Upload videos of failed tests
+      - name: Upload videos
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: e2e-videos
+          path: test-results/**/videos/
+          retention-days: 14
+      
+      # 📝 Upload full E2E report
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+      
+      # 💬 Comment on PR with test results
+      - name: Comment test results on PR
+        uses: daun/playwright-report-comment@v3
+        if: always() && github.event_name == 'pull_request'
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          report-path: playwright-report
+
+  # 📊 Summary Report
+  test-summary:
+    name: Test Summary
+    runs-on: ubuntu-latest
+    needs: [lint-and-test, e2e-tests]
+    if: always()
+    
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+      
+      # 📊 Create test summary
+      - name: Test Summary
+        uses: test-summary/action@v2
+        with:
+          paths: |
+            coverage/junit.xml
+            test-results/*.xml
+      
+      # 💬 Comment summary on PR
+      - name: Comment summary on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const summary = `
+            ## 🧪 Test Results Summary
+            
+            ### Unit Tests
+            - ✅ Check [Unit Test Results](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            - 📊 [Coverage Report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            
+            ### E2E Tests
+            - ✅ Check [E2E Test Results](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            - 🎬 Videos and screenshots available in artifacts
+            
+            ### Artifacts
+            - 📊 Coverage Report
+            - 🎬 E2E Videos (if tests failed)
+            - 📸 E2E Screenshots (if tests failed)
+            - 📝 Test Logs
+            - 📄 Full Playwright Report
+            
+            [View Full Run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            `;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: summary
+            });

@@ -7,22 +7,11 @@ import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 
 import type { Database } from '@/types'
 
-/**
- * Get environment variable safely
- */
-function getEnv(key: string, fallback?: string): string {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- process.env is typed as any in Node.js, safe for env vars
-  const value = (typeof process !== 'undefined' && process.env) ? process.env[key] : undefined
-  return (typeof value === 'string' ? value : fallback) ?? ''
-}
+import env from './env'
 
-// Environment variables
-const supabaseUrl = getEnv('SUPABASE_URL', 'https://obxvffplochgeiclibng.supabase.co')
-const supabaseAnonKey = getEnv('SUPABASE_ANON_KEY')
-
-if (!supabaseAnonKey) {
-  console.warn('SUPABASE_ANON_KEY not found in environment variables')
-}
+// Environment variables from centralized config
+const supabaseUrl = env.SUPABASE_URL
+const supabaseAnonKey = env.SUPABASE_ANON_KEY
 
 /**
  * Supabase client instance

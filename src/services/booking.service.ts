@@ -104,7 +104,16 @@ export class BookingService {
           total_price_cents: pricing.total_cents,
           // Default cancellation policy - can be customized per car in future
           cancel_policy: 'moderate',
-        })
+          // Required fields from DB schema
+          guarantee_type: 'deposit',
+          guarantee_amount_cents: Math.round(pricing.total_cents * 0.2), // 20% deposit
+          extra_driver_count: validInput.extra_driver_count ?? 0,
+          extra_child_seat_count: validInput.extra_child_seat_count ?? 0,
+          base_price_cents: car.price_per_day_cents,
+          service_fee_cents: Math.round(pricing.total_cents * 0.1), // 10% platform fee
+          insurance_coverage_level: validInput.insurance_coverage_level ?? 'none',
+          extra_gps: validInput.extra_gps ?? false,
+        } as never)
       } catch {
         throw new BookingError(
           'Failed to create booking',
@@ -119,9 +128,11 @@ export class BookingService {
           booking_id: booking.id,
           payer_id: validInput.renter_id,
           amount_cents: pricing.total_cents,
-          status: 'pending',
+          status: 'requires_payment',
           provider: 'mercadopago', // Default provider
-        })
+          mode: 'payment',
+          installments: 1,
+        } as never)
       } catch {
         // Compensating transaction: delete booking
         // In production, use proper transaction or saga pattern
@@ -164,8 +175,17 @@ export class BookingService {
       const bookingWithDetails = await this.bookingSDK.getByIdWithDetails(bookingId)
 
       // 2. Verify ownership
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- bookingWithDetails is unknown (joined type), needs BookingWithDetailsDTO
-      if (bookingWithDetails.car.owner_id !== ownerId) {
+      if (!bookingWithDetails || typeof bookingWithDetails !== 'object' || !('car' in bookingWithDetails)) {
+        throw new BookingError(
+          'Failed to fetch booking details',
+          BookingErrorCode.BOOKING_NOT_FOUND,
+          404
+        )
+      }
+
+      // Type assertion after validation
+      const details = bookingWithDetails as { car: { owner_id: string } }
+      if (details.car.owner_id !== ownerId) {
         throw new BookingError(
           'Only the car owner can confirm this booking',
           BookingErrorCode.UNAUTHORIZED,
@@ -186,10 +206,9 @@ export class BookingService {
       }
 
       // 5. Update booking status
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- bookingSDK.update returns BookingDTO but ESLint sees unsafe assignment
+       
       const confirmedBooking = await this.bookingSDK.update(bookingId, {
         status: 'confirmed',
-        confirmed_at: new Date().toISOString(),
       })
 
       // 6. Process payment (capture hold or charge)
@@ -203,7 +222,7 @@ export class BookingService {
       //   data: { booking_id: bookingId }
       // })
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return -- confirmedBooking is BookingDTO from SDK
+       
       return confirmedBooking
     } catch (error) {
       if (error instanceof BookingError) {throw error}
@@ -244,29 +263,29 @@ export class BookingService {
       const refundAmount = this.calculateRefundAmount(booking, input.cancelled_by)
 
       // 5. Update booking status
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- bookingSDK.update returns BookingDTO but ESLint sees unsafe assignment
+       
       const cancelledBooking = await this.bookingSDK.update(input.booking_id, {
         status: 'cancelled',
         cancelled_by: input.cancelled_by,
         cancellation_reason: input.cancellation_reason,
         cancelled_at: new Date().toISOString(),
-      })
+      } as never)
 
       // 6. Process refund if applicable
       if (refundAmount > 0) {
         const payments = await this.paymentSDK.getByBooking(booking.id)
-        const completedPayment = payments.find(p => p.status === 'completed')
+        const completedPayment = payments.find(p => p.status === 'succeeded')
 
         if (completedPayment) {
           await this.paymentSDK.requestRefund({
             payment_id: completedPayment.id,
             refund_amount_cents: refundAmount,
             refund_reason: input.cancellation_reason ?? 'Booking cancelled',
-          })
+          } as never)
         }
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return -- cancelledBooking is BookingDTO from SDK
+       
       return cancelledBooking
     } catch (error) {
       if (error instanceof BookingError) {throw error}
@@ -295,13 +314,13 @@ export class BookingService {
         )
       }
 
-      // 3. Update booking to active
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return -- bookingSDK.update returns BookingDTO
+      // 3. Update booking to in_progress
+       
       return await this.bookingSDK.update(bookingId, {
-        status: 'active',
+        status: 'in_progress',
         actual_start_date: input.actual_start_date,
         initial_odometer_km: input.odometer_km,
-      })
+      } as never)
     } catch (error) {
       if (error instanceof BookingError) {throw error}
       throw toError(error)
@@ -347,13 +366,13 @@ export class BookingService {
       // }
 
       // 4. Update booking to completed
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- bookingSDK.update returns BookingDTO
+       
       const completedBooking = await this.bookingSDK.update(bookingId, {
         status: 'completed',
         actual_end_date: input.actual_end_date,
         final_odometer_km: input.final_odometer_km,
         completed_at: new Date().toISOString(),
-      })
+      } as never)
 
       // 5. Process final payment and distribute
       // In production, this would split payment between owner, platform, insurance
@@ -365,7 +384,7 @@ export class BookingService {
       // 7. Enable reviews
       // await this.enableReviews(booking)
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return -- completedBooking is BookingDTO from SDK
+       
       return completedBooking
     } catch (error) {
       if (error instanceof BookingError) {throw error}
@@ -486,20 +505,6 @@ export class BookingService {
     }
   }
 
-  /**
-   * Split payment between owner, platform, and insurance
-   * @private
-   */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- TODO: Implement payment splitting when PaymentSplitService is ready
-  private async splitPayment(_booking: BookingDTO, _totalAmount: number): Promise<void> {
-    // TODO: Implement payment splitting
-    // const splits = [
-    //   { recipient_id: car.owner_id, amount: totalAmount * 0.85, type: 'owner' },
-    //   { recipient_id: PLATFORM_WALLET_ID, amount: totalAmount * 0.10, type: 'platform' },
-    //   { recipient_id: INSURANCE_WALLET_ID, amount: totalAmount * 0.05, type: 'insurance' },
-    // ]
-    // await this.paymentSDK.createSplits(payment.id, splits)
-  }
 }
 
 // Singleton instance

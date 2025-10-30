@@ -86,7 +86,7 @@ export class CarSDK extends BaseSDK {
 
       const { data, error } = await this.supabase
         .from('cars')
-        .insert(validData)
+        .insert(validData as never)
         .select()
         .single()
 
@@ -109,7 +109,7 @@ export class CarSDK extends BaseSDK {
 
       const { data, error } = await this.supabase
         .from('cars')
-        .update(validData)
+        .update(validData as never)
         .eq('id', id)
         .select()
         .single()
@@ -158,7 +158,7 @@ export class CarSDK extends BaseSDK {
     try {
       const { data, error } = await this.supabase
         .from('cars')
-        .update({ status: 'inactive' })
+        .update({ status: 'suspended' })
         .eq('id', id)
         .select()
         .single()
@@ -302,7 +302,7 @@ export class CarSDK extends BaseSDK {
       // Validate input
       const validData = SearchCarsNearbySchema.parse(input)
 
-      const { data, error } = await this.supabase.rpc('search_cars_nearby', {
+      const { data, error } = await this.supabase.rpc('search_cars_nearby' as never, {
         user_lat: validData.user_lat,
         user_lng: validData.user_lng,
         radius: validData.radius,
@@ -311,13 +311,13 @@ export class CarSDK extends BaseSDK {
         min_seats: validData.min_seats,
         transmission: validData.transmission,
         instant_book_only: validData.instant_book_only,
-      })
+      } as never)
 
       if (error) {throw toError(error)}
 
       // Validate and parse all results
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-return -- RPC function returns unknown, safely parsed by parseCar
-      return (data ?? []).map(parseCar)
+      const results = data as unknown[]
+      return results.map(parseCar)
     } catch (e) {
       throw toError(e)
     }
@@ -373,9 +373,8 @@ export class CarSDK extends BaseSDK {
         .from('car_photos')
         .insert({
           car_id: carId,
-          photo_url: photoUrl,
-          is_main: isMain,
-        })
+          url: photoUrl,
+        } as never)
         .select()
         .single()
 

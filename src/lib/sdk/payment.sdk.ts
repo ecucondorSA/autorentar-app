@@ -12,6 +12,7 @@ import {
   type RefundRequest,
   type PaymentSearchFilters,
   type PaginatedResponse,
+  type PaymentStatus,
   parsePayment,
 } from '@/types'
 
@@ -51,7 +52,7 @@ export class PaymentSDK extends BaseSDK {
 
       const { data, error } = await this.supabase
         .from('payments')
-        .insert(validData)
+        .insert(validData as never)
         .select()
         .single()
 
@@ -69,7 +70,7 @@ export class PaymentSDK extends BaseSDK {
    */
   async updateStatus(
     paymentId: string,
-    status: string,
+    status: PaymentStatus,
     metadata?: Record<string, unknown>
   ): Promise<PaymentDTO> {
     try {
@@ -77,7 +78,7 @@ export class PaymentSDK extends BaseSDK {
         .from('payments')
         .update({
           status,
-          ...(status === 'completed' && { completed_at: new Date().toISOString() }),
+          ...(status === 'succeeded' && { completed_at: new Date().toISOString() }),
           ...(metadata && { metadata }),
         })
         .eq('id', paymentId)
@@ -103,7 +104,7 @@ export class PaymentSDK extends BaseSDK {
 
       const payment = await this.getById(validData.payment_id)
 
-      if (payment.status !== 'completed') {
+      if (payment.status !== 'succeeded') {
         throw new Error('Can only refund completed payments')
       }
 

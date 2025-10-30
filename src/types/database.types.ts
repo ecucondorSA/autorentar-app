@@ -6,7 +6,7 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
-export interface Database {
+export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
@@ -10038,7 +10038,7 @@ export interface Database {
       st_geomfromewkt: { Args: { "": string }; Returns: unknown }
       st_geomfromgeojson:
         | { Args: { "": Json }; Returns: unknown }
-         
+        | { Args: { "": Json }; Returns: unknown }
         | { Args: { "": string }; Returns: unknown }
       st_geomfromgml: { Args: { "": string }; Returns: unknown }
       st_geomfromkml: { Args: { "": string }; Returns: unknown }

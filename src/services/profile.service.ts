@@ -74,28 +74,31 @@ export class ProfileService {
         // Profile not found, continue with registration
       }
 
-      // 2. Create profile
+      // 2. Create profile (using real DB schema)
       const profile = await this.profileSDK.create({
         id: input.user_id,
         email: input.email,
-        first_name: input.first_name,
-        last_name: input.last_name,
+        full_name: `${input.first_name} ${input.last_name}`,
         phone: input.phone,
-        role: 'renter', // Default role
-        kyc_status: 'pending',
+        role: 'renter',
+        kyc: 'not_started',
+        onboarding: 'incomplete',
+        preferred_language: 'es',
+        preferred_currency: 'ARS',
       })
 
-      // 3. Create wallet
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call -- walletSDK.create returns WalletDTO
+      // 3. Create wallet (using real DB schema)
       const wallet = await this.walletSDK.create({
-        id: input.user_id, // Wallet ID = User ID
-        balance_cents: 0,
-        status: 'active',
+        user_id: input.user_id,
+        available_balance: 0, // BD usa available_balance, no balance_cents
+        locked_balance: 0, // BD usa locked_balance, no held_cents
+        currency: 'ARS',
+        // status removed - not in DB schema
       })
 
       return {
         profile,
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- wallet is WalletDTO from SDK
+         
         wallet,
       }
     } catch (error) {
@@ -117,7 +120,7 @@ export class ProfileService {
       const profile = await this.profileSDK.getById(userId)
 
       // 2. Verify KYC not already approved
-      if (profile.kyc_status === 'approved') {
+      if (profile.kyc === 'verified') {
         throw new ProfileError(
           'KYC already approved',
           ProfileErrorCode.KYC_ALREADY_SUBMITTED,
@@ -130,14 +133,13 @@ export class ProfileService {
 
       // 4. Update profile with KYC status
       // In production, this would trigger async verification workflow
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- profileSDK.update returns ProfileDTO
-      const updatedProfile = await this.profileSDK.update(userId, {
-        kyc_status: 'pending_review',
-        id_document_url: documents.id_document_url,
-        driver_license_url: documents.driver_license_url,
+      // TODO: Store documents in user_documents table instead of profile fields
+      const updatedProfile = await this.profileSDK.adminUpdate(userId, {
+        kyc: 'pending',
+        // Documents stored separately - remove these fields when user_documents table is ready
       })
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return -- updatedProfile is ProfileDTO from SDK
+       
       return updatedProfile
     } catch (error) {
       if (error instanceof ProfileError) {throw error}
@@ -151,12 +153,10 @@ export class ProfileService {
    */
   async approveKYC(userId: string): Promise<ProfileDTO> {
     try {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- profileSDK.update returns ProfileDTO
-      const updatedProfile = await this.profileSDK.update(userId, {
-        kyc_status: 'approved',
+      const updatedProfile = await this.profileSDK.adminUpdate(userId, {
+        kyc: 'verified',
       })
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return -- updatedProfile is ProfileDTO from SDK
       return updatedProfile
     } catch (error) {
       throw toError(error)
@@ -167,15 +167,14 @@ export class ProfileService {
    * Reject KYC verification
    * Admin action to reject user's KYC documents
    */
-  async rejectKYC(userId: string, reason: string): Promise<ProfileDTO> {
+  async rejectKYC(userId: string): Promise<ProfileDTO> {
     try {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- profileSDK.update returns ProfileDTO
-      const updatedProfile = await this.profileSDK.update(userId, {
-        kyc_status: 'rejected',
-        kyc_rejection_reason: reason,
+      // TODO: Store rejection reason in user_verifications table
+      const updatedProfile = await this.profileSDK.adminUpdate(userId, {
+        kyc: 'rejected',
+        // Rejection reason stored separately in user_verifications
       })
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return -- updatedProfile is ProfileDTO from SDK
       return updatedProfile
     } catch (error) {
       throw toError(error)
@@ -192,7 +191,7 @@ export class ProfileService {
       const profile = await this.profileSDK.getById(userId)
 
       // 2. Verify KYC is approved
-      if (profile.kyc_status !== 'approved') {
+      if (profile.kyc !== 'verified') {
         throw new ProfileError(
           'KYC must be approved before becoming an owner',
           ProfileErrorCode.KYC_NOT_APPROVED,
@@ -210,12 +209,10 @@ export class ProfileService {
       }
 
       // 4. Update role to owner
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- profileSDK.update returns ProfileDTO
-      const updatedProfile = await this.profileSDK.update(userId, {
+      const updatedProfile = await this.profileSDK.adminUpdate(userId, {
         role: 'owner',
       })
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return -- updatedProfile is ProfileDTO from SDK
       return updatedProfile
     } catch (error) {
       if (error instanceof ProfileError) {throw error}

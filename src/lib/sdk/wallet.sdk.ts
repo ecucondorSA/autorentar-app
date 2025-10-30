@@ -13,8 +13,11 @@ import {
   type TopupRequest,
   type TransactionHistoryFilters,
   type PaginatedResponse,
+  type TablesInsert,
+  type TablesUpdate,
 } from '@/types'
 
+import { toError } from '../errors'
 import { supabase } from '../supabase'
 
 import { BaseSDK } from './base.sdk'
@@ -51,7 +54,7 @@ export class WalletSDK extends BaseSDK {
    */
   async getBalance(userId: string): Promise<number> {
     const wallet = await this.getByUserId(userId)
-    return wallet.available_balance_cents / 100 // Convert cents to currency
+    return wallet.available_balance // Already in pesos
   }
 
   /**
@@ -64,7 +67,7 @@ export class WalletSDK extends BaseSDK {
     // Check sufficient balance
     const wallet = await this.getByUserId(validData.user_id)
 
-    if (wallet.available_balance_cents < validData.amount_cents) {
+    if (wallet.available_balance < validData.amount_cents) {
       throw new Error('Insufficient balance')
     }
 
@@ -74,11 +77,11 @@ export class WalletSDK extends BaseSDK {
         .from('wallet_transactions')
         .insert({
           user_id: validData.user_id,
-          kind: 'withdrawal',
-          amount_cents: -validData.amount_cents, // Negative for withdrawal
+          type: 'withdrawal',
+          amount: -validData.amount_cents, // Negative for withdrawal
           status: 'pending',
           description: `Withdrawal to ${validData.bank_name}`,
-          metadata: {
+          provider_metadata: {
             cbu_cvu: validData.cbu_cvu,
             bank_name: validData.bank_name,
             account_holder: validData.account_holder_name,
@@ -101,11 +104,11 @@ export class WalletSDK extends BaseSDK {
         .from('wallet_transactions')
         .insert({
           user_id: validData.user_id,
-          kind: 'topup',
-          amount_cents: validData.amount_cents, // Positive for topup
+          type: 'topup',
+          amount: validData.amount_cents, // Positive for topup
           status: 'pending',
           description: `Topup via ${validData.payment_method}`,
-          metadata: {
+          provider_metadata: {
             payment_method: validData.payment_method,
             payment_method_id: validData.payment_method_id,
             promo_code: validData.promo_code,
@@ -210,6 +213,109 @@ export class WalletSDK extends BaseSDK {
     }
 
     return data || []
+  }
+
+  /**
+   * Create wallet transaction
+   */
+  async createTransaction(payload: TablesInsert<'wallet_transactions'>): Promise<WalletTransaction> {
+    try {
+      const { data, error } = await this.supabase
+        .from('wallet_transactions')
+        .insert(payload)
+        .select()
+        .single()
+
+      if (error) {throw toError(error)}
+      if (!data) {throw new Error('Failed to create transaction')}
+
+      return data
+    } catch (e) {
+      throw toError(e)
+    }
+  }
+
+  /**
+   * Get transaction by ID
+   */
+  async getTransactionById(id: string): Promise<WalletTransaction | null> {
+    try {
+      const { data, error } = await this.supabase
+        .from('wallet_transactions')
+        .select('*')
+        .eq('id', id)
+        .maybeSingle()
+
+      if (error) {throw toError(error)}
+      return data ?? null
+    } catch (e) {
+      throw toError(e)
+    }
+  }
+
+  /**
+   * Update transaction
+   */
+  async updateTransaction(
+    id: string,
+    patch: TablesUpdate<'wallet_transactions'>
+  ): Promise<WalletTransaction> {
+    try {
+      const { data, error } = await this.supabase
+        .from('wallet_transactions')
+        .update(patch)
+        .eq('id', id)
+        .select()
+        .single()
+
+      if (error) {throw toError(error)}
+      if (!data) {throw new Error('Failed to update transaction')}
+
+      return data
+    } catch (e) {
+      throw toError(e)
+    }
+  }
+
+  /**
+   * Create wallet (for new users)
+   */
+  async create(payload: TablesInsert<'user_wallets'>): Promise<UserWallet> {
+    try {
+      const { data, error } = await this.supabase
+        .from('user_wallets')
+        .insert(payload)
+        .select()
+        .single()
+
+      if (error) {throw toError(error)}
+      if (!data) {throw new Error('Failed to create wallet')}
+
+      return data
+    } catch (e) {
+      throw toError(e)
+    }
+  }
+
+  /**
+   * Update wallet
+   */
+  async update(userId: string, patch: TablesUpdate<'user_wallets'>): Promise<UserWallet> {
+    try {
+      const { data, error } = await this.supabase
+        .from('user_wallets')
+        .update(patch)
+        .eq('user_id', userId)
+        .select()
+        .single()
+
+      if (error) {throw toError(error)}
+      if (!data) {throw new Error('Failed to update wallet')}
+
+      return data
+    } catch (e) {
+      throw toError(e)
+    }
   }
 }
 

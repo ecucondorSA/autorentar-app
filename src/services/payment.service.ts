@@ -11,14 +11,10 @@
  */
 
 import { paymentSDK, type PaymentSDK } from '@/lib/sdk/payment.sdk'
-import { walletSDK, type WalletSDK } from '@/lib/sdk/wallet.sdk'
 import type {
   PaymentDTO,
-  WalletTransactionDTO,
 } from '@/types'
 import {
-  type PaymentSplitConfig,
-  PaymentSplitConfigSchema,
   type ProcessPaymentInput,
   ProcessPaymentInputSchema,
 } from '@/types/service-types'
@@ -60,8 +56,7 @@ export class PaymentError extends Error {
 
 export class PaymentService {
   constructor(
-    private readonly paymentSDK: PaymentSDK,
-    private readonly walletSDK: WalletSDK
+    private readonly paymentSDK: PaymentSDK
   ) {}
 
   /**
@@ -77,7 +72,7 @@ export class PaymentService {
       let payment: PaymentDTO
       try {
         const payments = await this.paymentSDK.getByBooking(validInput.booking_id)
-        const pendingPayment = payments.find(p => p.status === 'pending')
+        const pendingPayment = payments.find(p => p.status === 'requires_payment')
 
         if (pendingPayment) {
           payment = pendingPayment
@@ -87,9 +82,11 @@ export class PaymentService {
             booking_id: validInput.booking_id,
             payer_id: validInput.payer_id,
             amount_cents: validInput.amount_cents,
-            status: 'pending',
+            status: 'requires_payment',
             provider: validInput.provider,
-          })
+            mode: 'payment',
+            installments: 1,
+          } as never)
         }
       } catch {
         throw new PaymentError(
@@ -100,7 +97,7 @@ export class PaymentService {
       }
 
       // 3. Verify payment is in pending state
-      if (payment.status !== 'pending') {
+      if (payment.status !== 'requires_payment') {
         throw new PaymentError(
           `Cannot process payment with status: ${payment.status}`,
           PaymentErrorCode.INVALID_STATE_TRANSITION,
@@ -119,13 +116,13 @@ export class PaymentService {
 
       // 5. Update payment status based on provider response
       if (providerResponse.success) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- paymentSDK.updateStatus returns PaymentDTO
+         
         const completedPayment = await this.paymentSDK.updateStatus(
           payment.id,
-          'completed'
+          'succeeded'
         )
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return -- completedPayment is PaymentDTO from SDK
+         
         return completedPayment
       } else {
         await this.paymentSDK.updateStatus(payment.id, 'failed')
@@ -156,7 +153,7 @@ export class PaymentService {
       const payment = await this.paymentSDK.getById(paymentId)
 
       // 2. Verify payment is completed
-      if (payment.status !== 'completed') {
+      if (payment.status !== 'succeeded' && payment.status !== 'processing') {
         throw new PaymentError(
           `Cannot refund payment with status: ${payment.status}`,
           PaymentErrorCode.INVALID_STATE_TRANSITION,
@@ -190,145 +187,14 @@ export class PaymentService {
       }
 
       // 5. Update payment status
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- paymentSDK.updateStatus returns PaymentDTO
+       
       const refundedPayment = await this.paymentSDK.updateStatus(
         payment.id,
         'refunded'
       )
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return -- refundedPayment is PaymentDTO from SDK
+       
       return refundedPayment
-    } catch (error) {
-      if (error instanceof PaymentError) {throw error}
-      throw toError(error)
-    }
-  }
-
-  /**
-   * Split payment between owner, platform, and insurance
-   * Distributes funds according to configured percentages
-   */
-  async splitPayment(
-    paymentId: string,
-    ownerId: string,
-    config?: PaymentSplitConfig
-  ): Promise<WalletTransactionDTO[]> {
-    try {
-      // 1. Get payment
-      const payment = await this.paymentSDK.getById(paymentId)
-
-      // 2. Verify payment is completed
-      if (payment.status !== 'completed') {
-        throw new PaymentError(
-          'Can only split completed payments',
-          PaymentErrorCode.INVALID_STATE_TRANSITION,
-          400
-        )
-      }
-
-      // 3. Validate split configuration
-      const splitConfig = config
-        ? PaymentSplitConfigSchema.parse(config)
-        : PaymentSplitConfigSchema.parse({}) // Use defaults
-
-      // 4. Verify percentages sum to 100
-      const totalPercentage =
-        splitConfig.owner_percentage +
-        splitConfig.platform_percentage +
-        splitConfig.insurance_percentage
-
-      if (Math.abs(totalPercentage - 100) > 0.01) {
-        throw new PaymentError(
-          'Split percentages must sum to 100',
-          PaymentErrorCode.VALIDATION_ERROR,
-          400
-        )
-      }
-
-      // 5. Calculate amounts
-      const totalAmount = payment.amount_cents
-      const ownerAmount = Math.floor(
-        (totalAmount * splitConfig.owner_percentage) / 100
-      )
-      const platformAmount = Math.floor(
-        (totalAmount * splitConfig.platform_percentage) / 100
-      )
-      const insuranceAmount = Math.floor(
-        (totalAmount * splitConfig.insurance_percentage) / 100
-      )
-
-      // 6. Create wallet transactions
-      const transactions: WalletTransactionDTO[] = []
-
-      // Owner transaction
-      try {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call -- walletSDK.createTransaction returns WalletTransactionDTO
-        const ownerTx = await this.walletSDK.createTransaction({
-          wallet_id: ownerId, // Assuming wallet_id = user_id
-          amount_cents: ownerAmount,
-          type: 'credit',
-          status: 'completed',
-          description: `Payment for booking ${payment.booking_id}`,
-          reference_type: 'payment',
-          reference_id: payment.id,
-        })
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- ownerTx is WalletTransactionDTO
-        transactions.push(ownerTx)
-      } catch {
-        throw new PaymentError(
-          'Failed to create owner transaction',
-          PaymentErrorCode.SPLIT_FAILED,
-          500
-        )
-      }
-
-      // Platform transaction
-      // TODO: Use actual platform wallet ID from config
-      const PLATFORM_WALLET_ID = 'platform-wallet-id'
-      try {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call -- walletSDK.createTransaction returns WalletTransactionDTO
-        const platformTx = await this.walletSDK.createTransaction({
-          wallet_id: PLATFORM_WALLET_ID,
-          amount_cents: platformAmount,
-          type: 'credit',
-          status: 'completed',
-          description: `Platform fee for booking ${payment.booking_id}`,
-          reference_type: 'payment',
-          reference_id: payment.id,
-        })
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- platformTx is WalletTransactionDTO
-        transactions.push(platformTx)
-      } catch {
-        throw new PaymentError(
-          'Failed to create platform transaction',
-          PaymentErrorCode.SPLIT_FAILED,
-          500
-        )
-      }
-
-      // Insurance transaction (if applicable)
-      if (insuranceAmount > 0) {
-        const INSURANCE_WALLET_ID = 'insurance-wallet-id'
-        try {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call -- walletSDK.createTransaction returns WalletTransactionDTO
-          const insuranceTx = await this.walletSDK.createTransaction({
-            wallet_id: INSURANCE_WALLET_ID,
-            amount_cents: insuranceAmount,
-            type: 'credit',
-            status: 'completed',
-            description: `Insurance fee for booking ${payment.booking_id}`,
-            reference_type: 'payment',
-            reference_id: payment.id,
-          })
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- insuranceTx is WalletTransactionDTO
-          transactions.push(insuranceTx)
-        } catch {
-          // Insurance transaction is optional, log but don't fail
-          // In production, this should be logged to monitoring system
-        }
-      }
-
-      return transactions
     } catch (error) {
       if (error instanceof PaymentError) {throw error}
       throw toError(error)
@@ -366,7 +232,7 @@ export class PaymentService {
       // 3. Process event based on type
       switch (event.type) {
         case 'payment.completed':
-          await this.paymentSDK.updateStatus(event.paymentId, 'completed')
+          await this.paymentSDK.updateStatus(event.paymentId, 'succeeded')
           return { success: true, message: 'Payment completed' }
 
         case 'payment.failed':
@@ -451,4 +317,4 @@ export class PaymentService {
 }
 
 // Singleton instance
-export const paymentService = new PaymentService(paymentSDK, walletSDK)
+export const paymentService = new PaymentService(paymentSDK)

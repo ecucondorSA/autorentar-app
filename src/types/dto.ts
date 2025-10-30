@@ -71,16 +71,16 @@ export type CarDTO = z.infer<typeof CarDTOSchema>
 
 export const ProfileDTOSchema = z.object({
   id: z.string().uuid(),
-  full_name: z.string(),
+  full_name: z.string().nullable(),
   avatar_url: z.string().nullable(),
   phone: z.string().nullable(),
-  role: z.enum(['renter', 'owner', 'both', 'admin']),
-  kyc_status: z.enum(['pending', 'approved', 'rejected', 'not_started']),
-  email_verified: z.boolean(),
-  phone_verified: z.boolean(),
+  role: z.enum(['renter', 'owner', 'admin']),
+  kyc: z.enum(['not_started', 'pending', 'verified', 'rejected']).nullable(),
+  onboarding: z.enum(['incomplete', 'complete']).nullable(),
+  email_verified: z.boolean().nullable(),
+  phone_verified: z.boolean().nullable(),
   rating_avg: z.number().nullable(),
-  total_bookings_as_owner: z.number().int().nonnegative().nullable(),
-  total_bookings_as_renter: z.number().int().nonnegative().nullable(),
+  rating_count: z.number().int().nonnegative().nullable(),
   created_at: z.string(),
   updated_at: z.string(),
 })
@@ -97,14 +97,15 @@ export const PaymentDTOSchema = z.object({
   payer_id: z.string().uuid(),
   amount_cents: z.number().int().nonnegative(),
   status: z.enum([
-    'pending',
+    'requires_payment',
     'processing',
-    'completed',
+    'succeeded',
     'failed',
     'refunded',
-    'cancelled',
+    'partial_refund',
+    'chargeback',
   ]),
-  provider: z.enum(['mercadopago', 'stripe']),
+  provider: z.enum(['mercadopago', 'stripe', 'otro']),
   external_payment_id: z.string().nullable(),
   created_at: z.string(),
   updated_at: z.string(),
@@ -119,12 +120,25 @@ export type PaymentDTO = z.infer<typeof PaymentDTOSchema>
 
 export const InsurancePolicyDTOSchema = z.object({
   id: z.string().uuid(),
-  booking_id: z.string().uuid(),
-  coverage_level: z.enum(['basic', 'standard', 'premium']),
-  total_premium_cents: z.number().int().nonnegative(),
-  status: z.enum(['active', 'expired', 'cancelled']),
-  created_at: z.string(),
-  updated_at: z.string(),
+  insurer: z.string(),
+  policy_type: z.string(),
+  car_id: z.string().uuid().nullable(),
+  owner_id: z.string().uuid().nullable(),
+  annual_premium: z.number().nullable(),
+  daily_premium: z.number().nullable(),
+  liability_coverage_amount: z.number().nullable(),
+  own_damage_coverage: z.boolean().nullable(),
+  theft_coverage: z.boolean().nullable(),
+  fire_coverage: z.boolean().nullable(),
+  misappropriation_coverage: z.boolean().nullable(),
+  misappropriation_limit: z.number().nullable(),
+  deductible_type: z.string().nullable(),
+  deductible_percentage: z.number().nullable(),
+  deductible_min_amount: z.number().nullable(),
+  deductible_fixed_amount: z.number().nullable(),
+  status: z.string().nullable(),
+  created_at: z.string().nullable(),
+  updated_at: z.string().nullable(),
 })
 
 export type InsurancePolicyDTO = z.infer<typeof InsurancePolicyDTOSchema>
@@ -134,14 +148,13 @@ export type InsurancePolicyDTO = z.infer<typeof InsurancePolicyDTOSchema>
 // ============================================
 
 export const WalletDTOSchema = z.object({
-  id: z.string().uuid(),
   user_id: z.string().uuid(),
-  available_balance_cents: z.number().int(),
-  pending_balance_cents: z.number().int(),
-  total_earned_cents: z.number().int(),
-  total_withdrawn_cents: z.number().int(),
-  created_at: z.string(),
-  updated_at: z.string(),
+  available_balance: z.number(),
+  locked_balance: z.number(),
+  currency: z.string(),
+  non_withdrawable_floor: z.number(),
+  created_at: z.string().nullable(),
+  updated_at: z.string().nullable(),
 })
 
 export type WalletDTO = z.infer<typeof WalletDTOSchema>
@@ -171,14 +184,25 @@ export const InsuranceClaimDTOSchema = z.object({
   policy_id: z.string().uuid(),
   booking_id: z.string().uuid(),
   reported_by: z.string().uuid(),
-  claim_amount_cents: z.number().int().nonnegative(),
-  approved_amount_cents: z.number().int().nonnegative().nullable(),
-  status: z.enum(['pending', 'approved', 'rejected', 'paid']),
-  damage_type: z.string(),
-  severity: z.enum(['minor', 'moderate', 'severe']),
+  claim_type: z.string(),
+  description: z.string(),
   incident_date: z.string(),
-  created_at: z.string(),
-  updated_at: z.string(),
+  estimated_damage_amount: z.number().nullable(),
+  insurance_payout: z.number().nullable(),
+  deductible_charged: z.number().nullable(),
+  location: z.string().nullable(),
+  police_report_number: z.string().nullable(),
+  police_report_url: z.string().nullable(),
+  assigned_adjuster: z.string().nullable(),
+  adjuster_contact: z.string().nullable(),
+  reporter_role: z.string().nullable(),
+  resolution_notes: z.string().nullable(),
+  status: z.string().nullable(),
+  photos: z.unknown().nullable(),
+  metadata: z.unknown().nullable(),
+  closed_at: z.string().nullable(),
+  created_at: z.string().nullable(),
+  updated_at: z.string().nullable(),
 })
 
 export type InsuranceClaimDTO = z.infer<typeof InsuranceClaimDTOSchema>
@@ -205,13 +229,22 @@ export type PaymentSplitDTO = z.infer<typeof PaymentSplitDTOSchema>
 
 export const WalletTransactionDTOSchema = z.object({
   id: z.string().uuid(),
-  wallet_id: z.string().uuid(),
-  amount_cents: z.number().int(),
-  type: z.enum(['credit', 'debit', 'hold', 'release']),
-  status: z.enum(['pending', 'completed', 'failed', 'cancelled']),
-  reference_type: z.enum(['booking', 'withdrawal', 'refund', 'deposit']).nullable(),
-  reference_id: z.string().uuid().nullable(),
+  user_id: z.string().uuid(),
+  amount: z.number(),
+  type: z.string(),
+  status: z.string(),
+  reference_type: z.string().nullable(),
+  reference_id: z.string().nullable(),
+  description: z.string().nullable(),
+  provider: z.string().nullable(),
+  provider_metadata: z.unknown().nullable(),
+  provider_transaction_id: z.string().nullable(),
+  currency: z.string(),
+  is_withdrawable: z.boolean(),
+  admin_notes: z.string().nullable(),
+  completed_at: z.string().nullable(),
   created_at: z.string(),
+  updated_at: z.string(),
 })
 
 export type WalletTransactionDTO = z.infer<typeof WalletTransactionDTOSchema>
@@ -250,4 +283,74 @@ export function parseWallet(row: unknown): WalletDTO {
 
 export function parseReview(row: unknown): ReviewDTO {
   return ReviewDTOSchema.parse(row)
+}
+
+// ============================================
+// MESSAGE DTOs
+// ============================================
+
+export const MessageDTOSchema = z.object({
+  id: z.string().uuid(),
+  car_id: z.string().uuid().nullable(),
+  booking_id: z.string().uuid().nullable(),
+  sender_id: z.string().uuid(),
+  recipient_id: z.string().uuid(),
+  body: z.string().min(1),
+  created_at: z.string(),
+  delivered_at: z.string().nullable(),
+  read_at: z.string().nullable(),
+})
+
+export type MessageDTO = z.infer<typeof MessageDTOSchema>
+
+export function parseMessage(row: unknown): MessageDTO {
+  return MessageDTOSchema.parse(row)
+}
+
+// ============================================
+// NOTIFICATION DTOs
+// ============================================
+
+export const NotificationDTOSchema = z.object({
+  id: z.string().uuid(),
+  user_id: z.string().uuid(),
+  title: z.string().min(1),
+  body: z.string().min(1),
+  cta_link: z.string().nullable(),
+  is_read: z.boolean(),
+  type: z.enum([
+    'new_booking_for_owner',
+    'booking_cancelled_for_owner',
+    'booking_cancelled_for_renter',
+    'new_chat_message',
+    'payment_successful',
+    'payout_successful',
+    'inspection_reminder',
+    'generic_announcement',
+  ]),
+  metadata: z.record(z.unknown()).nullable(),
+  created_at: z.string(),
+})
+
+export type NotificationDTO = z.infer<typeof NotificationDTOSchema>
+
+export function parseNotification(row: unknown): NotificationDTO {
+  return NotificationDTOSchema.parse(row)
+}
+
+// ============================================
+// PUSH TOKEN DTOs
+// ============================================
+
+export const PushTokenDTOSchema = z.object({
+  id: z.string().uuid(),
+  user_id: z.string().uuid(),
+  token: z.string().min(1),
+  created_at: z.string(),
+})
+
+export type PushTokenDTO = z.infer<typeof PushTokenDTOSchema>
+
+export function parsePushToken(row: unknown): PushTokenDTO {
+  return PushTokenDTOSchema.parse(row)
 }

@@ -1,0 +1,22 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "🚀 Pre-push checks..."
+
+# Run contract tests if they exist
+if [ -d "tests/contracts" ]; then
+  echo "🧪 Running contract tests..."
+  pnpm test tests/contracts --run || {
+    echo "❌ Contract tests failed"
+    exit 1
+  }
+fi
+
+# Build
+echo "🔨 Building..."
+pnpm build || {
+  echo "❌ Build failed"
+  exit 1
+}
+
+echo "✅ Pre-push checks passed"

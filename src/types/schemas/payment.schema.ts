@@ -10,21 +10,19 @@ import { z } from 'zod'
 // ============================================
 
 export const PaymentStatusEnum = z.enum([
-  'pending',
+  'requires_payment',
   'processing',
-  'completed',
+  'succeeded',
   'failed',
   'refunded',
-  'partially_refunded',
-  'disputed',
+  'partial_refund',
+  'chargeback',
 ])
 
 export const PaymentProviderEnum = z.enum([
   'mercadopago',
   'stripe',
-  'wallet',
-  'bank_transfer',
-  'cash',
+  'otro',
 ])
 
 export const PaymentModeEnum = z.enum([
@@ -68,7 +66,7 @@ export const CreatePaymentInputSchema = z.object({
   installments: z.number().int().min(1).max(12).default(1),
 
   // Status
-  status: PaymentStatusEnum.default('pending'),
+  status: PaymentStatusEnum.default('requires_payment'),
 
   // Description
   description: z.string().max(500).optional(),
@@ -133,7 +131,8 @@ export const PaymentSplitSchema = z.object({
   status: z.enum(['pending', 'completed', 'failed']).default('pending'),
 })
 
-export type PaymentSplit = z.infer<typeof PaymentSplitSchema>
+// Note: PaymentSplit type comes from db.ts (DB row type)
+// export type PaymentSplit = z.infer<typeof PaymentSplitSchema>
 
 // ============================================
 // PAYMENT INTENT (Pre-authorization)

@@ -9,19 +9,19 @@ import { z } from 'zod'
 // ENUMS
 // ============================================
 
-export const CarStatusEnum = z.enum(['draft', 'active', 'rented', 'maintenance', 'inactive'])
+export const CarStatusEnum = z.enum(['draft', 'active', 'suspended', 'maintenance'])
 export const TransmissionEnum = z.enum(['manual', 'automatic'])
 export const FuelTypeEnum = z.enum(['gasoline', 'diesel', 'electric', 'hybrid'])
-export const CancelPolicyEnum = z.enum(['flexible', 'moderate', 'strict'])
+export const CancelPolicyEnum = z.enum(['flex', 'moderate', 'strict'])
 
 // ============================================
 // CAR LOCATION VALIDATION
 // ============================================
 
-const _LocationSchema = z.object({
-  lat: z.number().min(-90).max(90),
-  lng: z.number().min(-180).max(180),
-})
+// const _LocationSchema = z.object({
+//   lat: z.number().min(-90).max(90),
+//   lng: z.number().min(-180).max(180),
+// })
 
 // ============================================
 // CREATE CAR INPUT

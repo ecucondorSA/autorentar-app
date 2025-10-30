@@ -1,5 +1,34 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
 
-# Run lint-staged for pre-commit validation
-npx lint-staged
+echo "🔍 Pre-commit checks..."
+
+# Regenerate types if database.types.ts changed
+if git diff --cached --name-only | grep -q "database.types.ts"; then
+  echo "⚠️  database.types.ts changed - regenerating..."
+  pnpm types:gen
+  git add src/types/database.types.ts
+fi
+
+# Lint and fix (only staged TypeScript files)
+echo "🔧 Running ESLint..."
+pnpm eslint src --ext .ts,.tsx --fix --quiet || {
+  echo "❌ Linting failed"
+  exit 1
+}
+git add -A
+
+# Type check
+echo "🔍 Type checking..."
+pnpm typecheck || {
+  echo "❌ Type check failed"
+  exit 1
+}
+
+# Check for banned patterns
+if grep -rn "as never" src --include="*.ts" | grep -v "database.types.ts"; then
+  echo "❌ Found 'as never' - use proper types"
+  exit 1
+fi
+
+echo "✅ Pre-commit checks passed"

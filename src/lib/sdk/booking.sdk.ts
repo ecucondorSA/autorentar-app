@@ -116,9 +116,9 @@ export class BookingSDK extends BaseSDK {
         throw new Error('Car is not available for the selected dates')
       }
 
-      const { data, error } = await this.supabase
+      const { data, error} = await this.supabase
         .from('bookings')
-        .insert(validData)
+        .insert(validData as never) // Type assertion needed due to complex DB types
         .select()
         .single()
 
@@ -139,24 +139,32 @@ export class BookingSDK extends BaseSDK {
   /**
    * Update booking
    */
-  async update(id: string, input: UpdateBookingInput): Promise<Booking> {
+  async update(id: string, input: UpdateBookingInput): Promise<BookingDTO> {
     // Validate input
     const validData = UpdateBookingInputSchema.parse(input)
 
-    return this.execute(async () => {
-      return await this.supabase
-        .from('bookings')
-        .update(validData)
-        .eq('id', id)
-        .select()
-        .single()
-    })
+    const { data, error } = await this.supabase
+      .from('bookings')
+      .update(validData as never) // Type assertion needed due to complex DB types
+      .eq('id', id)
+      .select()
+      .single()
+
+    if (error) {
+      throw toError(error)
+    }
+
+    if (!data) {
+      throw new Error('Failed to update booking')
+    }
+
+    return parseBooking(data)
   }
 
   /**
    * Cancel booking
    */
-  async cancel(input: CancelBookingInput): Promise<Booking> {
+  async cancel(input: CancelBookingInput): Promise<BookingDTO> {
     // Validate input
     const validData = CancelBookingInputSchema.parse(input)
 
@@ -182,13 +190,12 @@ export class BookingSDK extends BaseSDK {
   /**
    * Confirm booking (owner action)
    */
-  async confirm(input: ConfirmBookingInput): Promise<Booking> {
+  async confirm(input: ConfirmBookingInput): Promise<BookingDTO> {
     // Validate input
     const validData = ConfirmBookingInputSchema.parse(input)
 
     // Verify the user is the owner
-    const booking = await this.getByIdWithDetails(validData.booking_id)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- getByIdWithDetails returns unknown (joined type), needs BookingWithDetailsDTO
+    const booking = await this.getByIdWithDetails(validData.booking_id) as { car: { owner_id: string } }
     if (booking.car.owner_id !== validData.owner_id) {
       throw new Error('Only the car owner can confirm this booking')
     }
@@ -209,12 +216,12 @@ export class BookingSDK extends BaseSDK {
   /**
    * Start booking (pickup)
    */
-  async start(bookingId: string): Promise<Booking> {
+  async start(bookingId: string): Promise<BookingDTO> {
     return this.execute(async () => {
       return await this.supabase
         .from('bookings')
         .update({
-          status: 'active',
+          status: 'in_progress',
           actual_start_date: new Date().toISOString(),
         })
         .eq('id', bookingId)
@@ -226,7 +233,7 @@ export class BookingSDK extends BaseSDK {
   /**
    * Complete booking (dropoff)
    */
-  async complete(input: CompleteBookingInput): Promise<Booking> {
+  async complete(input: CompleteBookingInput): Promise<BookingDTO> {
     // Validate input
     const validData = CompleteBookingInputSchema.parse(input)
 
@@ -247,7 +254,7 @@ export class BookingSDK extends BaseSDK {
   /**
    * Search bookings with filters
    */
-  async search(filters: BookingSearchFilters): Promise<PaginatedResponse<Booking>> {
+  async search(filters: BookingSearchFilters): Promise<PaginatedResponse<BookingDTO>> {
     // Validate filters
     const validFilters = BookingSearchFiltersSchema.parse(filters)
 
@@ -320,7 +327,7 @@ export class BookingSDK extends BaseSDK {
     }
 
     return this.createPaginatedResponse(
-      data ?? [],
+      (data ?? []) as unknown as BookingDTO[],
       count,
       validFilters.page,
       validFilters.pageSize
@@ -330,7 +337,7 @@ export class BookingSDK extends BaseSDK {
   /**
    * Get bookings for current user (as renter)
    */
-  async getMyBookings(): Promise<Booking[]> {
+  async getMyBookings(): Promise<BookingDTO[]> {
     const { data: { user } } = await this.supabase.auth.getUser()
 
     if (!user) {
@@ -347,13 +354,13 @@ export class BookingSDK extends BaseSDK {
       this.handleError(error, 'Failed to fetch user bookings')
     }
 
-    return data ?? []
+    return (data ?? []) as unknown as BookingDTO[]
   }
 
   /**
    * Get bookings for owner's cars
    */
-  async getOwnerBookings(ownerId: string): Promise<Booking[]> {
+  async getOwnerBookings(ownerId: string): Promise<BookingDTO[]> {
     const { data, error } = await this.supabase
       .from('bookings')
       .select(`
@@ -367,7 +374,7 @@ export class BookingSDK extends BaseSDK {
       this.handleError(error, 'Failed to fetch owner bookings')
     }
 
-    return data ?? []
+    return (data ?? []) as unknown as BookingDTO[]
   }
 
   /**
@@ -397,7 +404,7 @@ export class BookingSDK extends BaseSDK {
     // Validate input
     const validData = CalculateBookingPriceInputSchema.parse(input)
 
-    const { data, error } = await this.supabase.rpc('calculate_booking_price', {
+    const { data, error } = await this.supabase.rpc('calculate_dynamic_price', {
       p_car_id: validData.car_id,
       p_start_date: validData.start_date,
       p_end_date: validData.end_date,
@@ -406,7 +413,7 @@ export class BookingSDK extends BaseSDK {
       p_extra_child_seats: validData.extra_child_seat_count,
       p_extra_gps: validData.extra_gps,
       p_promo_code: validData.promo_code,
-    })
+    } as never)
 
     if (error) {
       this.handleError(error, 'Price calculation failed')

@@ -15,6 +15,7 @@ import {
   type KYCSubmission,
   type ProfileSearchFilters,
   type PaginatedResponse,
+  type TablesUpdate,
   parseProfile,
 } from '@/types'
 
@@ -70,7 +71,7 @@ export class ProfileSDK extends BaseSDK {
 
       const { data, error } = await this.supabase
         .from('profiles')
-        .insert(validData)
+        .insert(validData as never)
         .select()
         .single()
 
@@ -93,7 +94,28 @@ export class ProfileSDK extends BaseSDK {
 
       const { data, error } = await this.supabase
         .from('profiles')
-        .update(validData)
+        .update(validData as never)
+        .eq('id', id)
+        .select()
+        .single()
+
+      if (error) {throw toError(error)}
+      if (!data) {throw new Error('Failed to update profile')}
+
+      return parseProfile(data)
+    } catch (e) {
+      throw toError(e)
+    }
+  }
+
+  /**
+   * Admin update (bypasses validation for admin-only fields like kyc, role)
+   */
+  async adminUpdate(id: string, input: TablesUpdate<'profiles'>): Promise<ProfileDTO> {
+    try {
+      const { data, error } = await this.supabase
+        .from('profiles')
+        .update(input)
         .eq('id', id)
         .select()
         .single()
@@ -142,7 +164,7 @@ export class ProfileSDK extends BaseSDK {
         .update({
           date_of_birth: validData.date_of_birth,
           kyc_status: 'pending',
-        })
+        } as never)
         .eq('id', validData.user_id)
         .select()
         .single()
@@ -177,12 +199,12 @@ export class ProfileSDK extends BaseSDK {
         query = query.eq('role', validFilters.role)
       }
 
-      if (validFilters.kyc_status) {
-        query = query.eq('kyc_status', validFilters.kyc_status)
+      if (validFilters.kyc) {
+        query = query.eq('kyc', validFilters.kyc)
       }
 
-      if (validFilters.onboarding_status) {
-        query = query.eq('onboarding_status', validFilters.onboarding_status)
+      if (validFilters.onboarding) {
+        query = query.eq('onboarding', validFilters.onboarding)
       }
 
       if (validFilters.min_rating) {
@@ -262,7 +284,7 @@ export class ProfileSDK extends BaseSDK {
       const profile = await this.getById(userId)
 
       // Must have approved KYC
-      if (profile.kyc_status !== 'approved') {
+      if (profile.kyc !== 'verified') {
         return false
       }
 
@@ -311,7 +333,7 @@ export class ProfileSDK extends BaseSDK {
     try {
       const { error } = await this.supabase
         .from('profiles')
-        .update({ is_active: false })
+        .update({ is_active: false } as never)
         .eq('id', userId)
         .select()
         .single()

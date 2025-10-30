@@ -10,12 +10,30 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
-  reporter: 'html',
+  
+  // 📊 Multiple reporters for better visibility
+  reporter: [
+    ['html', { outputFolder: 'playwright-report' }],
+    ['json', { outputFile: 'test-results/results.json' }],
+    ['junit', { outputFile: 'test-results/junit.xml' }],
+    ['list'],
+  ],
+  
   use: {
     baseURL: 'http://localhost:4200',
-    trace: 'on-first-retry',
+    
+    // 🎬 Record video for all tests
+    video: process.env.CI ? 'on' : 'retain-on-failure',
+    
+    // 📸 Screenshot on failure
     screenshot: 'only-on-failure',
+    
+    // 🔍 Trace for debugging
+    trace: 'retain-on-failure',
   },
+  
+  // 📁 Output folder for test results
+  outputDir: 'test-results/',
 
   projects: [
     {

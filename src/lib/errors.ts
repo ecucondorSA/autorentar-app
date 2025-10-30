@@ -72,3 +72,5 @@ export function getErrorCode(error: Error): string {
 export function getStatusCode(error: Error): number | undefined {
   return hasStatusCode(error) ? error.statusCode : undefined
 }
+// Test hook
+// Test hook v2

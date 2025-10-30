@@ -4,7 +4,7 @@
  * Type-safe validation helpers
  */
 
-import type { ApiError, ApiResponse } from '../types/database.types';
+import type { ApiResponse } from '../types/helpers';
 
 // ============================================================================
 // RESULT TYPE

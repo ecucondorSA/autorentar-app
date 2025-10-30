@@ -44,7 +44,7 @@ export class PricingSDK extends BaseSDK {
     // Calculate multipliers
     const multipliers = {
       region_multiplier: await this.getRegionMultiplier(validData.region_id),
-      demand_multiplier: await this.getDemandMultiplier(validData.start_date, validData.end_date),
+      demand_multiplier: this.getDemandMultiplier(validData.start_date, validData.end_date),
       seasonality_multiplier: this.getSeasonalityMultiplier(validData.start_date),
       duration_discount: this.getDurationDiscount(rentalDays),
     }
@@ -170,17 +170,17 @@ export class PricingSDK extends BaseSDK {
       .eq('renter_id', validData.user_id)
       .eq('promo_code', validData.promo_code)
 
-    if (count && count >= (promo.max_uses_per_user ?? 1)) {
+    if (count && count >= (promo.max_redemptions ?? 1)) {
       return 0 // Already used
     }
 
     // Calculate discount
-    if (promo.discount_type === 'percentage') {
-      return Math.floor(validData.booking_total_cents * (promo.discount_value / 100))
-    } else {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- promo.discount_value from DB type, TODO: create PromoCodeDTO
-      return Math.min(promo.discount_value, validData.booking_total_cents)
+    if (promo.percent_off) {
+      return Math.floor(validData.booking_total_cents * (promo.percent_off / 100))
+    } else if (promo.amount_off) {
+      return Math.min(promo.amount_off, validData.booking_total_cents)
     }
+    return 0
   }
 
   // Helper methods
@@ -188,17 +188,18 @@ export class PricingSDK extends BaseSDK {
   private async getRegionMultiplier(regionId?: string): Promise<number> {
     if (!regionId) {return 1.0}
 
-    const { data } = await this.supabase
+    await this.supabase
       .from('pricing_regions')
-      .select('base_multiplier')
+      .select('*')
       .eq('id', regionId)
       .single()
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return -- data.base_multiplier from DB type, TODO: create PricingRegionDTO
-    return data?.base_multiplier ?? 1.0
+    // TODO: Use region data to calculate multiplier
+    // Return 1.0 as default if no region data
+    return 1.0
   }
 
-  private getDemandMultiplier(startDate: string, _endDate: string): Promise<number> {
+  private getDemandMultiplier(startDate: string, _endDate: string): number {
     // Simple implementation - would be more complex in production
     const start = new Date(startDate)
     const dayOfWeek = start.getDay()

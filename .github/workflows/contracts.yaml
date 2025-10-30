@@ -1,0 +1,36 @@
+name: Contract Tests
+on: [push, pull_request]
+
+jobs:
+  contracts:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check for banned patterns
+        run: |
+          if grep -rn "as never" src --include="*.ts" | grep -v "database.types.ts"; then
+            echo "❌ Found 'as never' outside database.types.ts"
+            exit 1
+          fi
+
+      - name: Type check
+        run: pnpm typecheck
+
+      - name: Contract tests
+        run: pnpm test tests/contracts --run
+        if: ${{ hashFiles('tests/contracts') != '' }}
+
+      - name: Build
+        run: pnpm build

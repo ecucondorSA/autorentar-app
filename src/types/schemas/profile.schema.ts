@@ -10,15 +10,8 @@ import { z } from 'zod'
 // ============================================
 
 export const UserRoleEnum = z.enum(['renter', 'owner', 'admin'])
-export const KYCStatusEnum = z.enum(['not_started', 'pending', 'approved', 'rejected', 'expired'])
-export const OnboardingStatusEnum = z.enum([
-  'not_started',
-  'profile_created',
-  'kyc_submitted',
-  'first_car_added',
-  'first_booking_made',
-  'completed',
-])
+export const KYCStatusEnum = z.enum(['not_started', 'pending', 'verified', 'rejected'])
+export const OnboardingStatusEnum = z.enum(['incomplete', 'complete'])
 
 // ============================================
 // PHONE VALIDATION
@@ -58,8 +51,8 @@ export const CreateProfileInputSchema = z.object({
   role: UserRoleEnum.default('renter'),
 
   // Status
-  kyc_status: KYCStatusEnum.default('not_started'),
-  onboarding_status: OnboardingStatusEnum.default('profile_created'),
+  kyc: KYCStatusEnum.default('not_started'),
+  onboarding: OnboardingStatusEnum.default('incomplete'),
 
   // Preferences
   preferred_language: z.string().length(2, 'Código de idioma debe ser ISO 2 letras').default('es'),
@@ -161,8 +154,8 @@ export const ProfileSearchFiltersSchema = z.object({
 
   // Filters
   role: UserRoleEnum.optional(),
-  kyc_status: KYCStatusEnum.optional(),
-  onboarding_status: OnboardingStatusEnum.optional(),
+  kyc: KYCStatusEnum.optional(),
+  onboarding: OnboardingStatusEnum.optional(),
 
   // Rating filter
   min_rating: z.number().min(1).max(5).optional(),
@@ -220,8 +213,8 @@ export type UpdateNotificationPreferences = z.infer<typeof UpdateNotificationPre
 export const BecomeOwnerRequestSchema = z.object({
   user_id: z.string().uuid(),
 
-  // KYC must be approved
-  kyc_status: z.literal('approved', {
+  // KYC must be verified
+  kyc: z.literal('verified', {
     errorMap: () => ({ message: 'Debes tener KYC aprobado para ser propietario' }),
   }),
 

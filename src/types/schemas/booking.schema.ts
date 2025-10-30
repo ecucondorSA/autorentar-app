@@ -5,6 +5,8 @@
 
 import { z } from 'zod'
 
+import { CancelPolicyEnum } from './car.schema'
+
 // ============================================
 // ENUMS
 // ============================================
@@ -12,13 +14,15 @@ import { z } from 'zod'
 export const BookingStatusEnum = z.enum([
   'pending',
   'confirmed',
-  'active',
+  'in_progress',
   'completed',
   'cancelled',
-  'disputed',
+  'no_show',
+  'expired',
 ])
 
-export const CancelPolicyEnum = z.enum(['flexible', 'moderate', 'strict'])
+// CancelPolicyEnum imported from car.schema.ts to avoid duplicate export
+// export const CancelPolicyEnum = z.enum(['flex', 'moderate', 'strict'])
 
 export const GuaranteeTypeEnum = z.enum(['deposit', 'credit_card_hold', 'insurance_bond'])
 

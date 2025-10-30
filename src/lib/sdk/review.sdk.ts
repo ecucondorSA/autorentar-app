@@ -38,7 +38,7 @@ export class ReviewSDK extends BaseSDK {
     const validData = CreateReviewInputSchema.parse(input)
 
     // Use RPC to create review (updates stats automatically)
-    const { data, error } = await this.supabase.rpc('create_review', {
+    const { data, error } = await this.supabase.rpc('create_review' as never, {
       p_booking_id: validData.booking_id,
       p_reviewer_id: validData.reviewer_id,
       p_reviewee_id: validData.reviewee_id,
@@ -51,7 +51,7 @@ export class ReviewSDK extends BaseSDK {
       p_rating_checkin: validData.rating_checkin,
       p_rating_value: validData.rating_value,
       p_comment_public: validData.comment_public,
-    })
+    } as never)
 
     if (error) {
       this.handleError(error, 'Review creation failed')

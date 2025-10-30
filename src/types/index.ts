@@ -17,7 +17,17 @@ export type * from './db'
 // HELPER TYPES & UTILITIES
 // ============================================
 // Type utilities to make Database types easier to use
-export type * from './helpers'
+export type {
+  ApiResponse,
+  PaginatedResponse,
+  TablesInsert,
+  TablesUpdate,
+  Functions,
+  Coordinates,
+  CarWithOwner,
+  BookingWithDetails,
+  TrackingPointWithCoords,
+} from './helpers'
 
 // ============================================
 // ZOD SCHEMAS (Runtime Validation)
@@ -35,4 +45,3 @@ export * from './dto'
 // SERVICE TYPES
 // ============================================
 // Types specific to the service layer (business logic)
-export * from './service-types'

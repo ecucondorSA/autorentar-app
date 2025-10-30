@@ -52,7 +52,7 @@ export type Payment = Tables<'payments'>
 export type PaymentSplit = Tables<'payment_splits'>
 export type UserWallet = Tables<'user_wallets'>
 export type WalletTransaction = Tables<'wallet_transactions'>
-export type WalletLedger = Tables<'wallet_ledgers'>
+export type WalletLedger = Tables<'wallet_ledger'>
 
 // Insurance
 export type InsurancePolicy = Tables<'insurance_policies'>
@@ -63,7 +63,7 @@ export type Message = Tables<'messages'>
 export type Notification = Tables<'notifications'>
 
 // Reviews & Ratings
-export type Review = Tables<'user_reviews'>
+export type Review = Tables<'reviews'>
 
 // Support & Disputes
 export type Dispute = Tables<'disputes'>
@@ -96,12 +96,12 @@ export type UpdatePayment = Updatable<'payments'>
 export type BookingStatus = Enums<'booking_status'>
 export type CarStatus = Enums<'car_status'>
 export type PaymentStatus = Enums<'payment_status'>
-export type PaymentProvider = Enums<'payment_provider_enum'>
+export type PaymentProvider = Enums<'payment_provider'>
 export type UserRole = Enums<'user_role'>
 export type KYCStatus = Enums<'kyc_status'>
 export type NotificationType = Enums<'notification_type'>
 export type DisputeStatus = Enums<'dispute_status'>
-export type TransmissionType = Enums<'transmission_type'>
+export type TransmissionType = Enums<'transmission'>
 export type FuelType = Enums<'fuel_type'>
 
 // ============================================

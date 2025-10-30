@@ -42,3 +42,13 @@ export * from './insurance.schema'
 // PRICING SCHEMAS
 // ============================================
 export * from './pricing.schema'
+
+// ============================================
+// MESSAGE SCHEMAS
+// ============================================
+export * from './message.schema'
+
+// ============================================
+// NOTIFICATION SCHEMAS
+// ============================================
+export * from './notification.schema'

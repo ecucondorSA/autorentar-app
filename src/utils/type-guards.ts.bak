@@ -27,12 +27,12 @@ export function isBooking(value: unknown): value is Booking {
   const obj = value as Record<string, unknown>;
 
   return (
-    typeof obj.id === 'string' &&
+    typeof obj['id'] === 'string' &&
     typeof obj.car_id === 'string' &&
     typeof obj.renter_id === 'string' &&
     typeof obj.start_at === 'string' &&
-    typeof obj.end_at === 'string' &&
-    isBookingStatus(obj.status)
+    typeof obj['end_at'] === 'string' &&
+    isBookingStatus(obj['status'])
   );
 }
 
@@ -71,10 +71,10 @@ export function isCar(value: unknown): value is Car {
   const obj = value as Record<string, unknown>;
 
   return (
-    typeof obj.id === 'string' &&
-    typeof obj.owner_id === 'string' &&
-    typeof obj.title === 'string' &&
-    isCarStatus(obj.status)
+    typeof obj['id'] === 'string' &&
+    typeof obj['owner_id'] === 'string' &&
+    typeof obj['title'] === 'string' &&
+    isCarStatus(obj['status'])
   );
 }
 
@@ -105,10 +105,10 @@ export function isPayment(value: unknown): value is Payment {
   const obj = value as Record<string, unknown>;
 
   return (
-    typeof obj.id === 'string' &&
-    typeof obj.booking_id === 'string' &&
-    isPaymentStatus(obj.status) &&
-    typeof obj.amount === 'number'
+    typeof obj['id'] === 'string' &&
+    typeof obj['booking_id'] === 'string' &&
+    isPaymentStatus(obj['status']) &&
+    typeof obj['amount'] === 'number'
   );
 }
 
@@ -149,9 +149,9 @@ export function isProfile(value: unknown): value is Profile {
   const obj = value as Record<string, unknown>;
 
   return (
-    typeof obj.id === 'string' &&
-    isUserRole(obj.role) &&
-    typeof obj.country === 'string'
+    typeof obj['id'] === 'string' &&
+    isUserRole(obj['role']) &&
+    typeof obj['country'] === 'string'
   );
 }
 

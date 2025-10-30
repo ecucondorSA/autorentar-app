@@ -2,10 +2,13 @@
 
 Plataforma web de renta de vehículos construida con Angular 18, TypeScript y Supabase.
 
-[![CI Pipeline](https://img.shields.io/badge/CI-Passing-brightgreen)](https://github.com)
-[![Deployment](https://img.shields.io/badge/Deploy-Cloudflare%20Pages-orange)](https://autorentar.pages.dev)
+[![CI Pipeline](https://github.com/ecucondorSA/autorentar-app/actions/workflows/ci-enhanced.yml/badge.svg)](https://github.com/ecucondorSA/autorentar-app/actions/workflows/ci-enhanced.yml)
+[![Deployment](https://img.shields.io/badge/Deploy-Cloudflare%20Pages-orange)](https://a83d39dd.autorentar.pages.dev)
+[![codecov](https://codecov.io/gh/ecucondorSA/autorentar-app/branch/main/graph/badge.svg)](https://codecov.io/gh/ecucondorSA/autorentar-app)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue)](https://www.typescriptlang.org/)
 [![Angular](https://img.shields.io/badge/Angular-18-red)](https://angular.dev)
+[![Tests](https://img.shields.io/badge/Tests-E2E%20%2B%20Unit-green)](https://github.com/ecucondorSA/autorentar-app/actions)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ---
 

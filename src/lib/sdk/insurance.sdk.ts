@@ -4,19 +4,17 @@
  */
 
 import {
-  CreateInsurancePolicySchema,
-  CreateInsuranceClaimSchema,
   InsuranceQuoteRequestSchema,
   ClaimSearchFiltersSchema,
   type InsurancePolicy,
   type InsuranceClaim,
-  type CreateInsurancePolicy,
-  type CreateInsuranceClaim,
   type InsuranceQuoteRequest,
   type ClaimSearchFilters,
   type PaginatedResponse,
+  type TablesInsert,
 } from '@/types'
 
+import { toError } from '../errors'
 import { supabase } from '../supabase'
 
 import { BaseSDK } from './base.sdk'
@@ -56,23 +54,27 @@ export class InsuranceSDK extends BaseSDK {
   /**
    * Create insurance policy
    */
-  async createPolicy(input: CreateInsurancePolicy): Promise<InsurancePolicy> {
-    // Validate input
-    const validData = CreateInsurancePolicySchema.parse(input)
-
-    return this.execute(async () => {
-      return await this.supabase
+  async createPolicy(input: TablesInsert<'insurance_policies'>): Promise<InsurancePolicy> {
+    try {
+      const { data, error } = await this.supabase
         .from('insurance_policies')
-        .insert(validData)
+        .insert(input)
         .select()
         .single()
-    })
+
+      if (error) {throw toError(error)}
+      if (!data) {throw new Error('Failed to create policy')}
+
+      return data
+    } catch (e) {
+      throw toError(e)
+    }
   }
 
   /**
    * Get insurance quote
    */
-  getQuote(input: InsuranceQuoteRequest): Promise<unknown> {
+  getQuote(input: InsuranceQuoteRequest): unknown {
     // Validate input
     const validData = InsuranceQuoteRequestSchema.parse(input)
 
@@ -96,11 +98,11 @@ export class InsuranceSDK extends BaseSDK {
     // Coverage amounts based on level
     const coverage = this.getCoverageAmounts(validData.coverage_level, validData.car_value_cents)
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return -- Legacy function returns Supabase RPC result, TODO: create InsuranceQuoteDTO
+     
     return {
       quote_id: crypto.randomUUID(),
       coverage_level: validData.coverage_level,
-      ...coverage,
+      ...(coverage as Record<string, unknown>),
       base_premium_cents: Math.floor(premium_cents),
       addons_premium_cents: 0,
       total_premium_cents: Math.floor(premium_cents),
@@ -112,17 +114,21 @@ export class InsuranceSDK extends BaseSDK {
   /**
    * Create insurance claim
    */
-  async createClaim(input: CreateInsuranceClaim): Promise<InsuranceClaim> {
-    // Validate input
-    const validData = CreateInsuranceClaimSchema.parse(input)
-
-    return this.execute(async () => {
-      return await this.supabase
+  async createClaim(input: TablesInsert<'insurance_claims'>): Promise<InsuranceClaim> {
+    try {
+      const { data, error } = await this.supabase
         .from('insurance_claims')
-        .insert(validData)
+        .insert(input)
         .select()
         .single()
-    })
+
+      if (error) {throw toError(error)}
+      if (!data) {throw new Error('Failed to create claim')}
+
+      return data
+    } catch (e) {
+      throw toError(e)
+    }
   }
 
   /**
@@ -147,6 +153,44 @@ export class InsuranceSDK extends BaseSDK {
         .select()
         .single()
     })
+  }
+
+  /**
+   * Submit claim (alias for createClaim, used by services)
+   */
+  async submitClaim(payload: TablesInsert<'insurance_claims'>): Promise<InsuranceClaim> {
+    try {
+      const { data, error } = await this.supabase
+        .from('insurance_claims')
+        .insert(payload)
+        .select()
+        .single()
+
+      if (error) {throw toError(error)}
+      if (!data) {throw new Error('Failed to create claim')}
+
+      return data
+    } catch (e) {
+      throw toError(e)
+    }
+  }
+
+  /**
+   * Get claim by ID
+   */
+  async getClaimById(id: string): Promise<InsuranceClaim | null> {
+    try {
+      const { data, error } = await this.supabase
+        .from('insurance_claims')
+        .select('*')
+        .eq('id', id)
+        .maybeSingle()
+
+      if (error) {throw toError(error)}
+      return data ?? null
+    } catch (e) {
+      throw toError(e)
+    }
   }
 
   /**

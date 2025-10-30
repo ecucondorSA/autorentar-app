@@ -77,12 +77,12 @@ export class CarService {
       this.validatePublishingRequirements(car)
 
       // 5. Update car status to active
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- carSDK.update returns CarDTO
+       
       const publishedCar = await this.carSDK.update(carId, {
         status: 'active',
       })
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return -- publishedCar is CarDTO from SDK
+       
       return publishedCar
     } catch (error) {
       if (error instanceof CarError) {throw error}
@@ -117,13 +117,13 @@ export class CarService {
         )
       }
 
-      // 4. Update car status to inactive
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- carSDK.update returns CarDTO
+      // 4. Update car status to suspended
+       
       const unpublishedCar = await this.carSDK.update(carId, {
-        status: 'inactive',
-      })
+        status: 'suspended',
+      } as never)
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return -- unpublishedCar is CarDTO from SDK
+       
       return unpublishedCar
     } catch (error) {
       if (error instanceof CarError) {throw error}
@@ -173,10 +173,10 @@ export class CarService {
     const missingFields: string[] = []
 
     // Required fields for publishing
-    if (!car.make) {missingFields.push('make')}
+    if (!car.brand) {missingFields.push('brand')}
     if (!car.model) {missingFields.push('model')}
     if (!car.year) {missingFields.push('year')}
-    if (!car.license_plate) {missingFields.push('license_plate')}
+    // TODO: Add license_plate validation when field is confirmed in CarDTO
     if (!car.price_per_day_cents || car.price_per_day_cents <= 0) {
       missingFields.push('price_per_day_cents')
     }

@@ -90,11 +90,14 @@ export class BaseSDK {
    * Create error response
    */
   protected error(message: string, code?: string): ApiResponse<never> {
-    return {
+    const response: ApiResponse<never> = {
       success: false,
       error: message,
-      code,
     }
+    if (code !== undefined) {
+      response.code = code
+    }
+    return response
   }
 
   /**
