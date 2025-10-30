@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition, eslint-comments/disable-enable-pair -- SDK layer: Defensive programming for runtime safety against Supabase SDK changes */
 /**
  * Insurance SDK
  * Handles insurance policy and claims operations

@@ -289,8 +289,8 @@ export class LayoutComponent {
   }
 
   // Event handlers
-  onRoleChange(event: CustomEvent): void {
-    const role = event.detail.value as UserRole
+  onRoleChange(event: CustomEvent<{ value: UserRole }>): void {
+    const role = event.detail.value
     this.switchRole(role)
   }
 }

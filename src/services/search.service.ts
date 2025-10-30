@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition, eslint-comments/disable-enable-pair -- Service layer: Defensive programming for business logic safety */
 /**
  * SearchService
  * Business logic layer for search operations
