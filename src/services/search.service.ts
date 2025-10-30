@@ -329,7 +329,7 @@ export class SearchService {
   /**
    * Get popular searches
    */
-  async getPopularSearches(): Promise<string[]> {
+  getPopularSearches(): string[] {
     // TODO: Track search queries and return most popular
     // For now, return hardcoded popular searches
     return [

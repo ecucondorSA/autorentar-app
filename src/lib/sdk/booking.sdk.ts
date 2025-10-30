@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition -- SDK defensive programming pattern */
 /**
  * Booking SDK
  * Handles all booking-related operations

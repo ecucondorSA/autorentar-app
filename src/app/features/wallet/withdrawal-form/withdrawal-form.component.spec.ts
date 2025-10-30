@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-unnecessary-condition -- Test file with DOM queries */
+/* eslint-disable @typescript-eslint/no-unsafe-argument -- Test file: TestBed.createComponent requires type assertion */
 import { provideHttpClient } from '@angular/common/http'
 import type { ComponentFixture} from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing'

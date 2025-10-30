@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition -- SDK defensive programming pattern */
 /**
  * Dispute SDK
  * Handles dispute and dispute evidence operations

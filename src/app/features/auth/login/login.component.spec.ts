@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/unbound-method -- Test file with Jasmine spies */
 import type { ComponentFixture} from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -99,9 +100,9 @@ describe('LoginComponent', () => {
       fixture.detectChanges();
       const submitButton = compiled.querySelector(
         'ion-button[data-testid="submit-login"]'
-      )!;
+      ) as HTMLIonButtonElement | null;
 
-      expect(submitButton.disabled).toBe(true);
+      expect(submitButton?.disabled).toBe(true);
 
       // Fill valid data
       component.form.patchValue({
@@ -179,8 +180,8 @@ describe('LoginComponent', () => {
 
       const form = compiled.querySelector(
         'form[data-testid="login-form"]'
-      )!;
-      form.dispatchEvent(new Event('submit'));
+      ) as HTMLFormElement | null;
+      form?.dispatchEvent(new Event('submit'));
 
       expect(onSubmitSpy).toHaveBeenCalled();
     });

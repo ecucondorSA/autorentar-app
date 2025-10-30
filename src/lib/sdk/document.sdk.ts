@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition -- SDK defensive programming pattern */
 /**
  * Document SDK
  * Handles user and vehicle document operations

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/unbound-method, @typescript-eslint/no-non-null-assertion -- Test file with Jasmine spies */
 import { signal } from '@angular/core'
 import type { ComponentFixture} from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing'

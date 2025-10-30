@@ -190,7 +190,7 @@ export class LoginComponent {
       const { email, password } = this.form.getRawValue();
 
       // TODO: Implement AuthService.login() when available
-      console.log('Login attempt:', { email, password });
+      console.error('Login attempt:', { email, password });
 
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1000));

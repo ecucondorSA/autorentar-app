@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/unbound-method -- Test file with Jasmine spies */
 /**
  * NotificationService Tests (Feature Horizontal)
  * Tests for business logic layer of notification operations

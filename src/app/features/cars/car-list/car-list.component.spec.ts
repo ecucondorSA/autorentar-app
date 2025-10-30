@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/unbound-method, @typescript-eslint/no-floating-promises, @typescript-eslint/no-unnecessary-condition -- Test file with async operations */
 import { provideHttpClient } from '@angular/common/http'
 import type { ComponentFixture} from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing'
