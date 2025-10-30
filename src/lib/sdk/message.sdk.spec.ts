@@ -690,3 +690,4 @@ describe('MessageSDK (Feature Horizontal)', () => {
     })
   })
 })
+/* eslint-enable @typescript-eslint/unbound-method, @typescript-eslint/no-unsafe-argument -- Re-enable after test file */

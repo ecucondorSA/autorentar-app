@@ -14,7 +14,7 @@
     NG_APP_MERCADOPAGO_PUBLIC_KEY: '',
   },
 }
-/* eslint-enable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/prefer-nullish-coalescing */
+/* End of global test setup -- eslint-enable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/prefer-nullish-coalescing */
 
 // Import zone testing after env setup
 import 'zone.js/testing'
