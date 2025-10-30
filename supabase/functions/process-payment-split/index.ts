@@ -135,7 +135,13 @@ serve(async (req) => {
     result.owner_transaction_id = ownerTx.id
 
     // Platform transaction
-    const PLATFORM_WALLET_ID = 'platform-wallet-id' // TODO: Get from env
+    const PLATFORM_WALLET_ID =
+      Deno.env.get('PLATFORM_WALLET_ID') ?? 'platform-wallet-id'
+    if (PLATFORM_WALLET_ID === 'platform-wallet-id') {
+      console.warn(
+        'PLATFORM_WALLET_ID not set. Using placeholder platform wallet ID.'
+      )
+    }
     const { data: platformTx, error: platformError } = await supabase
       .from('wallet_transactions')
       .insert({
@@ -157,7 +163,13 @@ serve(async (req) => {
 
     // Insurance transaction (if applicable)
     if (insuranceAmount > 0) {
-      const INSURANCE_WALLET_ID = 'insurance-wallet-id' // TODO: Get from env
+      const INSURANCE_WALLET_ID =
+        Deno.env.get('INSURANCE_WALLET_ID') ?? 'insurance-wallet-id'
+      if (INSURANCE_WALLET_ID === 'insurance-wallet-id') {
+        console.warn(
+          'INSURANCE_WALLET_ID not set. Using placeholder insurance wallet ID.'
+        )
+      }
       const { data: insuranceTx, error: insuranceError } = await supabase
         .from('wallet_transactions')
         .insert({

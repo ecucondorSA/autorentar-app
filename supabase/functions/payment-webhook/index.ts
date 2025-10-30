@@ -29,15 +29,36 @@ serve(async (req) => {
       )
     }
 
-    // 2. Parse webhook payload
-    const payload: WebhookPayload = await req.json()
+    // 2. Read raw body for signature validation
+    const rawBody = await req.text()
+    if (!rawBody) {
+      return new Response(
+        JSON.stringify({ error: 'Empty body' }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      )
+    }
 
-    // 3. Verify signature (provider-specific)
-    const isValid = await verifySignature(
-      payload.provider,
-      payload.signature,
-      req.headers.get('x-signature') || ''
-    )
+    // 3. Parse webhook payload after preserving rawBody
+    let payload: WebhookPayload
+    try {
+      payload = JSON.parse(rawBody) as WebhookPayload
+    } catch {
+      return new Response(
+        JSON.stringify({ error: 'Invalid JSON payload' }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      )
+    }
+
+    // 4. Verify signature (provider-specific)
+    const isValid = await verifySignature({
+      provider: payload.provider,
+      rawBody,
+      headerSignature:
+        payload.provider === 'mercadopago'
+          ? req.headers.get('x-signature') ?? ''
+          : req.headers.get('stripe-signature') ?? '',
+      explicitSignature: payload.signature ?? '',
+    })
 
     if (!isValid) {
       return new Response(
@@ -46,12 +67,12 @@ serve(async (req) => {
       )
     }
 
-    // 4. Initialize Supabase client
+    // 5. Initialize Supabase client
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
     const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
-    // 5. Process webhook based on event type
+    // 6. Process webhook based on event type
     let result
     switch (payload.event_type) {
       case 'payment.completed':
@@ -67,7 +88,7 @@ serve(async (req) => {
         result = { message: 'Event type not handled', processed: false }
     }
 
-    // 6. Return success response
+    // 7. Return success response
     return new Response(
       JSON.stringify({ success: true, ...result }),
       { status: 200, headers: { 'Content-Type': 'application/json' } }
@@ -89,17 +110,132 @@ serve(async (req) => {
 // HELPER FUNCTIONS
 // ============================================
 
-async function verifySignature(
-  provider: string,
-  signature?: string,
-  headerSignature?: string
-): Promise<boolean> {
-  // TODO: Implement real signature verification
-  // For MercadoPago: verify x-signature header with secret
-  // For Stripe: verify stripe-signature header with webhook secret
+interface VerifySignatureParams {
+  provider: WebhookPayload['provider']
+  rawBody: string
+  headerSignature: string
+  explicitSignature: string
+}
 
-  // For now, accept all (INSECURE - only for development)
-  return true
+async function verifySignature({
+  provider,
+  rawBody,
+  headerSignature,
+  explicitSignature,
+}: VerifySignatureParams): Promise<boolean> {
+  if (provider === 'mercadopago') {
+    const secret = Deno.env.get('MERCADOPAGO_WEBHOOK_SECRET')
+    if (!secret) {
+      console.warn('Missing MERCADOPAGO_WEBHOOK_SECRET environment variable')
+      return false
+    }
+
+    const signatureHeader = headerSignature || explicitSignature
+    if (!signatureHeader) {
+      console.warn('MercadoPago signature header missing')
+      return false
+    }
+
+    return verifyMercadoPagoSignature(signatureHeader, rawBody, secret)
+  }
+
+  if (provider === 'stripe') {
+    const secret = Deno.env.get('STRIPE_WEBHOOK_SECRET')
+    if (!secret) {
+      console.warn('Missing STRIPE_WEBHOOK_SECRET environment variable')
+      return false
+    }
+
+    if (!headerSignature) {
+      console.warn('Stripe signature header missing')
+      return false
+    }
+
+    return verifyStripeSignature(headerSignature, rawBody, secret)
+  }
+
+  console.warn(`Unsupported provider: ${provider}`)
+  return false
+}
+
+async function verifyMercadoPagoSignature(
+  signatureHeader: string,
+  rawBody: string,
+  secret: string
+): Promise<boolean> {
+  const parts = parseKeyValueHeader(signatureHeader)
+  const timestamp = parts.get('ts')
+  const signature = parts.get('v1')
+
+  if (!timestamp || !signature) {
+    console.warn('MercadoPago signature header missing ts or v1')
+    return false
+  }
+
+  const message = `ts=${timestamp}${rawBody}`
+  const expectedSignature = await hmacSha256(secret, message)
+  return timingSafeEqual(signature, expectedSignature)
+}
+
+async function verifyStripeSignature(
+  headerSignature: string,
+  rawBody: string,
+  secret: string
+): Promise<boolean> {
+  const parts = parseKeyValueHeader(headerSignature)
+  const timestamp = parts.get('t')
+  const signature = parts.get('v1')
+
+  if (!timestamp || !signature) {
+    console.warn('Stripe signature header missing t or v1')
+    return false
+  }
+
+  const signedPayload = `${timestamp}.${rawBody}`
+  const expectedSignature = await hmacSha256(secret, signedPayload)
+  return timingSafeEqual(signature, expectedSignature)
+}
+
+function parseKeyValueHeader(header: string): Map<string, string> {
+  return new Map(
+    header
+      .split(',')
+      .map((part) => part.trim().split('='))
+      .filter((kv): kv is [string, string] => kv.length === 2)
+  )
+}
+
+async function hmacSha256(secret: string, message: string): Promise<string> {
+  const encoder = new TextEncoder()
+  const key = await crypto.subtle.importKey(
+    'raw',
+    encoder.encode(secret),
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign']
+  )
+
+  const signatureBuffer = await crypto.subtle.sign(
+    'HMAC',
+    key,
+    encoder.encode(message)
+  )
+
+  return Array.from(new Uint8Array(signatureBuffer))
+    .map((byte) => byte.toString(16).padStart(2, '0'))
+    .join('')
+}
+
+function timingSafeEqual(a: string, b: string): boolean {
+  if (a.length !== b.length) {
+    return false
+  }
+
+  let result = 0
+  for (let i = 0; i < a.length; i += 1) {
+    result |= a.charCodeAt(i) ^ b.charCodeAt(i)
+  }
+  return result === 0
 }
 
 async function handlePaymentCompleted(

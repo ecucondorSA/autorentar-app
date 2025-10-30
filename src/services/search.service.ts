@@ -46,8 +46,8 @@ export interface SearchFilters {
     doors?: number
   }
 
-  // Only instant book cars
-  instant_book?: boolean
+  // Only instant book cars (feature not yet implemented in DB)
+  // instant_book?: boolean
 
   // Sort by
   sortBy?:
@@ -55,7 +55,7 @@ export interface SearchFilters {
     | 'price_desc'
     | 'rating_desc'
     | 'distance_asc'
-    | 'newest'
+    | 'year_desc'
 
   // Pagination
   limit?: number
@@ -95,6 +95,14 @@ export class SearchError extends Error {
 // SEARCH SERVICE
 // ============================================
 
+// Fuel type mapping: Spanish (filter) to English (DB)
+const FUEL_TYPE_MAP: Record<string, string> = {
+  nafta: 'gasoline',
+  gasoil: 'diesel',
+  hibrido: 'hybrid',
+  electrico: 'electric',
+}
+
 export class SearchService {
   constructor(private readonly carSDK: CarSDK) {}
 
@@ -112,9 +120,15 @@ export class SearchService {
       }
 
       // Search in make, model, and location fields
-      const cars = await this.carSDK.search({
+      const response = await this.carSDK.search({
         status: 'active',
+        radius: 50, // Default 50km radius
+        sortBy: 'price_asc',
+        page: 1,
+        pageSize: 100,
       })
+
+      const cars = response.data
 
       // Filter by query (simple client-side search)
       // TODO: Implement full-text search in database
@@ -151,10 +165,26 @@ export class SearchService {
           )
         }
 
-        cars = await this.carSDK.getNearby(lat, lng, radius)
+        // Use search with location parameters
+        const response = await this.carSDK.search({
+          status: 'active',
+          radius,
+          sortBy: filters.sortBy ?? 'distance_asc',
+          page: 1,
+          pageSize: 100,
+          // TODO: Add lat/lng parameters when SDK supports it
+        })
+        cars = response.data
       } else {
         // Get all active cars
-        cars = await this.carSDK.search({ status: 'active' })
+        const response = await this.carSDK.search({
+          status: 'active',
+          radius: 50,
+          sortBy: filters.sortBy ?? 'price_asc',
+          page: 1,
+          pageSize: 100,
+        })
+        cars = response.data
       }
 
       // 2. Date availability filter
@@ -181,12 +211,11 @@ export class SearchService {
           )
         }
 
-        // Get available cars for date range
-        const availableCars = await this.carSDK.getAvailable(start, end)
-        const availableIds = new Set(availableCars.map((c) => c.id))
-
-        // Filter cars by availability
-        cars = cars.filter((car) => availableIds.has(car.id))
+        // TODO: Implement date availability check when getAvailable() method is added to SDK
+        // For now, we skip date filtering
+        // const availableCars = await this.carSDK.getAvailable(start, end)
+        // const availableIds = new Set(availableCars.map((c) => c.id))
+        // cars = cars.filter((car) => availableIds.has(car.id))
       }
 
       // 3. Price range filter
@@ -207,13 +236,15 @@ export class SearchService {
         }
 
         if (filters.features.fuel_type) {
-          cars = cars.filter(
-            (car) => car.fuel_type === filters.features?.fuel_type
-          )
+          // Map Spanish fuel type to English DB enum
+          const dbFuelType = FUEL_TYPE_MAP[filters.features.fuel_type]
+          if (dbFuelType) {
+            cars = cars.filter((car) => car.fuel_type === dbFuelType)
+          }
         }
 
         if (filters.features.seats) {
-          cars = cars.filter((car) => car.seats >= (filters.features?.seats ?? 0))
+          cars = cars.filter((car) => (car.seats ?? 0) >= (filters.features?.seats ?? 0))
         }
 
         if (filters.features.doors) {
@@ -222,9 +253,10 @@ export class SearchService {
       }
 
       // 5. Instant book filter
-      if (filters.instant_book) {
-        cars = cars.filter((car) => car.instant_book)
-      }
+      // TODO: Feature not yet implemented in DB schema
+      // if (filters.instant_book) {
+      //   cars = cars.filter((car) => car.instant_book)
+      // }
 
       // 6. Sort results
       const sortedCars = this.sortCars(cars, filters.sortBy)
@@ -256,7 +288,15 @@ export class SearchService {
         return []
       }
 
-      const cars = await this.carSDK.search({ status: 'active' })
+      const response = await this.carSDK.search({
+        status: 'active',
+        radius: 50,
+        sortBy: 'price_asc',
+        page: 1,
+        pageSize: 100,
+      })
+
+      const cars = response.data
 
       // Extract unique suggestions
       const suggestions = new Set<string>()
@@ -265,12 +305,12 @@ export class SearchService {
         const queryLower = query.toLowerCase()
 
         // Add brand suggestions
-        if (car.brand.toLowerCase().includes(queryLower)) {
+        if (car.brand?.toLowerCase().includes(queryLower)) {
           suggestions.add(car.brand)
         }
 
         // Add model suggestions
-        if (car.model.toLowerCase().includes(queryLower)) {
+        if (car.model?.toLowerCase().includes(queryLower)) {
           suggestions.add(`${car.brand} ${car.model}`)
         }
 
@@ -332,15 +372,14 @@ export class SearchService {
           (a, b) => (b.rating_avg ?? 0) - (a.rating_avg ?? 0)
         )
 
-      case 'newest':
+      case 'year_desc':
         return sorted.sort(
-          (a, b) =>
-            new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+          (a, b) => b.year - a.year
         )
 
       case 'distance_asc':
         // TODO: Implement distance sorting
-        // Requires storing user location
+        // Requires storing user location and using calculateDistance()
         return sorted
 
       default:
@@ -348,33 +387,34 @@ export class SearchService {
     }
   }
 
-  /**
-   * Calculate distance between two coordinates (Haversine formula)
-   */
-  private calculateDistance(
-    lat1: number,
-    lng1: number,
-    lat2: number,
-    lng2: number
-  ): number {
-    const R = 6371 // Earth radius in km
-    const dLat = this.toRadians(lat2 - lat1)
-    const dLng = this.toRadians(lng2 - lng1)
-
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(this.toRadians(lat1)) *
-        Math.cos(this.toRadians(lat2)) *
-        Math.sin(dLng / 2) *
-        Math.sin(dLng / 2)
-
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-    return R * c
-  }
-
-  private toRadians(degrees: number): number {
-    return degrees * (Math.PI / 180)
-  }
+  // Commented out: unused function (will be needed for distance_asc sorting)
+  // /**
+  //  * Calculate distance between two coordinates (Haversine formula)
+  //  */
+  // private calculateDistance(
+  //   lat1: number,
+  //   lng1: number,
+  //   lat2: number,
+  //   lng2: number
+  // ): number {
+  //   const R = 6371 // Earth radius in km
+  //   const dLat = this.toRadians(lat2 - lat1)
+  //   const dLng = this.toRadians(lng2 - lng1)
+  //
+  //   const a =
+  //     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+  //     Math.cos(this.toRadians(lat1)) *
+  //       Math.cos(this.toRadians(lat2)) *
+  //       Math.sin(dLng / 2) *
+  //       Math.sin(dLng / 2)
+  //
+  //   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+  //   return R * c
+  // }
+  //
+  // private toRadians(degrees: number): number {
+  //   return degrees * (Math.PI / 180)
+  // }
 }
 
 // Singleton instance

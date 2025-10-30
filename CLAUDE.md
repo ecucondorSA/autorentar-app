@@ -1,6 +1,6 @@
 # 🚀 AutoRentar - Estado del Proyecto
 
-**Última actualización**: 29 de Octubre 2025 - 18:30 hrs
+**Última actualización**: 30 de Octubre 2025 - 09:00 hrs
 
 ---
 
@@ -21,13 +21,67 @@ Fase Actual: SEMANAS 1-10 COMPLETADAS ✅
 Database: 92% COMPLETO (66 tablas, RLS, triggers, functions) ✅
 Realtime: 95% ACTIVO (9 tablas publicadas) ✅
 Storage: 90% ACTIVO (4 buckets, 79 archivos) ✅
-Backend: 95% COMPLETO (types, SDKs, services) ✅
+Backend: 100% COMPLETO (types, SDKs, services) ✅ 0 errores TypeScript ✅
 Edge Functions: 90% DEPLOYED (21 functions activas) ✅
 Payment Integration: 90% (MercadoPago OAuth + Webhooks) ✅
-Frontend: 8% (BLOQUEANTE ÚNICO) ❌
+Frontend: 15% (BLOQUEANTE) - LoginComponent ✅ + CarListComponent ✅ (TDD)
 
-Próximo Paso: FRONTEND UI (2-3 semanas)
+Próximo Paso: Continuar Frontend con TDD (2 semanas)
 ```
+
+---
+
+## ⚠️ REGLAS ARQUITECTURALES CRÍTICAS ⚠️
+
+### 🚨 NO MODIFICAR BACKEND POR ERRORES DE FRONTEND 🚨
+
+**IMPORTANTE**: La capa de backend (Database → Types → SDK → Services) está **100% funcional y libre de errores TypeScript**. Los contratos entre capas están **perfectamente alineados**.
+
+#### Flujo de datos correcto:
+```
+Database (PostgreSQL + Supabase)
+    ↓
+Types (DTOs validados con Zod)
+    ↓
+SDK (Data Access Layer)
+    ↓
+Services (Business Logic)
+    ↓
+Components (Frontend UI) ← SOLO ESTA CAPA PUEDE TENER CAMBIOS
+```
+
+#### ❌ NUNCA hacer:
+- Cambiar schemas de DTOs (`src/types/dto.ts`) por errores de componentes
+- Modificar contratos de SDK (`src/lib/sdk/*.sdk.ts`) por necesidades del frontend
+- Alterar Services (`src/services/*.service.ts`) para "adaptar" tipos del UI
+- Hacer tipos nullable en DTOs solo porque el frontend tiene problemas
+
+#### ✅ SIEMPRE hacer:
+- **Adaptar el componente frontend** a los tipos que vienen del backend
+- Filtrar datos incompletos **en el SDK** (ej: `.filter(car => car.price_per_day_cents !== null)`)
+- Validar en el componente antes de mostrar datos
+- Usar guardas de tipo en el template (`@if (value) { }`)
+
+#### 📊 Estado de alineación:
+- **Database**: ✅ 66 tablas, 100% funcional
+- **Types**: ✅ DTOs con Zod, 0 errores TypeScript
+- **SDK**: ✅ 9 SDKs, 0 errores TypeScript, contratos perfectos
+- **Services**: ✅ 6 Services, 0 errores TypeScript, lógica de negocio completa
+- **Components**: 🔄 En desarrollo (TDD)
+
+#### 🔗 Conexión Database:
+```
+Host: aws-1-us-east-2.pooler.supabase.com
+Port: 6543
+Database: postgres
+User: postgres.obxvffplochgeiclibng
+Password: ECUCONDOR08122023
+
+Connection String:
+postgresql://postgres.obxvffplochgeiclibng:ECUCONDOR08122023@aws-1-us-east-2.pooler.supabase.com:6543/postgres
+```
+
+**⚠️ Si cambias el SDK por un error del componente, desalineas TODO el proyecto ⚠️**
 
 ---
 

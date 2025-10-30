@@ -3,9 +3,6 @@
  * Handles in-app messaging operations between users
  */
 
-import { toError } from '../errors'
-import { supabase } from '../supabase'
-
 import type {
   MessageDTO,
   CreateMessageInput,
@@ -20,6 +17,10 @@ import {
   GetConversationInputSchema,
   RegisterPushTokenInputSchema,
 } from '@/types'
+
+import { toError } from '../errors'
+import { supabase } from '../supabase'
+
 
 import { BaseSDK } from './base.sdk'
 

@@ -59,6 +59,9 @@ export const CarDTOSchema = z.object({
   transmission: z.enum(['manual', 'automatic']),
   fuel_type: z.enum(['gasoline', 'diesel', 'electric', 'hybrid']),
   seats: z.number().int().positive(),
+  doors: z.number().int().nullable(),
+  rating_avg: z.number().nullable(),
+  rating_count: z.number().int().nullable(),
   created_at: z.string(),
   updated_at: z.string(),
 })
@@ -353,4 +356,82 @@ export type PushTokenDTO = z.infer<typeof PushTokenDTOSchema>
 
 export function parsePushToken(row: unknown): PushTokenDTO {
   return PushTokenDTOSchema.parse(row)
+}
+
+// ============================================
+// DOCUMENT DTOs
+// ============================================
+
+export const UserDocumentDTOSchema = z.object({
+  id: z.number().int(),
+  user_id: z.string().uuid(),
+  kind: z.enum(['gov_id_front', 'gov_id_back', 'driver_license', 'utility_bill', 'selfie']),
+  storage_path: z.string(),
+  status: z.enum(['not_started', 'pending', 'verified', 'rejected']),
+  notes: z.string().nullable(),
+  created_at: z.string(),
+  reviewed_by: z.string().uuid().nullable(),
+  reviewed_at: z.string().nullable(),
+})
+
+export type UserDocumentDTO = z.infer<typeof UserDocumentDTOSchema>
+
+export function parseUserDocument(row: unknown): UserDocumentDTO {
+  return UserDocumentDTOSchema.parse(row)
+}
+
+export const VehicleDocumentDTOSchema = z.object({
+  id: z.string().uuid(),
+  car_id: z.string().uuid(),
+  kind: z.enum(['registration', 'insurance', 'technical_inspection', 'circulation_permit', 'ownership_proof']),
+  storage_path: z.string(),
+  status: z.enum(['pending', 'verified', 'rejected']),
+  expiry_date: z.string().nullable(),
+  notes: z.string().nullable(),
+  created_at: z.string(),
+  updated_at: z.string(),
+  verified_by: z.string().uuid().nullable(),
+  verified_at: z.string().nullable(),
+})
+
+export type VehicleDocumentDTO = z.infer<typeof VehicleDocumentDTOSchema>
+
+export function parseVehicleDocument(row: unknown): VehicleDocumentDTO {
+  return VehicleDocumentDTOSchema.parse(row)
+}
+
+// ============================================
+// DISPUTE DTOs
+// ============================================
+
+export const DisputeDTOSchema = z.object({
+  id: z.string().uuid(),
+  booking_id: z.string().uuid(),
+  opened_by: z.string().uuid(),
+  kind: z.enum(['damage', 'no_show', 'late_return', 'other']),
+  description: z.string().nullable(),
+  status: z.enum(['open', 'in_review', 'resolved', 'rejected']),
+  created_at: z.string(),
+  resolved_by: z.string().uuid().nullable(),
+  resolved_at: z.string().nullable(),
+})
+
+export type DisputeDTO = z.infer<typeof DisputeDTOSchema>
+
+export function parseDispute(row: unknown): DisputeDTO {
+  return DisputeDTOSchema.parse(row)
+}
+
+export const DisputeEvidenceDTOSchema = z.object({
+  id: z.string().uuid(),
+  dispute_id: z.string().uuid(),
+  path: z.string(),
+  note: z.string().nullable(),
+  created_at: z.string(),
+})
+
+export type DisputeEvidenceDTO = z.infer<typeof DisputeEvidenceDTOSchema>
+
+export function parseDisputeEvidence(row: unknown): DisputeEvidenceDTO {
+  return DisputeEvidenceDTOSchema.parse(row)
 }

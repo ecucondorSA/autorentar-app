@@ -3,9 +3,6 @@
  * Handles user notifications and notification operations
  */
 
-import { toError } from '../errors'
-import { supabase } from '../supabase'
-
 import type {
   NotificationDTO,
   CreateNotificationInput,
@@ -17,6 +14,10 @@ import {
   CreateNotificationInputSchema,
   GetUserNotificationsInputSchema,
 } from '@/types'
+
+import { toError } from '../errors'
+import { supabase } from '../supabase'
+
 
 import { BaseSDK } from './base.sdk'
 

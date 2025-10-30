@@ -281,7 +281,10 @@ export class CarSDK extends BaseSDK {
       if (error) {throw toError(error)}
 
       // Validate and parse all results
-      const validatedData = (data ?? []).map(parseCar)
+      // Filter out cars with null price_per_day_cents (incomplete data)
+      const validatedData = (data ?? [])
+        .map(parseCar)
+        .filter(car => car.price_per_day_cents !== null)
 
       return this.createPaginatedResponse(
         validatedData,
