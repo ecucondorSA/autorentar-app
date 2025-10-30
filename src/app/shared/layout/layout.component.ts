@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common'
-import { Component, signal, computed } from '@angular/core'
-import { RouterOutlet, RouterLink } from '@angular/router'
+import { Component, signal, computed, inject } from '@angular/core'
+import { RouterOutlet, RouterLink, Router } from '@angular/router'
 import {
   IonHeader,
   IonToolbar,
@@ -17,6 +17,9 @@ import {
   IonBadge,
   IonAvatar,
   IonLabel,
+  IonPopover,
+  IonList,
+  IonItem,
 } from '@ionic/angular/standalone'
 import { addIcons } from 'ionicons'
 import {
@@ -28,6 +31,7 @@ import {
   person,
   notifications,
   add,
+  logOut,
 } from 'ionicons/icons'
 
 type UserRole = 'renter' | 'owner'
@@ -62,6 +66,9 @@ interface TabConfig {
     IonBadge,
     IonAvatar,
     IonLabel,
+    IonPopover,
+    IonList,
+    IonItem,
   ],
   template: `
     <!-- Header -->
@@ -96,7 +103,10 @@ interface TabConfig {
           </ion-button>
 
           <!-- User Avatar -->
-          <ion-button data-testid="user-avatar" routerLink="/account">
+          <ion-button
+            data-testid="user-menu"
+            (click)="toggleUserMenu($event)"
+          >
             <ion-avatar class="user-avatar">
               <img
                 [src]="userAvatar()"
@@ -107,6 +117,43 @@ interface TabConfig {
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
+
+    <!-- User Menu Popover -->
+    <ion-popover
+      [isOpen]="showUserMenu()"
+      (didDismiss)="showUserMenu.set(false)"
+      [event]="userMenuEvent"
+      data-testid="user-menu-popover"
+    >
+      <ng-template>
+        <ion-list>
+          <ion-item button routerLink="/dashboard">
+            <ion-icon name="home" slot="start"></ion-icon>
+            <ion-label>Dashboard</ion-label>
+          </ion-item>
+
+          <ion-item button routerLink="/account">
+            <ion-icon name="person" slot="start"></ion-icon>
+            <ion-label>Mi Perfil</ion-label>
+          </ion-item>
+
+          <ion-item button routerLink="/wallet">
+            <ion-icon name="wallet" slot="start"></ion-icon>
+            <ion-label>Billetera</ion-label>
+          </ion-item>
+
+          <ion-item
+            button
+            (click)="onLogout()"
+            data-testid="logout-button"
+            color="danger"
+          >
+            <ion-icon name="log-out" slot="start"></ion-icon>
+            <ion-label>Cerrar Sesión</ion-label>
+          </ion-item>
+        </ion-list>
+      </ng-template>
+    </ion-popover>
 
     <!-- Tabs with Content -->
     <ion-tabs>
@@ -182,10 +229,15 @@ interface TabConfig {
   ],
 })
 export class LayoutComponent {
+  private readonly router = inject(Router)
+
   // State
   readonly currentRole = signal<UserRole>('renter')
   readonly notificationCount = signal(0)
   readonly userAvatar = signal('https://via.placeholder.com/150')
+  readonly showUserMenu = signal(false)
+
+  userMenuEvent: Event | undefined
 
   // Tab configurations
   private readonly renterTabs: TabConfig[] = [
@@ -280,12 +332,28 @@ export class LayoutComponent {
       person,
       notifications,
       add,
+      logOut,
     })
   }
 
   // Public methods for testing
   switchRole(role: UserRole): void {
     this.currentRole.set(role)
+  }
+
+  toggleUserMenu(event: Event): void {
+    this.userMenuEvent = event
+    this.showUserMenu.update((v) => !v)
+  }
+
+  async onLogout(): Promise<void> {
+    try {
+      // TODO: Call auth service logout
+      this.showUserMenu.set(false)
+      await this.router.navigate(['/login'])
+    } catch (error) {
+      console.error('Error logging out:', error)
+    }
   }
 
   // Event handlers

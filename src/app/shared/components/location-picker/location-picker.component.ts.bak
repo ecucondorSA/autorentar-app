@@ -1,0 +1,140 @@
+import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, Output, computed, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+
+interface LocationSuggestion {
+  id: string;
+  city: string;
+  country?: string | null;
+}
+
+interface SelectedLocation {
+  lat: number;
+  lng: number;
+  city?: string | null;
+  country?: string | null;
+}
+
+@Component({
+  selector: 'app-location-picker',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  template: `
+    <div class="location-picker">
+      <input
+        data-testid="location-search"
+        type="search"
+        placeholder="Buscar ciudad"
+        [(ngModel)]="query"
+        (input)="onQueryChange()"
+      />
+
+      <button data-testid="current-location-button" type="button" (click)="useCurrentLocation()">
+        Usar mi ubicación
+      </button>
+
+      <div *ngIf="suggestions().length" data-testid="location-suggestions" class="suggestions">
+        <button
+          type="button"
+          data-testid="location-suggestion"
+          *ngFor="let suggestion of suggestions()"
+          (click)="selectSuggestion(suggestion)"
+        >
+          {{ suggestion.city }}, {{ suggestion.country || 'Argentina' }}
+        </button>
+      </div>
+
+      <section data-testid="map-container" class="map">
+        <div *ngIf="selectedLocation()" data-testid="location-marker">
+          📍 {{ selectedLocation()?.city }}
+        </div>
+      </section>
+
+      <button
+        data-testid="confirm-location-button"
+        type="button"
+        [disabled]="!selectedLocation()"
+        (click)="confirmSelection()"
+      >
+        Confirmar
+      </button>
+    </div>
+  `,
+  styles: [
+    `
+    .location-picker {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .suggestions {
+      display: grid;
+      gap: 0.5rem;
+      background: #f8fafc;
+      border-radius: 0.75rem;
+      padding: 0.75rem;
+    }
+
+    .map {
+      min-height: 160px;
+      border-radius: 1rem;
+      border: 1px dashed #cbd5f5;
+      display: grid;
+      place-items: center;
+      background: #f1f5f9;
+    }
+    `,
+  ],
+})
+export class LocationPickerComponent {
+  @Output() readonly locationSelected = new EventEmitter<SelectedLocation>();
+
+  query = '';
+  readonly suggestions = signal<LocationSuggestion[]>([]);
+  readonly selectedLocation = signal<SelectedLocation | null>(null);
+
+  readonly hasQuery = computed(() => this.query.trim().length > 2);
+
+  onQueryChange(): void {
+    if (!this.hasQuery()) {
+      this.suggestions.set([]);
+      return;
+    }
+
+    const city = this.query.trim();
+    this.suggestions.set([
+      { id: 'suggestion', city, country: 'Argentina' },
+    ]);
+  }
+
+  selectSuggestion(suggestion: LocationSuggestion): void {
+    const location: SelectedLocation = {
+      lat: -34.603722,
+      lng: -58.381592,
+      city: suggestion.city,
+      country: suggestion.country,
+    };
+    this.selectedLocation.set(location);
+    this.locationSelected.emit(location);
+    this.suggestions.set([]);
+  }
+
+  useCurrentLocation(): void {
+    const current: SelectedLocation = {
+      lat: -34.603722,
+      lng: -58.381592,
+      city: 'Buenos Aires',
+      country: 'Argentina',
+    };
+    this.selectedLocation.set(current);
+    this.locationSelected.emit(current);
+  }
+
+  confirmSelection(): void {
+    const selection = this.selectedLocation();
+    if (!selection) {
+      return;
+    }
+    this.locationSelected.emit(selection);
+  }
+}

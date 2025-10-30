@@ -93,8 +93,8 @@ describe('ClaimsListComponent (TDD)', () => {
     spyOn(component.viewClaim, 'emit')
     fixture.detectChanges()
 
-    const card = compiled.querySelector('[data-testid="claim-card"]')
-    card.click()
+    const card = compiled.querySelector('[data-testid="claim-card"]') as HTMLElement | null
+    card?.click()
 
     expect(component.viewClaim.emit).toHaveBeenCalledWith('1')
   })

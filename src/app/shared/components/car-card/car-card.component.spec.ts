@@ -59,9 +59,9 @@ describe('CarCardComponent (TDD)', () => {
   it('should display car image', () => {
     component.car = testCar
     fixture.detectChanges()
-    const img = compiled.querySelector('img[data-testid="car-image"]')!
+    const img = compiled.querySelector('img[data-testid="car-image"]') as HTMLImageElement | null
     expect(img).toBeTruthy()
-    expect(img.src).toContain('car.jpg')
+    expect((img as HTMLImageElement).src).toContain('car.jpg')
   })
 
   it('should display car title (brand + model)', () => {

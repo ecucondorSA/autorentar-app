@@ -57,7 +57,7 @@ describe('WithdrawalFormComponent (TDD)', () => {
     amountControl?.setValue(-100)
 
     expect(amountControl?.errors).toBeTruthy()
-    expect(amountControl?.errors?.min).toBeTruthy()
+    expect(amountControl?.errors?.['min']).toBeTruthy()
   })
 
   it('should validate amount does not exceed available balance', () => {
@@ -67,7 +67,7 @@ describe('WithdrawalFormComponent (TDD)', () => {
 
     fixture.detectChanges()
 
-    expect(component.withdrawalForm.errors?.insufficientFunds).toBeTruthy()
+    expect(component.withdrawalForm.errors?.['insufficientFunds']).toBeTruthy()
   })
 
   it('should disable submit when form invalid', () => {
@@ -77,7 +77,7 @@ describe('WithdrawalFormComponent (TDD)', () => {
     })
     fixture.detectChanges()
 
-    const submitBtn = compiled.querySelector('[data-testid="submit-button"]')!
+    const submitBtn = compiled.querySelector('[data-testid="submit-button"]') as HTMLButtonElement | null
     expect(submitBtn?.disabled).toBeTruthy()
   })
 
@@ -91,8 +91,8 @@ describe('WithdrawalFormComponent (TDD)', () => {
     })
     fixture.detectChanges()
 
-    const form = compiled.querySelector('form[data-testid="withdrawal-form"]')
-    form.dispatchEvent(new Event('submit'))
+    const form = compiled.querySelector('form[data-testid="withdrawal-form"]') as HTMLFormElement | null as HTMLFormElement | null
+    form?.dispatchEvent(new Event('submit'))
 
     expect(component.withdraw.emit).toHaveBeenCalled()
   })

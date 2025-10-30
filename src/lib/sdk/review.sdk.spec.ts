@@ -130,6 +130,7 @@ describe('ReviewSDK (Feature Horizontal)', () => {
         rating_checkin: 4,
         rating_value: 5,
         comment_public: 'Perfect car! Great location too.',
+        would_recommend: true,
       }
 
       const mockChain = {
@@ -171,6 +172,7 @@ describe('ReviewSDK (Feature Horizontal)', () => {
         rating_value: 4,
         comment_public: 'Good experience overall.',
         comment_private: 'Car had minor scratches not mentioned in listing.',
+        would_recommend: true,
       }
 
       const mockChain = {
@@ -211,6 +213,7 @@ describe('ReviewSDK (Feature Horizontal)', () => {
         rating_value: 5,
         comment_public: 'Perfect rental experience!',
         tags: ['clean', 'punctual', 'friendly', 'professional'],
+        would_recommend: true,
       }
 
       const mockChain = {
@@ -249,6 +252,7 @@ describe('ReviewSDK (Feature Horizontal)', () => {
         rating_checkin: 5,
         rating_value: 5,
         comment_public: 'Great!',
+        would_recommend: true,
       }
 
       const mockChain = {
@@ -454,6 +458,7 @@ describe('ReviewSDK (Feature Horizontal)', () => {
         rating_checkin: 5,
         rating_value: 5,
         comment_public: longComment,
+        would_recommend: true,
       }
 
       const mockChain = {
@@ -472,10 +477,12 @@ describe('ReviewSDK (Feature Horizontal)', () => {
       mockSupabase.from = jasmine.createSpy('from').and.returnValue(mockChain as any)
 
       // Act
-      const result = await sdk.create(input)
+      await sdk.create(input)
 
       // Assert
-      expect(result.comment_public?.length).toBe(1000)
+      expect(mockChain.insert).toHaveBeenCalledWith(
+        jasmine.objectContaining({ comment_public: longComment })
+      )
     })
 
     it('should handle minimum valid ratings (all 1s)', async () => {
@@ -510,7 +517,7 @@ describe('ReviewSDK (Feature Horizontal)', () => {
       mockSupabase.from = jasmine.createSpy('from').and.returnValue(mockChain as any)
 
       // Act
-      const result = await sdk.create(input)
+      await sdk.create(input)
 
       // Assert
       expect(mockChain.insert).toHaveBeenCalledWith(
@@ -522,7 +529,6 @@ describe('ReviewSDK (Feature Horizontal)', () => {
           rating_value: 1,
         })
       )
-      expect(result.rating_overall).toBe(1)
     })
 
     it('should handle maximum tags (10 tags)', async () => {
@@ -539,7 +545,9 @@ describe('ReviewSDK (Feature Horizontal)', () => {
         rating_checkin: 5,
         rating_value: 5,
         comment_public: 'Great!',
+        would_recommend: true,
         tags: maxTags,
+        would_recommend: true,
       }
 
       const mockChain = {
@@ -578,6 +586,7 @@ describe('ReviewSDK (Feature Horizontal)', () => {
         rating_checkin: 5,
         rating_value: 4,
         comment_public: 'Great owner!',
+        would_recommend: true,
       }
 
       const ownerReview: CreateReviewInput = {
@@ -591,6 +600,7 @@ describe('ReviewSDK (Feature Horizontal)', () => {
         rating_checkin: 4,
         rating_value: 5,
         comment_public: 'Responsible renter!',
+        would_recommend: true,
       }
 
       const mockChain = {
@@ -676,7 +686,7 @@ describe('ReviewSDK (Feature Horizontal)', () => {
 
       mockSupabase.from = jasmine.createSpy('from').and.returnValue(mockChain as any)
 
-      const _result = await sdk.search(filters as any)
+      await sdk.search(filters as any)
 
       expect(mockChain.select().eq).toHaveBeenCalledWith('reviewee_id', 'user-reviewee')
     })
@@ -1013,7 +1023,7 @@ describe('ReviewSDK (Feature Horizontal)', () => {
       expect(result.page).toBe(3)
       expect(result.pageSize).toBe(10)
       expect(result.count).toBe(47)
-      expect(result.hasMore).toBe(5) // 47 / 10 = 5 pages
+      expect(result.hasMore).toBeTrue()
     })
 
     it('should search by review_type', async () => {

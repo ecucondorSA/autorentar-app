@@ -56,7 +56,7 @@ describe('AvailabilityCalendarComponent (TDD)', () => {
   it('should emit date selection', () => {
     spyOn(component.dateSelected, 'emit')
 
-    const day = compiled.querySelector('[data-testid="calendar-day"]')
+    const day = compiled.querySelector('[data-testid="calendar-day"]') as HTMLElement | null
     day?.click()
 
     expect(component.dateSelected.emit).toHaveBeenCalled()

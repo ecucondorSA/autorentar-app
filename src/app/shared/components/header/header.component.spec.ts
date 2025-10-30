@@ -53,8 +53,8 @@ describe('HeaderComponent (TDD)', () => {
     fixture.detectChanges()
 
     spyOn(component, 'goToLogin')
-    const btn = compiled.querySelector('ion-button[data-testid="login-button"]')
-    btn.click()
+    const btn = compiled.querySelector('ion-button[data-testid="login-button"]') as HTMLElement | null
+    (btn as HTMLElement)?.click()
 
     expect(component.goToLogin).toHaveBeenCalled()
   })

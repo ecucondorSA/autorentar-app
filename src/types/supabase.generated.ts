@@ -6,7 +6,7 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
-export type Database = {
+export interface Database {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
@@ -10038,7 +10038,7 @@ export type Database = {
       st_geomfromewkt: { Args: { "": string }; Returns: unknown }
       st_geomfromgeojson:
         | { Args: { "": Json }; Returns: unknown }
-        | { Args: { "": Json }; Returns: unknown }
+         
         | { Args: { "": string }; Returns: unknown }
       st_geomfromgml: { Args: { "": string }; Returns: unknown }
       st_geomfromkml: { Args: { "": string }; Returns: unknown }
@@ -10995,5 +10995,3 @@ export const Constants = {
     },
   },
 } as const
-A new version of Supabase CLI is available: v2.54.11 (currently installed v2.48.3)
-We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli

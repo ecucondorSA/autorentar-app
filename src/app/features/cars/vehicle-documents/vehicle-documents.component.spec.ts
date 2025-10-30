@@ -67,7 +67,7 @@ describe('VehicleDocumentsComponent (TDD)', () => {
     spyOn(component.deleteDocument, 'emit')
     fixture.detectChanges()
 
-    const deleteBtn = compiled.querySelector('[data-testid="delete-document-button"]')
+    const deleteBtn = compiled.querySelector('[data-testid="delete-document-button"]') as HTMLElement | null
     deleteBtn?.click()
 
     expect(component.deleteDocument.emit).toHaveBeenCalledWith('1')

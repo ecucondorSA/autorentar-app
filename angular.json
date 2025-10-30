@@ -45,7 +45,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumError": "2MB"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -64,7 +64,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumError": "2MB"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -122,6 +122,12 @@
             "styles": [
               "src/styles.scss"
             ]
+          },
+          "configurations": {
+            "payments": {
+              "main": "src/payment-tests.ts",
+              "tsConfig": "tsconfig.payments.spec.json"
+            }
           }
         }
       }

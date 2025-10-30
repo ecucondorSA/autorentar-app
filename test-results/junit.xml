@@ -1,0 +1,1462 @@
+<testsuites id="" name="" tests="50" failures="50" skipped="0" errors="0" time="49.197506999999995">
+<testsuite name="chat-locatario-locador.spec.ts" timestamp="2025-10-30T21:14:10.681Z" hostname="chromium" tests="10" failures="10" skipped="0" time="0.09" errors="0">
+<testcase name="Chat Locatario-Locador E2E › Locatario envía mensaje al locador sobre disponibilidad del auto" classname="chat-locatario-locador.spec.ts" time="0.01">
+<failure message="chat-locatario-locador.spec.ts:46:7 Locatario envía mensaje al locador sobre disponibilidad del auto" type="FAILURE">
+<![CDATA[  [chromium] › chat-locatario-locador.spec.ts:46:7 › Chat Locatario-Locador E2E › Locatario envía mensaje al locador sobre disponibilidad del auto 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/chromium_headless_shell-1194/chrome-linux/headless_shell
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-cba37-bre-disponibilidad-del-auto-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-cba37-bre-disponibilidad-del-auto-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-cba37-bre-disponibilidad-del-auto-chromium/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat Locatario-Locador E2E › Locador recibe notificación y responde al locatario" classname="chat-locatario-locador.spec.ts" time="0.013">
+<failure message="chat-locatario-locador.spec.ts:98:7 Locador recibe notificación y responde al locatario" type="FAILURE">
+<![CDATA[  [chromium] › chat-locatario-locador.spec.ts:98:7 › Chat Locatario-Locador E2E › Locador recibe notificación y responde al locatario 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/chromium_headless_shell-1194/chrome-linux/headless_shell
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-9d723-ión-y-responde-al-locatario-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-9d723-ión-y-responde-al-locatario-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-9d723-ión-y-responde-al-locatario-chromium/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat Locatario-Locador E2E › Conversación completa con múltiples mensajes" classname="chat-locatario-locador.spec.ts" time="0.008">
+<failure message="chat-locatario-locador.spec.ts:153:7 Conversación completa con múltiples mensajes" type="FAILURE">
+<![CDATA[  [chromium] › chat-locatario-locador.spec.ts:153:7 › Chat Locatario-Locador E2E › Conversación completa con múltiples mensajes 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/chromium_headless_shell-1194/chrome-linux/headless_shell
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-03aa0-leta-con-múltiples-mensajes-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-03aa0-leta-con-múltiples-mensajes-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-03aa0-leta-con-múltiples-mensajes-chromium/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat Locatario-Locador E2E › Marcar mensajes como leídos" classname="chat-locatario-locador.spec.ts" time="0.01">
+<failure message="chat-locatario-locador.spec.ts:192:7 Marcar mensajes como leídos" type="FAILURE">
+<![CDATA[  [chromium] › chat-locatario-locador.spec.ts:192:7 › Chat Locatario-Locador E2E › Marcar mensajes como leídos 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/chromium_headless_shell-1194/chrome-linux/headless_shell
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-5f42c-Marcar-mensajes-como-leídos-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-5f42c-Marcar-mensajes-como-leídos-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-5f42c-Marcar-mensajes-como-leídos-chromium/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat Locatario-Locador E2E › Conversación asociada a booking específico" classname="chat-locatario-locador.spec.ts" time="0.009">
+<failure message="chat-locatario-locador.spec.ts:229:7 Conversación asociada a booking específico" type="FAILURE">
+<![CDATA[  [chromium] › chat-locatario-locador.spec.ts:229:7 › Chat Locatario-Locador E2E › Conversación asociada a booking específico 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/chromium_headless_shell-1194/chrome-linux/headless_shell
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-9c318-ociada-a-booking-específico-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-9c318-ociada-a-booking-específico-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-9c318-ociada-a-booking-específico-chromium/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat Locatario-Locador E2E › Push notifications se envían correctamente" classname="chat-locatario-locador.spec.ts" time="0.008">
+<failure message="chat-locatario-locador.spec.ts:266:7 Push notifications se envían correctamente" type="FAILURE">
+<![CDATA[  [chromium] › chat-locatario-locador.spec.ts:266:7 › Chat Locatario-Locador E2E › Push notifications se envían correctamente 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/chromium_headless_shell-1194/chrome-linux/headless_shell
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-e4f4d-ons-se-envían-correctamente-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-e4f4d-ons-se-envían-correctamente-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-e4f4d-ons-se-envían-correctamente-chromium/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat - Validaciones y Edge Cases › No se puede enviar mensaje vacío" classname="chat-locatario-locador.spec.ts" time="0.008">
+<failure message="chat-locatario-locador.spec.ts:297:7 No se puede enviar mensaje vacío" type="FAILURE">
+<![CDATA[  [chromium] › chat-locatario-locador.spec.ts:297:7 › Chat - Validaciones y Edge Cases › No se puede enviar mensaje vacío 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/chromium_headless_shell-1194/chrome-linux/headless_shell
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-b6d7e--puede-enviar-mensaje-vacío-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-b6d7e--puede-enviar-mensaje-vacío-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-b6d7e--puede-enviar-mensaje-vacío-chromium/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat - Validaciones y Edge Cases › Mensaje muy largo se trunca o muestra advertencia" classname="chat-locatario-locador.spec.ts" time="0.008">
+<failure message="chat-locatario-locador.spec.ts:316:7 Mensaje muy largo se trunca o muestra advertencia" type="FAILURE">
+<![CDATA[  [chromium] › chat-locatario-locador.spec.ts:316:7 › Chat - Validaciones y Edge Cases › Mensaje muy largo se trunca o muestra advertencia 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/chromium_headless_shell-1194/chrome-linux/headless_shell
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-04990-runca-o-muestra-advertencia-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-04990-runca-o-muestra-advertencia-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-04990-runca-o-muestra-advertencia-chromium/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat - Validaciones y Edge Cases › Usuario no autenticado no puede enviar mensajes" classname="chat-locatario-locador.spec.ts" time="0.008">
+<failure message="chat-locatario-locador.spec.ts:342:7 Usuario no autenticado no puede enviar mensajes" type="FAILURE">
+<![CDATA[  [chromium] › chat-locatario-locador.spec.ts:342:7 › Chat - Validaciones y Edge Cases › Usuario no autenticado no puede enviar mensajes 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/chromium_headless_shell-1194/chrome-linux/headless_shell
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-38b38-do-no-puede-enviar-mensajes-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-38b38-do-no-puede-enviar-mensajes-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-38b38-do-no-puede-enviar-mensajes-chromium/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat - Performance › Cargar conversación con 100+ mensajes" classname="chat-locatario-locador.spec.ts" time="0.008">
+<failure message="chat-locatario-locador.spec.ts:357:7 Cargar conversación con 100+ mensajes" type="FAILURE">
+<![CDATA[  [chromium] › chat-locatario-locador.spec.ts:357:7 › Chat - Performance › Cargar conversación con 100+ mensajes 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/chromium_headless_shell-1194/chrome-linux/headless_shell
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-357a9-nversación-con-100-mensajes-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-357a9-nversación-con-100-mensajes-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-357a9-nversación-con-100-mensajes-chromium/trace.zip]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="chat-locatario-locador.spec.ts" timestamp="2025-10-30T21:14:10.681Z" hostname="firefox" tests="10" failures="10" skipped="0" time="0.147" errors="0">
+<testcase name="Chat Locatario-Locador E2E › Locatario envía mensaje al locador sobre disponibilidad del auto" classname="chat-locatario-locador.spec.ts" time="0.008">
+<failure message="chat-locatario-locador.spec.ts:46:7 Locatario envía mensaje al locador sobre disponibilidad del auto" type="FAILURE">
+<![CDATA[  [firefox] › chat-locatario-locador.spec.ts:46:7 › Chat Locatario-Locador E2E › Locatario envía mensaje al locador sobre disponibilidad del auto 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/firefox-1495/firefox/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-cba37-bre-disponibilidad-del-auto-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-cba37-bre-disponibilidad-del-auto-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-cba37-bre-disponibilidad-del-auto-firefox/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat Locatario-Locador E2E › Locador recibe notificación y responde al locatario" classname="chat-locatario-locador.spec.ts" time="0.008">
+<failure message="chat-locatario-locador.spec.ts:98:7 Locador recibe notificación y responde al locatario" type="FAILURE">
+<![CDATA[  [firefox] › chat-locatario-locador.spec.ts:98:7 › Chat Locatario-Locador E2E › Locador recibe notificación y responde al locatario 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/firefox-1495/firefox/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-9d723-ión-y-responde-al-locatario-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-9d723-ión-y-responde-al-locatario-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-9d723-ión-y-responde-al-locatario-firefox/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat Locatario-Locador E2E › Conversación completa con múltiples mensajes" classname="chat-locatario-locador.spec.ts" time="0.008">
+<failure message="chat-locatario-locador.spec.ts:153:7 Conversación completa con múltiples mensajes" type="FAILURE">
+<![CDATA[  [firefox] › chat-locatario-locador.spec.ts:153:7 › Chat Locatario-Locador E2E › Conversación completa con múltiples mensajes 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/firefox-1495/firefox/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-03aa0-leta-con-múltiples-mensajes-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-03aa0-leta-con-múltiples-mensajes-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-03aa0-leta-con-múltiples-mensajes-firefox/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat Locatario-Locador E2E › Marcar mensajes como leídos" classname="chat-locatario-locador.spec.ts" time="0.008">
+<failure message="chat-locatario-locador.spec.ts:192:7 Marcar mensajes como leídos" type="FAILURE">
+<![CDATA[  [firefox] › chat-locatario-locador.spec.ts:192:7 › Chat Locatario-Locador E2E › Marcar mensajes como leídos 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/firefox-1495/firefox/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-5f42c-Marcar-mensajes-como-leídos-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-5f42c-Marcar-mensajes-como-leídos-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-5f42c-Marcar-mensajes-como-leídos-firefox/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat Locatario-Locador E2E › Conversación asociada a booking específico" classname="chat-locatario-locador.spec.ts" time="0.009">
+<failure message="chat-locatario-locador.spec.ts:229:7 Conversación asociada a booking específico" type="FAILURE">
+<![CDATA[  [firefox] › chat-locatario-locador.spec.ts:229:7 › Chat Locatario-Locador E2E › Conversación asociada a booking específico 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/firefox-1495/firefox/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-9c318-ociada-a-booking-específico-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-9c318-ociada-a-booking-específico-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-9c318-ociada-a-booking-específico-firefox/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat Locatario-Locador E2E › Push notifications se envían correctamente" classname="chat-locatario-locador.spec.ts" time="0.01">
+<failure message="chat-locatario-locador.spec.ts:266:7 Push notifications se envían correctamente" type="FAILURE">
+<![CDATA[  [firefox] › chat-locatario-locador.spec.ts:266:7 › Chat Locatario-Locador E2E › Push notifications se envían correctamente 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/firefox-1495/firefox/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-e4f4d-ons-se-envían-correctamente-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-e4f4d-ons-se-envían-correctamente-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-e4f4d-ons-se-envían-correctamente-firefox/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat - Validaciones y Edge Cases › No se puede enviar mensaje vacío" classname="chat-locatario-locador.spec.ts" time="0.028">
+<failure message="chat-locatario-locador.spec.ts:297:7 No se puede enviar mensaje vacío" type="FAILURE">
+<![CDATA[  [firefox] › chat-locatario-locador.spec.ts:297:7 › Chat - Validaciones y Edge Cases › No se puede enviar mensaje vacío 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/firefox-1495/firefox/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-b6d7e--puede-enviar-mensaje-vacío-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-b6d7e--puede-enviar-mensaje-vacío-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-b6d7e--puede-enviar-mensaje-vacío-firefox/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat - Validaciones y Edge Cases › Mensaje muy largo se trunca o muestra advertencia" classname="chat-locatario-locador.spec.ts" time="0.051">
+<failure message="chat-locatario-locador.spec.ts:316:7 Mensaje muy largo se trunca o muestra advertencia" type="FAILURE">
+<![CDATA[  [firefox] › chat-locatario-locador.spec.ts:316:7 › Chat - Validaciones y Edge Cases › Mensaje muy largo se trunca o muestra advertencia 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/firefox-1495/firefox/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-04990-runca-o-muestra-advertencia-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-04990-runca-o-muestra-advertencia-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-04990-runca-o-muestra-advertencia-firefox/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat - Validaciones y Edge Cases › Usuario no autenticado no puede enviar mensajes" classname="chat-locatario-locador.spec.ts" time="0.008">
+<failure message="chat-locatario-locador.spec.ts:342:7 Usuario no autenticado no puede enviar mensajes" type="FAILURE">
+<![CDATA[  [firefox] › chat-locatario-locador.spec.ts:342:7 › Chat - Validaciones y Edge Cases › Usuario no autenticado no puede enviar mensajes 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/firefox-1495/firefox/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-38b38-do-no-puede-enviar-mensajes-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-38b38-do-no-puede-enviar-mensajes-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-38b38-do-no-puede-enviar-mensajes-firefox/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat - Performance › Cargar conversación con 100+ mensajes" classname="chat-locatario-locador.spec.ts" time="0.009">
+<failure message="chat-locatario-locador.spec.ts:357:7 Cargar conversación con 100+ mensajes" type="FAILURE">
+<![CDATA[  [firefox] › chat-locatario-locador.spec.ts:357:7 › Chat - Performance › Cargar conversación con 100+ mensajes 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/firefox-1495/firefox/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-357a9-nversación-con-100-mensajes-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-357a9-nversación-con-100-mensajes-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-357a9-nversación-con-100-mensajes-firefox/trace.zip]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="chat-locatario-locador.spec.ts" timestamp="2025-10-30T21:14:10.681Z" hostname="webkit" tests="10" failures="10" skipped="0" time="0.097" errors="0">
+<testcase name="Chat Locatario-Locador E2E › Locatario envía mensaje al locador sobre disponibilidad del auto" classname="chat-locatario-locador.spec.ts" time="0.009">
+<failure message="chat-locatario-locador.spec.ts:46:7 Locatario envía mensaje al locador sobre disponibilidad del auto" type="FAILURE">
+<![CDATA[  [webkit] › chat-locatario-locador.spec.ts:46:7 › Chat Locatario-Locador E2E › Locatario envía mensaje al locador sobre disponibilidad del auto 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/webkit-2215/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-cba37-bre-disponibilidad-del-auto-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-cba37-bre-disponibilidad-del-auto-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-cba37-bre-disponibilidad-del-auto-webkit/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat Locatario-Locador E2E › Locador recibe notificación y responde al locatario" classname="chat-locatario-locador.spec.ts" time="0.011">
+<failure message="chat-locatario-locador.spec.ts:98:7 Locador recibe notificación y responde al locatario" type="FAILURE">
+<![CDATA[  [webkit] › chat-locatario-locador.spec.ts:98:7 › Chat Locatario-Locador E2E › Locador recibe notificación y responde al locatario 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/webkit-2215/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-9d723-ión-y-responde-al-locatario-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-9d723-ión-y-responde-al-locatario-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-9d723-ión-y-responde-al-locatario-webkit/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat Locatario-Locador E2E › Conversación completa con múltiples mensajes" classname="chat-locatario-locador.spec.ts" time="0.007">
+<failure message="chat-locatario-locador.spec.ts:153:7 Conversación completa con múltiples mensajes" type="FAILURE">
+<![CDATA[  [webkit] › chat-locatario-locador.spec.ts:153:7 › Chat Locatario-Locador E2E › Conversación completa con múltiples mensajes 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/webkit-2215/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-03aa0-leta-con-múltiples-mensajes-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-03aa0-leta-con-múltiples-mensajes-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-03aa0-leta-con-múltiples-mensajes-webkit/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat Locatario-Locador E2E › Marcar mensajes como leídos" classname="chat-locatario-locador.spec.ts" time="0.008">
+<failure message="chat-locatario-locador.spec.ts:192:7 Marcar mensajes como leídos" type="FAILURE">
+<![CDATA[  [webkit] › chat-locatario-locador.spec.ts:192:7 › Chat Locatario-Locador E2E › Marcar mensajes como leídos 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/webkit-2215/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-5f42c-Marcar-mensajes-como-leídos-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-5f42c-Marcar-mensajes-como-leídos-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-5f42c-Marcar-mensajes-como-leídos-webkit/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat Locatario-Locador E2E › Conversación asociada a booking específico" classname="chat-locatario-locador.spec.ts" time="0.009">
+<failure message="chat-locatario-locador.spec.ts:229:7 Conversación asociada a booking específico" type="FAILURE">
+<![CDATA[  [webkit] › chat-locatario-locador.spec.ts:229:7 › Chat Locatario-Locador E2E › Conversación asociada a booking específico 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/webkit-2215/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-9c318-ociada-a-booking-específico-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-9c318-ociada-a-booking-específico-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-9c318-ociada-a-booking-específico-webkit/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat Locatario-Locador E2E › Push notifications se envían correctamente" classname="chat-locatario-locador.spec.ts" time="0.009">
+<failure message="chat-locatario-locador.spec.ts:266:7 Push notifications se envían correctamente" type="FAILURE">
+<![CDATA[  [webkit] › chat-locatario-locador.spec.ts:266:7 › Chat Locatario-Locador E2E › Push notifications se envían correctamente 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/webkit-2215/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-e4f4d-ons-se-envían-correctamente-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-e4f4d-ons-se-envían-correctamente-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-e4f4d-ons-se-envían-correctamente-webkit/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat - Validaciones y Edge Cases › No se puede enviar mensaje vacío" classname="chat-locatario-locador.spec.ts" time="0.012">
+<failure message="chat-locatario-locador.spec.ts:297:7 No se puede enviar mensaje vacío" type="FAILURE">
+<![CDATA[  [webkit] › chat-locatario-locador.spec.ts:297:7 › Chat - Validaciones y Edge Cases › No se puede enviar mensaje vacío 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/webkit-2215/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-b6d7e--puede-enviar-mensaje-vacío-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-b6d7e--puede-enviar-mensaje-vacío-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-b6d7e--puede-enviar-mensaje-vacío-webkit/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat - Validaciones y Edge Cases › Mensaje muy largo se trunca o muestra advertencia" classname="chat-locatario-locador.spec.ts" time="0.009">
+<failure message="chat-locatario-locador.spec.ts:316:7 Mensaje muy largo se trunca o muestra advertencia" type="FAILURE">
+<![CDATA[  [webkit] › chat-locatario-locador.spec.ts:316:7 › Chat - Validaciones y Edge Cases › Mensaje muy largo se trunca o muestra advertencia 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/webkit-2215/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-04990-runca-o-muestra-advertencia-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-04990-runca-o-muestra-advertencia-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-04990-runca-o-muestra-advertencia-webkit/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat - Validaciones y Edge Cases › Usuario no autenticado no puede enviar mensajes" classname="chat-locatario-locador.spec.ts" time="0.01">
+<failure message="chat-locatario-locador.spec.ts:342:7 Usuario no autenticado no puede enviar mensajes" type="FAILURE">
+<![CDATA[  [webkit] › chat-locatario-locador.spec.ts:342:7 › Chat - Validaciones y Edge Cases › Usuario no autenticado no puede enviar mensajes 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/webkit-2215/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-38b38-do-no-puede-enviar-mensajes-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-38b38-do-no-puede-enviar-mensajes-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-38b38-do-no-puede-enviar-mensajes-webkit/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat - Performance › Cargar conversación con 100+ mensajes" classname="chat-locatario-locador.spec.ts" time="0.013">
+<failure message="chat-locatario-locador.spec.ts:357:7 Cargar conversación con 100+ mensajes" type="FAILURE">
+<![CDATA[  [webkit] › chat-locatario-locador.spec.ts:357:7 › Chat - Performance › Cargar conversación con 100+ mensajes 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/webkit-2215/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-357a9-nversación-con-100-mensajes-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-357a9-nversación-con-100-mensajes-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-357a9-nversación-con-100-mensajes-webkit/trace.zip]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="chat-locatario-locador.spec.ts" timestamp="2025-10-30T21:14:10.681Z" hostname="Mobile Chrome" tests="10" failures="10" skipped="0" time="0.199" errors="0">
+<testcase name="Chat Locatario-Locador E2E › Locatario envía mensaje al locador sobre disponibilidad del auto" classname="chat-locatario-locador.spec.ts" time="0.014">
+<failure message="chat-locatario-locador.spec.ts:46:7 Locatario envía mensaje al locador sobre disponibilidad del auto" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › chat-locatario-locador.spec.ts:46:7 › Chat Locatario-Locador E2E › Locatario envía mensaje al locador sobre disponibilidad del auto 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/chromium_headless_shell-1194/chrome-linux/headless_shell
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-cba37-bre-disponibilidad-del-auto-Mobile-Chrome/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-cba37-bre-disponibilidad-del-auto-Mobile-Chrome/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-cba37-bre-disponibilidad-del-auto-Mobile-Chrome/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat Locatario-Locador E2E › Locador recibe notificación y responde al locatario" classname="chat-locatario-locador.spec.ts" time="0.009">
+<failure message="chat-locatario-locador.spec.ts:98:7 Locador recibe notificación y responde al locatario" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › chat-locatario-locador.spec.ts:98:7 › Chat Locatario-Locador E2E › Locador recibe notificación y responde al locatario 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/chromium_headless_shell-1194/chrome-linux/headless_shell
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-9d723-ión-y-responde-al-locatario-Mobile-Chrome/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-9d723-ión-y-responde-al-locatario-Mobile-Chrome/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-9d723-ión-y-responde-al-locatario-Mobile-Chrome/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat Locatario-Locador E2E › Conversación completa con múltiples mensajes" classname="chat-locatario-locador.spec.ts" time="0.038">
+<failure message="chat-locatario-locador.spec.ts:153:7 Conversación completa con múltiples mensajes" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › chat-locatario-locador.spec.ts:153:7 › Chat Locatario-Locador E2E › Conversación completa con múltiples mensajes 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/chromium_headless_shell-1194/chrome-linux/headless_shell
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-03aa0-leta-con-múltiples-mensajes-Mobile-Chrome/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-03aa0-leta-con-múltiples-mensajes-Mobile-Chrome/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-03aa0-leta-con-múltiples-mensajes-Mobile-Chrome/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat Locatario-Locador E2E › Marcar mensajes como leídos" classname="chat-locatario-locador.spec.ts" time="0.017">
+<failure message="chat-locatario-locador.spec.ts:192:7 Marcar mensajes como leídos" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › chat-locatario-locador.spec.ts:192:7 › Chat Locatario-Locador E2E › Marcar mensajes como leídos 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/chromium_headless_shell-1194/chrome-linux/headless_shell
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-5f42c-Marcar-mensajes-como-leídos-Mobile-Chrome/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-5f42c-Marcar-mensajes-como-leídos-Mobile-Chrome/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-5f42c-Marcar-mensajes-como-leídos-Mobile-Chrome/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat Locatario-Locador E2E › Conversación asociada a booking específico" classname="chat-locatario-locador.spec.ts" time="0.035">
+<failure message="chat-locatario-locador.spec.ts:229:7 Conversación asociada a booking específico" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › chat-locatario-locador.spec.ts:229:7 › Chat Locatario-Locador E2E › Conversación asociada a booking específico 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/chromium_headless_shell-1194/chrome-linux/headless_shell
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-9c318-ociada-a-booking-específico-Mobile-Chrome/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-9c318-ociada-a-booking-específico-Mobile-Chrome/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-9c318-ociada-a-booking-específico-Mobile-Chrome/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat Locatario-Locador E2E › Push notifications se envían correctamente" classname="chat-locatario-locador.spec.ts" time="0.022">
+<failure message="chat-locatario-locador.spec.ts:266:7 Push notifications se envían correctamente" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › chat-locatario-locador.spec.ts:266:7 › Chat Locatario-Locador E2E › Push notifications se envían correctamente 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/chromium_headless_shell-1194/chrome-linux/headless_shell
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-e4f4d-ons-se-envían-correctamente-Mobile-Chrome/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-e4f4d-ons-se-envían-correctamente-Mobile-Chrome/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-e4f4d-ons-se-envían-correctamente-Mobile-Chrome/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat - Validaciones y Edge Cases › No se puede enviar mensaje vacío" classname="chat-locatario-locador.spec.ts" time="0.012">
+<failure message="chat-locatario-locador.spec.ts:297:7 No se puede enviar mensaje vacío" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › chat-locatario-locador.spec.ts:297:7 › Chat - Validaciones y Edge Cases › No se puede enviar mensaje vacío 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/chromium_headless_shell-1194/chrome-linux/headless_shell
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-b6d7e--puede-enviar-mensaje-vacío-Mobile-Chrome/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-b6d7e--puede-enviar-mensaje-vacío-Mobile-Chrome/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-b6d7e--puede-enviar-mensaje-vacío-Mobile-Chrome/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat - Validaciones y Edge Cases › Mensaje muy largo se trunca o muestra advertencia" classname="chat-locatario-locador.spec.ts" time="0.016">
+<failure message="chat-locatario-locador.spec.ts:316:7 Mensaje muy largo se trunca o muestra advertencia" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › chat-locatario-locador.spec.ts:316:7 › Chat - Validaciones y Edge Cases › Mensaje muy largo se trunca o muestra advertencia 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/chromium_headless_shell-1194/chrome-linux/headless_shell
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-04990-runca-o-muestra-advertencia-Mobile-Chrome/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-04990-runca-o-muestra-advertencia-Mobile-Chrome/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-04990-runca-o-muestra-advertencia-Mobile-Chrome/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat - Validaciones y Edge Cases › Usuario no autenticado no puede enviar mensajes" classname="chat-locatario-locador.spec.ts" time="0.018">
+<failure message="chat-locatario-locador.spec.ts:342:7 Usuario no autenticado no puede enviar mensajes" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › chat-locatario-locador.spec.ts:342:7 › Chat - Validaciones y Edge Cases › Usuario no autenticado no puede enviar mensajes 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/chromium_headless_shell-1194/chrome-linux/headless_shell
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-38b38-do-no-puede-enviar-mensajes-Mobile-Chrome/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-38b38-do-no-puede-enviar-mensajes-Mobile-Chrome/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-38b38-do-no-puede-enviar-mensajes-Mobile-Chrome/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat - Performance › Cargar conversación con 100+ mensajes" classname="chat-locatario-locador.spec.ts" time="0.018">
+<failure message="chat-locatario-locador.spec.ts:357:7 Cargar conversación con 100+ mensajes" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › chat-locatario-locador.spec.ts:357:7 › Chat - Performance › Cargar conversación con 100+ mensajes 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/chromium_headless_shell-1194/chrome-linux/headless_shell
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-357a9-nversación-con-100-mensajes-Mobile-Chrome/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-357a9-nversación-con-100-mensajes-Mobile-Chrome/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-357a9-nversación-con-100-mensajes-Mobile-Chrome/trace.zip]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="chat-locatario-locador.spec.ts" timestamp="2025-10-30T21:14:10.681Z" hostname="Mobile Safari" tests="10" failures="10" skipped="0" time="0.226" errors="0">
+<testcase name="Chat Locatario-Locador E2E › Locatario envía mensaje al locador sobre disponibilidad del auto" classname="chat-locatario-locador.spec.ts" time="0.011">
+<failure message="chat-locatario-locador.spec.ts:46:7 Locatario envía mensaje al locador sobre disponibilidad del auto" type="FAILURE">
+<![CDATA[  [Mobile Safari] › chat-locatario-locador.spec.ts:46:7 › Chat Locatario-Locador E2E › Locatario envía mensaje al locador sobre disponibilidad del auto 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/webkit-2215/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-cba37-bre-disponibilidad-del-auto-Mobile-Safari/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-cba37-bre-disponibilidad-del-auto-Mobile-Safari/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-cba37-bre-disponibilidad-del-auto-Mobile-Safari/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat Locatario-Locador E2E › Locador recibe notificación y responde al locatario" classname="chat-locatario-locador.spec.ts" time="0.021">
+<failure message="chat-locatario-locador.spec.ts:98:7 Locador recibe notificación y responde al locatario" type="FAILURE">
+<![CDATA[  [Mobile Safari] › chat-locatario-locador.spec.ts:98:7 › Chat Locatario-Locador E2E › Locador recibe notificación y responde al locatario 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/webkit-2215/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-9d723-ión-y-responde-al-locatario-Mobile-Safari/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-9d723-ión-y-responde-al-locatario-Mobile-Safari/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-9d723-ión-y-responde-al-locatario-Mobile-Safari/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat Locatario-Locador E2E › Conversación completa con múltiples mensajes" classname="chat-locatario-locador.spec.ts" time="0.021">
+<failure message="chat-locatario-locador.spec.ts:153:7 Conversación completa con múltiples mensajes" type="FAILURE">
+<![CDATA[  [Mobile Safari] › chat-locatario-locador.spec.ts:153:7 › Chat Locatario-Locador E2E › Conversación completa con múltiples mensajes 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/webkit-2215/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-03aa0-leta-con-múltiples-mensajes-Mobile-Safari/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-03aa0-leta-con-múltiples-mensajes-Mobile-Safari/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-03aa0-leta-con-múltiples-mensajes-Mobile-Safari/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat Locatario-Locador E2E › Marcar mensajes como leídos" classname="chat-locatario-locador.spec.ts" time="0.026">
+<failure message="chat-locatario-locador.spec.ts:192:7 Marcar mensajes como leídos" type="FAILURE">
+<![CDATA[  [Mobile Safari] › chat-locatario-locador.spec.ts:192:7 › Chat Locatario-Locador E2E › Marcar mensajes como leídos 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/webkit-2215/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-5f42c-Marcar-mensajes-como-leídos-Mobile-Safari/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-5f42c-Marcar-mensajes-como-leídos-Mobile-Safari/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-5f42c-Marcar-mensajes-como-leídos-Mobile-Safari/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat Locatario-Locador E2E › Conversación asociada a booking específico" classname="chat-locatario-locador.spec.ts" time="0.012">
+<failure message="chat-locatario-locador.spec.ts:229:7 Conversación asociada a booking específico" type="FAILURE">
+<![CDATA[  [Mobile Safari] › chat-locatario-locador.spec.ts:229:7 › Chat Locatario-Locador E2E › Conversación asociada a booking específico 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/webkit-2215/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-9c318-ociada-a-booking-específico-Mobile-Safari/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-9c318-ociada-a-booking-específico-Mobile-Safari/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-9c318-ociada-a-booking-específico-Mobile-Safari/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat Locatario-Locador E2E › Push notifications se envían correctamente" classname="chat-locatario-locador.spec.ts" time="0.025">
+<failure message="chat-locatario-locador.spec.ts:266:7 Push notifications se envían correctamente" type="FAILURE">
+<![CDATA[  [Mobile Safari] › chat-locatario-locador.spec.ts:266:7 › Chat Locatario-Locador E2E › Push notifications se envían correctamente 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/webkit-2215/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-e4f4d-ons-se-envían-correctamente-Mobile-Safari/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-e4f4d-ons-se-envían-correctamente-Mobile-Safari/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-e4f4d-ons-se-envían-correctamente-Mobile-Safari/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat - Validaciones y Edge Cases › No se puede enviar mensaje vacío" classname="chat-locatario-locador.spec.ts" time="0.016">
+<failure message="chat-locatario-locador.spec.ts:297:7 No se puede enviar mensaje vacío" type="FAILURE">
+<![CDATA[  [Mobile Safari] › chat-locatario-locador.spec.ts:297:7 › Chat - Validaciones y Edge Cases › No se puede enviar mensaje vacío 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/webkit-2215/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-b6d7e--puede-enviar-mensaje-vacío-Mobile-Safari/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-b6d7e--puede-enviar-mensaje-vacío-Mobile-Safari/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-b6d7e--puede-enviar-mensaje-vacío-Mobile-Safari/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat - Validaciones y Edge Cases › Mensaje muy largo se trunca o muestra advertencia" classname="chat-locatario-locador.spec.ts" time="0.017">
+<failure message="chat-locatario-locador.spec.ts:316:7 Mensaje muy largo se trunca o muestra advertencia" type="FAILURE">
+<![CDATA[  [Mobile Safari] › chat-locatario-locador.spec.ts:316:7 › Chat - Validaciones y Edge Cases › Mensaje muy largo se trunca o muestra advertencia 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/webkit-2215/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-04990-runca-o-muestra-advertencia-Mobile-Safari/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-04990-runca-o-muestra-advertencia-Mobile-Safari/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-04990-runca-o-muestra-advertencia-Mobile-Safari/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat - Validaciones y Edge Cases › Usuario no autenticado no puede enviar mensajes" classname="chat-locatario-locador.spec.ts" time="0.036">
+<failure message="chat-locatario-locador.spec.ts:342:7 Usuario no autenticado no puede enviar mensajes" type="FAILURE">
+<![CDATA[  [Mobile Safari] › chat-locatario-locador.spec.ts:342:7 › Chat - Validaciones y Edge Cases › Usuario no autenticado no puede enviar mensajes 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/webkit-2215/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-38b38-do-no-puede-enviar-mensajes-Mobile-Safari/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-38b38-do-no-puede-enviar-mensajes-Mobile-Safari/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-38b38-do-no-puede-enviar-mensajes-Mobile-Safari/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Chat - Performance › Cargar conversación con 100+ mensajes" classname="chat-locatario-locador.spec.ts" time="0.041">
+<failure message="chat-locatario-locador.spec.ts:357:7 Cargar conversación con 100+ mensajes" type="FAILURE">
+<![CDATA[  [Mobile Safari] › chat-locatario-locador.spec.ts:357:7 › Chat - Performance › Cargar conversación con 100+ mensajes 
+
+    Error: browserType.launch: Executable doesn't exist at /home/edu/.cache/ms-playwright/webkit-2215/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/chat-locatario-locador-Cha-357a9-nversación-con-100-mensajes-Mobile-Safari/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/chat-locatario-locador-Cha-357a9-nversación-con-100-mensajes-Mobile-Safari/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|chat-locatario-locador-Cha-357a9-nversación-con-100-mensajes-Mobile-Safari/trace.zip]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+</testsuites>

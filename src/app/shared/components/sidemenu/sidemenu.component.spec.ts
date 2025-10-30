@@ -89,8 +89,8 @@ describe('SidemenuComponent (TDD)', () => {
     spyOn(component.logout, 'emit')
     fixture.detectChanges()
 
-    const logoutBtn = compiled.querySelector('[data-testid="logout-button"]')
-    logoutBtn?.click()
+    const logoutBtn = compiled.querySelector('[data-testid="logout-button"]') as HTMLElement | null
+    (logoutBtn as HTMLElement)?.click()
 
     expect(component.logout.emit).toHaveBeenCalled()
   })

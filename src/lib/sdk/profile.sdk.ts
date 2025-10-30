@@ -14,7 +14,7 @@ import {
   type TablesUpdate,
   parseProfile,
 } from '@/types'
-import type { ProfileInsert, ProfileUpdate, ProfileRow } from '@/types/database-helpers'
+import type { ProfileInsert } from '@/types/database-helpers'
 /**
  * Profile SDK
  * Handles all profile-related operations
@@ -94,9 +94,11 @@ export class ProfileSDK extends BaseSDK {
       // Validate input
       const validData = UpdateProfileInputSchema.parse(input)
 
+      // Granular update - only updating fields provided in validData
+      // Using 'as never' because ProfileUpdate type is too strict for partial updates
       const { data, error } = await this.supabase
         .from('profiles')
-        .update(validData as ProfileUpdate)
+        .update(validData as never)
         .eq('id', id)
         .select()
         .single()
@@ -161,12 +163,13 @@ export class ProfileSDK extends BaseSDK {
       }
 
       // Update profile with KYC data
+      // Granular update - only 2 fields changed
       const { error } = await this.supabase
         .from('profiles')
         .update({
           date_of_birth: validData.date_of_birth,
           kyc_status: 'pending',
-        } as ProfileRow)
+        } as never)
         .eq('id', validData.user_id)
         .select()
         .single()
@@ -333,9 +336,10 @@ export class ProfileSDK extends BaseSDK {
    */
   async deactivate(userId: string): Promise<void> {
     try {
+      // Granular update - only 1 field changed
       const { error } = await this.supabase
         .from('profiles')
-        .update({ is_active: false } as ProfileUpdate)
+        .update({ is_active: false } as never)
         .eq('id', userId)
         .select()
         .single()

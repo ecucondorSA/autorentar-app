@@ -14,53 +14,85 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-/* AutoRentar Custom Variables */
-:root {
-  /* Primary Color */
-  --ion-color-primary: #007bff;
-  --ion-color-primary-rgb: 0, 123, 255;
-  --ion-color-primary-contrast: #ffffff;
-  --ion-color-primary-contrast-rgb: 255, 255, 255;
-  --ion-color-primary-shade: #0056b3;
-  --ion-color-primary-tint: #3395ff;
+/* Mapbox GL CSS */
+@import 'mapbox-gl/dist/mapbox-gl.css';
 
-  /* Secondary Color */
-  --ion-color-secondary: #6c757d;
-  --ion-color-secondary-rgb: 108, 117, 125;
+/* AutoRentar Custom Variables - Premium Color Palette */
+:root {
+  /**
+   * PRIMARY: Negro Glaphorism
+   * Uso: Headers, backgrounds principales, elementos dominantes
+   * Contraste: AAA con marfil y azul celeste
+   */
+  --ion-color-primary: #1a1a1a;
+  --ion-color-primary-rgb: 26, 26, 26;
+  --ion-color-primary-contrast: #f5f1e8;
+  --ion-color-primary-contrast-rgb: 245, 241, 232;
+  --ion-color-primary-shade: #0d0d0d;
+  --ion-color-primary-tint: #2d2d2d;
+
+  /**
+   * SECONDARY: Azul Celeste Neutro
+   * Uso: Links, acciones secundarias, elementos interactivos
+   * Contraste: AAA con negro y marfil
+   */
+  --ion-color-secondary: #5b8db8;
+  --ion-color-secondary-rgb: 91, 141, 184;
   --ion-color-secondary-contrast: #ffffff;
   --ion-color-secondary-contrast-rgb: 255, 255, 255;
-  --ion-color-secondary-shade: #5a6268;
-  --ion-color-secondary-tint: #868e96;
+  --ion-color-secondary-shade: #4a7aa3;
+  --ion-color-secondary-tint: #6b9cc4;
+
+  /**
+   * TERTIARY: Marfil
+   * Uso: Backgrounds claros, cards, contrastes
+   * Contraste: AAA con negro glaphorism
+   */
+  --color-ivory: #f5f1e8;
+  --color-ivory-rgb: 245, 241, 232;
+  --color-ivory-dark: #e8e3d6;
+  --color-ivory-light: #faf8f3;
+
+  /**
+   * NEUTRAL: Gris Neutro
+   * Uso: Texto secundario, bordes, elementos deshabilitados
+   */
+  --color-gray: #9ca3af;
+  --color-gray-dark: #6b7280;
+  --color-gray-light: #d1d5db;
 
   /* Success Color */
-  --ion-color-success: #28a745;
-  --ion-color-success-rgb: 40, 167, 69;
+  --ion-color-success: #10b981;
+  --ion-color-success-rgb: 16, 185, 129;
   --ion-color-success-contrast: #ffffff;
   --ion-color-success-contrast-rgb: 255, 255, 255;
-  --ion-color-success-shade: #218838;
-  --ion-color-success-tint: #48b461;
+  --ion-color-success-shade: #059669;
+  --ion-color-success-tint: #2cc49e;
 
   /* Warning Color */
-  --ion-color-warning: #ffc107;
-  --ion-color-warning-rgb: 255, 193, 7;
-  --ion-color-warning-contrast: #000000;
-  --ion-color-warning-contrast-rgb: 0, 0, 0;
-  --ion-color-warning-shade: #e0a800;
-  --ion-color-warning-tint: #ffca2c;
+  --ion-color-warning: #f59e0b;
+  --ion-color-warning-rgb: 245, 158, 11;
+  --ion-color-warning-contrast: #ffffff;
+  --ion-color-warning-contrast-rgb: 255, 255, 255;
+  --ion-color-warning-shade: #d97706;
+  --ion-color-warning-tint: #fbbf24;
 
   /* Danger Color */
-  --ion-color-danger: #dc3545;
-  --ion-color-danger-rgb: 220, 53, 69;
+  --ion-color-danger: #ef4444;
+  --ion-color-danger-rgb: 239, 68, 68;
   --ion-color-danger-contrast: #ffffff;
   --ion-color-danger-contrast-rgb: 255, 255, 255;
-  --ion-color-danger-shade: #c82333;
-  --ion-color-danger-tint: #e4606d;
+  --ion-color-danger-shade: #dc2626;
+  --ion-color-danger-tint: #f87171;
 
   /* Custom AutoRentar Colors */
-  --color-background: #f8f9fa;
-  --color-text-primary: #212529;
-  --color-text-secondary: #6c757d;
-  --color-border: #dee2e6;
+  --color-background: #f5f1e8;
+  --color-background-secondary: #faf8f3;
+  --color-text-primary: #1a1a1a;
+  --color-text-secondary: #6b7280;
+  --color-text-light: #9ca3af;
+  --color-border: #d1d5db;
+  --color-border-light: #e5e7eb;
 
   /* Spacing */
   --spacing-xs: 0.25rem;
@@ -119,3 +151,195 @@ img {
 .p-1 { padding: var(--spacing-sm); }
 .p-2 { padding: var(--spacing-md); }
 .p-3 { padding: var(--spacing-lg); }
+
+/**
+ * ====================================
+ * AUTORENTAR THEME - SPECIFIC STYLES
+ * Color Palette: Negro Glaphorism, Marfil, Azul Celeste, Gris Neutro
+ * ====================================
+ */
+
+/* Background Colors */
+.bg-primary {
+  background-color: var(--ion-color-primary) !important;
+  color: var(--ion-color-primary-contrast) !important;
+}
+
+.bg-ivory {
+  background-color: var(--color-ivory) !important;
+  color: var(--color-text-primary) !important;
+}
+
+.bg-secondary {
+  background-color: var(--ion-color-secondary) !important;
+  color: var(--ion-color-secondary-contrast) !important;
+}
+
+.bg-gray-light {
+  background-color: var(--color-gray-light) !important;
+  color: var(--color-text-primary) !important;
+}
+
+/* Text Colors with Contrast */
+.text-primary {
+  color: var(--color-text-primary) !important;
+}
+
+.text-secondary {
+  color: var(--color-text-secondary) !important;
+}
+
+.text-light {
+  color: var(--color-text-light) !important;
+}
+
+.text-ivory {
+  color: var(--color-ivory) !important;
+}
+
+/* Button Styles */
+ion-button[color="primary"] {
+  --background: var(--ion-color-primary);
+  --color: var(--ion-color-primary-contrast);
+  --background-hover: var(--ion-color-primary-shade);
+  --background-activated: var(--ion-color-primary-shade);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+ion-button[color="secondary"] {
+  --background: var(--ion-color-secondary);
+  --color: var(--ion-color-secondary-contrast);
+  --background-hover: var(--ion-color-secondary-shade);
+  --background-activated: var(--ion-color-secondary-shade);
+}
+
+/* Card Styles with Premium Feel */
+ion-card {
+  --background: var(--color-ivory);
+  --border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(26, 26, 26, 0.12);
+  border: 1px solid var(--color-border-light);
+}
+
+ion-card-header {
+  --background: var(--ion-color-primary);
+  color: var(--ion-color-primary-contrast);
+  border-radius: 12px 12px 0 0;
+  padding: var(--spacing-lg);
+}
+
+ion-card-title {
+  color: var(--ion-color-primary-contrast);
+  font-weight: 700;
+  font-size: 1.5rem;
+  letter-spacing: -0.5px;
+}
+
+ion-card-content {
+  padding: var(--spacing-lg);
+  color: var(--color-text-primary);
+}
+
+/* Input Fields */
+ion-input,
+ion-textarea {
+  --padding-start: var(--spacing-md);
+  --padding-end: var(--spacing-md);
+  --padding-top: var(--spacing-sm);
+  --padding-bottom: var(--spacing-sm);
+}
+
+ion-input:focus,
+ion-textarea:focus {
+  --border-color: var(--ion-color-secondary);
+}
+
+/* Form Container */
+.form-container {
+  background: var(--color-ivory);
+  padding: var(--spacing-lg);
+  border-radius: 12px;
+  border: 1px solid var(--color-border-light);
+}
+
+/* Premium Section Headers */
+.section-header {
+  color: var(--color-text-primary);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin-bottom: var(--spacing-md);
+  border-bottom: 2px solid var(--ion-color-secondary);
+  padding-bottom: var(--spacing-md);
+}
+
+/* Error/Validation States */
+.error-message {
+  color: var(--ion-color-danger);
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-top: var(--spacing-sm);
+}
+
+.success-message {
+  color: var(--ion-color-success);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Link Styles */
+a {
+  color: var(--ion-color-secondary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: var(--ion-color-secondary-shade);
+    text-decoration: underline;
+  }
+}
+
+/* Premium Divider */
+.divider {
+  height: 1px;
+  background: var(--color-border);
+  margin: var(--spacing-lg) 0;
+}
+
+/* Footer/Secondary Section */
+.secondary-section {
+  background: var(--color-background-secondary);
+  color: var(--color-text-secondary);
+  padding: var(--spacing-md);
+  border-radius: 8px;
+  border: 1px solid var(--color-border-light);
+}
+
+/* Hover Effects */
+.hover-card:hover {
+  background: var(--color-ivory-light);
+  box-shadow: 0 4px 12px rgba(91, 141, 184, 0.15);
+  transition: all 0.3s ease;
+}
+
+/* Loading State */
+.loading-skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-ivory) 25%,
+    var(--color-background-secondary) 50%,
+    var(--color-ivory) 75%
+  );
+  background-size: 200% 100%;
+  animation: loading 2s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

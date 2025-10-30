@@ -3,7 +3,6 @@ import {
   UpdateCarInputSchema,
   CarSearchFiltersSchema,
   ActivateCarSchema,
-  SearchCarsNearbySchema,
   type CarDTO,
   type CreateCarInput,
   type UpdateCarInput,
@@ -12,7 +11,7 @@ import {
   type PaginatedResponse,
   parseCar,
 } from '@/types'
-import type { CarInsert, CarUpdate, SearchCarsNearbyParams } from '@/types/database-helpers'
+
 /* eslint-disable @typescript-eslint/no-unnecessary-condition -- SDK defensive programming pattern */
 /**
  * Car SDK
@@ -24,6 +23,7 @@ import { toError } from '../errors'
 import { supabase } from '../supabase'
 
 import { BaseSDK } from './base.sdk'
+import { toDBCarInsert, toDBCarUpdate } from './compat/car.compat'
 
 export class CarSDK extends BaseSDK {
   /**
@@ -86,9 +86,12 @@ export class CarSDK extends BaseSDK {
       // Validate input
       const validData = CreateCarInputSchema.parse(input)
 
+      // Map DTO to DB types using compat layer
+      const dbData = toDBCarInsert(validData)
+
       const { data, error } = await this.supabase
         .from('cars')
-        .insert(validData as CarInsert)
+        .insert(dbData)
         .select()
         .single()
 
@@ -109,9 +112,12 @@ export class CarSDK extends BaseSDK {
       // Validate input
       const validData = UpdateCarInputSchema.parse(input)
 
+      // Map DTO to DB types using compat layer
+      const dbData = toDBCarUpdate(validData)
+
       const { data, error } = await this.supabase
         .from('cars')
-        .update(validData as CarUpdate)
+        .update(dbData)
         .eq('id', id)
         .select()
         .single()
@@ -301,8 +307,14 @@ export class CarSDK extends BaseSDK {
 
   /**
    * Search cars nearby using PostGIS
+   *
+   * TODO: RPC 'search_cars_nearby' doesn't exist in current schema
+   * This method is disabled until the RPC is created in the database
    */
-  async searchNearby(input: SearchCarsNearby): Promise<CarDTO[]> {
+  searchNearby(_input: SearchCarsNearby): Promise<CarDTO[]> {
+    return Promise.reject(new Error('searchNearby() is not implemented - RPC search_cars_nearby does not exist. Use search() instead.'))
+
+    /* DISABLED - RPC doesn't exist
     try {
       // Validate input
       const validData = SearchCarsNearbySchema.parse(input)
@@ -316,9 +328,8 @@ export class CarSDK extends BaseSDK {
         min_seats: validData.min_seats,
         transmission: validData.transmission,
         instant_book_only: validData.instant_book_only,
-      } as SearchCarsNearbyParams)
+      })
 
-      /* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- RPC return type is complex */
       const { data, error } = result
 
       if (error) {throw toError(error)}
@@ -329,6 +340,7 @@ export class CarSDK extends BaseSDK {
     } catch (e) {
       throw toError(e)
     }
+    */
   }
 
   /**
@@ -382,7 +394,7 @@ export class CarSDK extends BaseSDK {
         .insert({
           car_id: carId,
           url: photoUrl,
-        } as SearchCarsNearbyParams)
+        })
         .select()
         .single()
 

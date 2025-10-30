@@ -94,8 +94,8 @@ describe('DashboardComponent (TDD)', () => {
     spyOn(component, 'goToBookings')
     fixture.detectChanges()
 
-    const section = compiled.querySelector('[data-testid="bookings-section"]')
-    section?.click()
+    const section = compiled.querySelector('[data-testid="bookings-section"]') as HTMLElement | null
+    (section as HTMLElement)?.click()
 
     expect(component.goToBookings).toHaveBeenCalled()
   })

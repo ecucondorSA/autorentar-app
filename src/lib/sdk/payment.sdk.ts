@@ -11,7 +11,7 @@ import {
   type PaymentStatus,
   parsePayment,
 } from '@/types'
-import type { PaymentInsert } from '@/types/database-helpers'
+
 /**
  * Payment SDK
  * Handles payment processing operations
@@ -22,6 +22,7 @@ import { toError } from '../errors'
 import { supabase } from '../supabase'
 
 import { BaseSDK } from './base.sdk'
+import { toDBPaymentInsert } from './compat/payment.compat'
 
 export class PaymentSDK extends BaseSDK {
   /**
@@ -52,9 +53,12 @@ export class PaymentSDK extends BaseSDK {
       // Validate input
       const validData = CreatePaymentInputSchema.parse(input)
 
+      // Map DTO to DB types using compat layer
+      const dbData = toDBPaymentInsert(validData)
+
       const { data, error } = await this.supabase
         .from('payments')
-        .insert(validData as PaymentInsert)
+        .insert(dbData)
         .select()
         .single()
 

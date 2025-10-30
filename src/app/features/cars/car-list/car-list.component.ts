@@ -30,62 +30,64 @@ import type { CarDTO } from '@/types'
     IonSpinner,
   ],
   template: `
-    <ion-content class="ion-padding" data-testid="car-list-content">
-      @if (loading()) {
-        <div class="loading-container">
-          <ion-spinner data-testid="loading-spinner"></ion-spinner>
-        </div>
-      }
+    <ion-content class="ion-padding">
+      <div data-testid="car-list">
+        @if (loading()) {
+          <div class="loading-container">
+            <ion-spinner data-testid="loading-spinner"></ion-spinner>
+          </div>
+        }
 
-      @if (!loading() && cars().length === 0) {
-        <div class="empty-state">
-          <p>No se encontraron autos disponibles</p>
-        </div>
-      }
+        @if (!loading() && cars().length === 0) {
+          <div class="empty-state">
+            <p>No se encontraron autos disponibles</p>
+          </div>
+        }
 
-      <div class="car-grid">
-        @for (car of cars(); track car.id) {
-          <ion-card
-            data-testid="car-card"
-            (click)="onCarClick(car.id)"
-            button
-          >
-            @if (car.photo_main_url) {
-              <img
-                [src]="car.photo_main_url"
-                [alt]="car.brand + ' ' + car.model"
-              />
-            }
-
-            <ion-card-header>
-              <ion-card-title data-testid="car-title">
-                {{ car.brand }} {{ car.model }}
-              </ion-card-title>
-            </ion-card-header>
-
-            <ion-card-content>
-              <p data-testid="car-price" class="price">
-                {{ formatPrice(car.price_per_day_cents) }}/día
-              </p>
-
-              <p data-testid="car-location" class="location">
-                📍 {{ car.location_city }}, {{ car.location_country }}
-              </p>
-
-              @if (car.rating_avg) {
-                <p class="rating">
-                  ⭐ {{ car.rating_avg }} ({{ car.rating_count }} reviews)
-                </p>
+        <div class="car-grid">
+          @for (car of cars(); track car.id) {
+            <ion-card
+              data-testid="car-card"
+              (click)="onCarClick(car.id)"
+              button
+            >
+              @if (car.photo_main_url) {
+                <img
+                  [src]="car.photo_main_url"
+                  [alt]="car.brand + ' ' + car.model"
+                />
               }
 
-              <p class="car-specs">
-                🚗 {{ car.transmission === 'automatic' ? 'Automático' : 'Manual' }}
-                • ⛽ {{ formatFuelType(car.fuel_type) }}
-                • 👥 {{ car.seats }} asientos
-              </p>
-            </ion-card-content>
-          </ion-card>
-        }
+              <ion-card-header>
+                <ion-card-title data-testid="car-title">
+                  {{ car.brand }} {{ car.model }}
+                </ion-card-title>
+              </ion-card-header>
+
+              <ion-card-content>
+                <p data-testid="car-price" class="price">
+                  {{ formatPrice(car.price_per_day_cents) }}/día
+                </p>
+
+                <p data-testid="car-location" class="location">
+                  📍 {{ car.location_city }}, {{ car.location_country }}
+                </p>
+
+                @if (car.rating_avg) {
+                  <p class="rating">
+                    ⭐ {{ car.rating_avg }} ({{ car.rating_count }} reviews)
+                  </p>
+                }
+
+                <p class="car-specs">
+                  🚗 {{ car.transmission === 'automatic' ? 'Automático' : 'Manual' }}
+                  • ⛽ {{ formatFuelType(car.fuel_type) }}
+                  • 👥 {{ car.seats }} asientos
+                </p>
+              </ion-card-content>
+            </ion-card>
+          }
+        </div>
       </div>
     </ion-content>
   `,

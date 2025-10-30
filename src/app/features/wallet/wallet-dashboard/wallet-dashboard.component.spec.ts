@@ -67,8 +67,8 @@ describe('WalletDashboardComponent (TDD)', () => {
     spyOn(component, 'goToDeposit')
     fixture.detectChanges()
 
-    const depositBtn = compiled.querySelector('[data-testid="deposit-button"]')
-    depositBtn.click()
+    const depositBtn = compiled.querySelector('[data-testid="deposit-button"]') as HTMLElement | null
+    depositBtn?.click()
 
     expect(component.goToDeposit).toHaveBeenCalled()
   })
@@ -77,8 +77,8 @@ describe('WalletDashboardComponent (TDD)', () => {
     spyOn(component, 'goToWithdraw')
     fixture.detectChanges()
 
-    const withdrawBtn = compiled.querySelector('[data-testid="withdraw-button"]')
-    withdrawBtn.click()
+    const withdrawBtn = compiled.querySelector('[data-testid="withdraw-button"]') as HTMLElement | null
+    withdrawBtn?.click()
 
     expect(component.goToWithdraw).toHaveBeenCalled()
   })

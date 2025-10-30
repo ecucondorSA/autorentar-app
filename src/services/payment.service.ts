@@ -14,7 +14,6 @@ import { paymentSDK, type PaymentSDK } from '@/lib/sdk/payment.sdk'
 import type {
   PaymentDTO,
 } from '@/types'
-import type { WalletInitiateDepositParams } from '@/types/database-helpers'
 import {
   type ProcessPaymentInput,
   ProcessPaymentInputSchema,
@@ -85,9 +84,10 @@ export class PaymentService {
             amount_cents: validInput.amount_cents,
             status: 'requires_payment',
             provider: validInput.provider,
-            mode: 'payment',
-            installments: 1,
-          } as WalletInitiateDepositParams)
+            installments: 1, // Single payment
+            mode: 'full_upfront', // Full upfront payment
+            // user_id is auto-tracked by DB (nullable field for tracking payer)
+          })
         }
       } catch {
         throw new PaymentError(

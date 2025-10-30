@@ -12,19 +12,35 @@ import {
   IonSpinner,
   IonChip,
   IonIcon,
+  IonModal,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonButtons,
+  IonTextarea,
 } from '@ionic/angular/standalone'
 import { addIcons } from 'ionicons'
-import { star, location, carSport } from 'ionicons/icons'
+import { star, location, carSport, close } from 'ionicons/icons'
+import { FormsModule } from '@angular/forms'
 
 // Types y SDK
 import { carSDK } from '@/lib/sdk/car.sdk'
+import { messageSDK } from '@/lib/sdk/message.sdk'
 import type { CarDTO } from '@/types'
+
+interface ChatMessage {
+  id: string;
+  content: string;
+  created_at: string;
+  sent?: boolean;
+}
 
 @Component({
   selector: 'app-car-detail',
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     IonContent,
     IonCard,
     IonCardHeader,
@@ -34,6 +50,12 @@ import type { CarDTO } from '@/types'
     IonSpinner,
     IonChip,
     IonIcon,
+    IonModal,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonButtons,
+    IonTextarea,
   ],
   template: `
     <ion-content class="ion-padding" data-testid="car-detail-content">
@@ -57,7 +79,7 @@ import type { CarDTO } from '@/types'
 
       <!-- Car Details -->
       @if (!loading() && !error() && car()) {
-        <div class="car-detail">
+        <div class="car-detail" data-testid="car-detail">
           <!-- Main Photo -->
           @if (car()!.photo_main_url) {
             <img
@@ -114,20 +136,86 @@ import type { CarDTO } from '@/types'
                 }
               </div>
 
-              <!-- Book Now Button -->
-              <ion-button
-                expand="block"
-                data-testid="book-button"
-                (click)="onBookNow()"
-                [disabled]="loading()"
-                class="book-now-button"
-              >
-                Reservar Ahora
-              </ion-button>
+              <!-- Action Buttons -->
+              <div class="action-buttons">
+                <ion-button
+                  expand="block"
+                  data-testid="book-now-button"
+                  (click)="onBookNow()"
+                  [disabled]="loading()"
+                  class="book-now-button"
+                >
+                  Reservar Ahora
+                </ion-button>
+
+                <ion-button
+                  expand="block"
+                  fill="outline"
+                  data-testid="contact-owner-button"
+                  (click)="openChat()"
+                  [disabled]="loading()"
+                  class="contact-button"
+                >
+                  Contactar al Dueño
+                </ion-button>
+              </div>
             </ion-card-content>
           </ion-card>
         </div>
       }
+
+      <!-- Chat Modal -->
+      <ion-modal
+        [isOpen]="showChatModal()"
+        (didDismiss)="closeChat()"
+        data-testid="chat-modal"
+      >
+        <ng-template>
+          <ion-header>
+            <ion-toolbar>
+              <ion-title>Chat con el Dueño</ion-title>
+              <ion-buttons slot="end">
+                <ion-button (click)="closeChat()" data-testid="close-chat-button">
+                  <ion-icon name="close"></ion-icon>
+                </ion-button>
+              </ion-buttons>
+            </ion-toolbar>
+          </ion-header>
+
+          <ion-content class="ion-padding">
+            <!-- Message List -->
+            <div class="messages-container" data-testid="chat-conversation">
+              @for (msg of messages(); track msg.id) {
+                <div class="message-item" data-testid="message-item">
+                  <p>{{ msg.content }}</p>
+                  <small>{{ msg.created_at }}</small>
+                  @if (msg.sent) {
+                    <span data-testid="message-sent-indicator" class="sent-indicator">✓</span>
+                  }
+                </div>
+              }
+            </div>
+
+            <!-- Message Input -->
+            <div class="message-input-container">
+              <ion-textarea
+                [(ngModel)]="messageText"
+                data-testid="message-input"
+                placeholder="Escribe tu mensaje..."
+                [autoGrow]="true"
+                rows="2"
+              ></ion-textarea>
+              <ion-button
+                data-testid="send-message-button"
+                (click)="sendMessage()"
+                [disabled]="!messageText.trim() || sendingMessage()"
+              >
+                {{ sendingMessage() ? 'Enviando...' : 'Enviar' }}
+              </ion-button>
+            </div>
+          </ion-content>
+        </ng-template>
+      </ion-modal>
     </ion-content>
   `,
   styles: [`
@@ -206,10 +294,15 @@ export class CarDetailComponent implements OnInit {
   readonly car = signal<CarDTO | null>(null)
   readonly loading = signal(true)  // Start with loading = true
   readonly error = signal<string | null>(null)
+  readonly showChatModal = signal(false)
+  readonly messages = signal<ChatMessage[]>([])
+  readonly sendingMessage = signal(false)
+
+  messageText = ''
 
   constructor() {
     // Register icons
-    addIcons({ star, location, carSport })
+    addIcons({ star, location, carSport, close })
   }
 
   ngOnInit(): void {
@@ -244,6 +337,49 @@ export class CarDetailComponent implements OnInit {
       void this.router.navigate(['/bookings/create'], {
         queryParams: { carId },
       })
+    }
+  }
+
+  openChat(): void {
+    this.showChatModal.set(true)
+  }
+
+  closeChat(): void {
+    this.showChatModal.set(false)
+  }
+
+  async sendMessage(): Promise<void> {
+    const content = this.messageText.trim()
+    if (!content || !this.car()?.owner_id) {
+      return
+    }
+
+    this.sendingMessage.set(true)
+    try {
+      // Send message using SDK
+      await messageSDK.create({
+        sender_id: 'current-user-id', // TODO: Get from auth
+        recipient_id: this.car()!.owner_id,
+        body: content,
+        car_id: this.car()!.id,
+      })
+
+      // Add message to local list
+      const newMessage: ChatMessage = {
+        id: Date.now().toString(),
+        content,
+        created_at: new Date().toISOString(),
+        sent: true,
+      }
+      this.messages.update(msgs => [...msgs, newMessage])
+
+      // Clear input
+      this.messageText = ''
+    } catch (error) {
+      console.error('Error sending message:', error)
+      // TODO: Show error toast to user
+    } finally {
+      this.sendingMessage.set(false)
     }
   }
 

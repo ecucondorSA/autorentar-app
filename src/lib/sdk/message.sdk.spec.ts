@@ -19,10 +19,10 @@ describe('MessageSDK (Feature Horizontal)', () => {
   // Mock data
   const mockMessage: MessageDTO = {
     id: 'msg-123',
-    sender_id: 'user-sender',
-    recipient_id: 'user-recipient',
+    sender_id: '550e8400-e29b-41d4-a716-446655440001',
+    recipient_id: '550e8400-e29b-41d4-a716-446655440002',
     body: 'Test message',
-    booking_id: 'booking-123',
+    booking_id: '650e8400-e29b-41d4-a716-446655440001',
     car_id: null,
     created_at: '2025-10-30T10:00:00Z',
     delivered_at: null,
@@ -31,7 +31,7 @@ describe('MessageSDK (Feature Horizontal)', () => {
 
   const mockPushToken: PushTokenDTO = {
     id: 'token-123',
-    user_id: 'user-123',
+    user_id: '550e8400-e29b-41d4-a716-446655440003',
     token: 'expo-push-token',
     created_at: '2025-10-30T10:00:00Z',
   }
@@ -52,10 +52,10 @@ describe('MessageSDK (Feature Horizontal)', () => {
     it('should send message successfully', async () => {
       // Arrange
       const input: CreateMessageInput = {
-        sender_id: 'user-sender',
-        recipient_id: 'user-recipient',
+        sender_id: '550e8400-e29b-41d4-a716-446655440001',
+        recipient_id: '550e8400-e29b-41d4-a716-446655440002',
         body: 'Hello World',
-        booking_id: 'booking-123',
+        booking_id: '650e8400-e29b-41d4-a716-446655440001',
       }
 
       const mockChain = {
@@ -88,17 +88,17 @@ describe('MessageSDK (Feature Horizontal)', () => {
     it('should send message with car_id instead of booking_id', async () => {
       // Arrange
       const input: CreateMessageInput = {
-        sender_id: 'user-sender',
-        recipient_id: 'user-recipient',
+        sender_id: '550e8400-e29b-41d4-a716-446655440001',
+        recipient_id: '550e8400-e29b-41d4-a716-446655440002',
         body: 'Interested in your car',
-        car_id: 'car-456',
+        car_id: '750e8400-e29b-41d4-a716-446655440001',
       }
 
       const mockChain = {
         insert: jasmine.createSpy('insert').and.returnValue({
           select: jasmine.createSpy('select').and.returnValue({
             single: jasmine.createSpy('single').and.returnValue(
-              Promise.resolve({ data: { ...mockMessage, car_id: 'car-456', booking_id: null }, error: null })
+              Promise.resolve({ data: { ...mockMessage, car_id: '750e8400-e29b-41d4-a716-446655440001', booking_id: null }, error: null })
             ),
           }),
         }),
@@ -117,15 +117,15 @@ describe('MessageSDK (Feature Horizontal)', () => {
         booking_id: null,
         car_id: input.car_id,
       })
-      expect(result.car_id).toBe('car-456')
+      expect(result.car_id).toBe('750e8400-e29b-41d4-a716-446655440001')
       expect(result.booking_id).toBeNull()
     })
 
     it('should throw error when message creation fails', async () => {
       // Arrange
       const input: CreateMessageInput = {
-        sender_id: 'user-sender',
-        recipient_id: 'user-recipient',
+        sender_id: '550e8400-e29b-41d4-a716-446655440001',
+        recipient_id: '550e8400-e29b-41d4-a716-446655440002',
         body: 'Test',
       }
 
@@ -148,8 +148,8 @@ describe('MessageSDK (Feature Horizontal)', () => {
     it('should validate input with Zod schema', async () => {
       // Arrange - Invalid input (empty body)
       const invalidInput = {
-        sender_id: 'user-sender',
-        recipient_id: 'user-recipient',
+        sender_id: '550e8400-e29b-41d4-a716-446655440001',
+        recipient_id: '550e8400-e29b-41d4-a716-446655440002',
         body: '', // Empty body should fail validation
       } as CreateMessageInput
 
@@ -217,7 +217,7 @@ describe('MessageSDK (Feature Horizontal)', () => {
     it('should get messages by booking_id', async () => {
       // Arrange
       const input: GetConversationInput = {
-        booking_id: 'booking-123',
+        booking_id: '650e8400-e29b-41d4-a716-446655440001',
       }
 
       const messages = [mockMessage, { ...mockMessage, id: 'msg-456' }]
@@ -246,10 +246,10 @@ describe('MessageSDK (Feature Horizontal)', () => {
     it('should get messages by car_id', async () => {
       // Arrange
       const input: GetConversationInput = {
-        car_id: 'car-456',
+        car_id: '750e8400-e29b-41d4-a716-446655440001',
       }
 
-      const messages = [{ ...mockMessage, car_id: 'car-456', booking_id: null }]
+      const messages = [{ ...mockMessage, car_id: '750e8400-e29b-41d4-a716-446655440001', booking_id: null }]
 
       const mockChain = {
         select: jasmine.createSpy('select').and.returnValue({
@@ -281,7 +281,7 @@ describe('MessageSDK (Feature Horizontal)', () => {
     it('should return empty array when no messages found', async () => {
       // Arrange
       const input: GetConversationInput = {
-        booking_id: 'booking-123',
+        booking_id: '650e8400-e29b-41d4-a716-446655440001',
       }
 
       const mockChain = {
@@ -311,7 +311,7 @@ describe('MessageSDK (Feature Horizontal)', () => {
   describe('getUnread()', () => {
     it('should get unread messages for user', async () => {
       // Arrange
-      const userId = 'user-recipient'
+      const userId = '550e8400-e29b-41d4-a716-446655440002'
       const unreadMessages = [
         mockMessage,
         { ...mockMessage, id: 'msg-789', read_at: null },
@@ -342,7 +342,7 @@ describe('MessageSDK (Feature Horizontal)', () => {
 
     it('should return empty array when no unread messages', async () => {
       // Arrange
-      const userId = 'user-recipient'
+      const userId = '550e8400-e29b-41d4-a716-446655440002'
 
       const mockChain = {
         select: jasmine.createSpy('select').and.returnValue({
@@ -614,7 +614,7 @@ describe('MessageSDK (Feature Horizontal)', () => {
 
       // Assert
       expect(result.length).toBe(2)
-      expect(result[0].user_id).toBe(userId)
+      expect(result[0]?.user_id).toBe(userId)
     })
   })
 
@@ -626,14 +626,14 @@ describe('MessageSDK (Feature Horizontal)', () => {
     it('should handle concurrent message sends', async () => {
       // Arrange
       const input1: CreateMessageInput = {
-        sender_id: 'user-1',
-        recipient_id: 'user-2',
+        sender_id: '550e8400-e29b-41d4-a716-446655440010',
+        recipient_id: '550e8400-e29b-41d4-a716-446655440011',
         body: 'Message 1',
       }
 
       const input2: CreateMessageInput = {
-        sender_id: 'user-1',
-        recipient_id: 'user-2',
+        sender_id: '550e8400-e29b-41d4-a716-446655440010',
+        recipient_id: '550e8400-e29b-41d4-a716-446655440011',
         body: 'Message 2',
       }
 
@@ -665,8 +665,8 @@ describe('MessageSDK (Feature Horizontal)', () => {
       // Arrange
       const longBody = 'A'.repeat(5000) // 5000 characters
       const input: CreateMessageInput = {
-        sender_id: 'user-1',
-        recipient_id: 'user-2',
+        sender_id: '550e8400-e29b-41d4-a716-446655440010',
+        recipient_id: '550e8400-e29b-41d4-a716-446655440011',
         body: longBody,
       }
 

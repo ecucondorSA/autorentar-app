@@ -19,7 +19,7 @@ import {
   type CalculateBookingPriceInput,
   type BookingSearchFilters,
 } from '@/types'
-import type { BookingInsert, BookingUpdate, RpcFunctions } from '@/types/database-helpers'
+
 /* eslint-disable @typescript-eslint/no-unnecessary-condition -- SDK defensive programming pattern */
 /**
  * Booking SDK
@@ -31,6 +31,7 @@ import { toError } from '../errors'
 import { supabase } from '../supabase'
 
 import { BaseSDK } from './base.sdk'
+import { toDBBookingInsert, toDBBookingUpdate } from './compat/booking.compat'
 
 export class BookingSDK extends BaseSDK {
   /**
@@ -118,9 +119,12 @@ export class BookingSDK extends BaseSDK {
         throw new Error('Car is not available for the selected dates')
       }
 
+      // Map DTO to DB types using compat layer
+      const dbData = toDBBookingInsert(validData)
+
       const { data, error} = await this.supabase
         .from('bookings')
-        .insert(validData as BookingInsert) // Type assertion needed due to complex DB types
+        .insert(dbData)
         .select()
         .single()
 
@@ -145,9 +149,12 @@ export class BookingSDK extends BaseSDK {
     // Validate input
     const validData = UpdateBookingInputSchema.parse(input)
 
+    // Map DTO to DB types using compat layer
+    const dbData = toDBBookingUpdate(validData)
+
     const { data, error } = await this.supabase
       .from('bookings')
-      .update(validData as BookingUpdate) // Type assertion needed due to complex DB types
+      .update(dbData)
       .eq('id', id)
       .select()
       .single()
@@ -172,14 +179,14 @@ export class BookingSDK extends BaseSDK {
 
     // Calculate refund based on cancellation policy
     const booking = await this.getById(validData.booking_id)
-    const refundAmount = this.calculateRefundAmount(booking, validData.cancelled_by)
+    const refundAmount = this.calculateRefundAmount(booking, 'renter')
 
     return this.execute(async () => {
       return await this.supabase
         .from('bookings')
         .update({
           status: 'cancelled',
-          cancelled_by: validData.cancelled_by,
+          cancelled_by_user_id: validData.cancelled_by_user_id ?? null,
           cancellation_reason: validData.cancellation_reason,
           refund_amount_cents: refundAmount,
         })
@@ -244,7 +251,7 @@ export class BookingSDK extends BaseSDK {
         .from('bookings')
         .update({
           status: 'completed',
-          actual_end_date: validData.actual_end_date,
+          actual_end_at: validData.actual_end_at,
           final_odometer_km: validData.final_odometer_km,
         })
         .eq('id', validData.booking_id)
@@ -401,21 +408,38 @@ export class BookingSDK extends BaseSDK {
 
   /**
    * Calculate booking price
+   * RPC: calculate_dynamic_price(p_base_price decimal, p_city text, p_start_date date, p_end_date date)
+   * Returns: { base_price, zone_multiplier, seasonal_multiplier, duration_discount, final_price }
    */
   async calculatePrice(input: CalculateBookingPriceInput): Promise<unknown> {
     // Validate input
     const validData = CalculateBookingPriceInputSchema.parse(input)
 
+    // Get car details to fetch base_price and city
+    const car = await this.supabase
+      .from('cars')
+      .select('price_per_day, location_city')
+      .eq('id', validData.car_id)
+      .single()
+
+    if (car.error || !car.data) {
+      this.handleError(car.error || new Error('Car not found'), 'Failed to fetch car details')
+      return null
+    }
+
+    // Validate car has required fields for pricing
+    if (!car.data.location_city) {
+      this.handleError(new Error('Car location_city is required for price calculation'), 'Car missing location')
+      return null
+    }
+
+    // Call RPC with correct signature
     const { data, error } = await this.supabase.rpc('calculate_dynamic_price', {
-      p_car_id: validData.car_id,
+      p_base_price: car.data.price_per_day,
+      p_city: car.data.location_city,
       p_start_date: validData.start_date,
       p_end_date: validData.end_date,
-      p_insurance_coverage: validData.insurance_coverage_level ?? 'none',
-      p_extra_drivers: validData.extra_driver_count,
-      p_extra_child_seats: validData.extra_child_seat_count,
-      p_extra_gps: validData.extra_gps,
-      p_promo_code: validData.promo_code,
-    } as RpcFunctions['request_booking']['Returns'])
+    })
 
     if (error) {
       this.handleError(error, 'Price calculation failed')

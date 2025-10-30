@@ -1,5 +1,6 @@
 import type { ComponentFixture} from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing'
+import { provideRouter } from '@angular/router'
 
 import { profileSDK } from '@/lib/sdk/profile.sdk'
 
@@ -13,12 +14,13 @@ describe('ProfileViewComponent (TDD)', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ProfileViewComponent],
+      providers: [provideRouter([])],
     }).compileComponents()
 
     fixture = TestBed.createComponent(ProfileViewComponent)
     component = fixture.componentInstance
     compiled = fixture.nativeElement as HTMLElement
-    spyOn(profileSDK, 'getCurrentProfile').and.returnValue(Promise.resolve({
+    spyOn(profileSDK, 'getCurrent').and.returnValue(Promise.resolve({
       id: 'user-id',
       email: 'test@example.com',
       full_name: 'Test User',

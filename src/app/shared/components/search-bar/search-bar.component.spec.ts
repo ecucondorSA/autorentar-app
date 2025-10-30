@@ -50,8 +50,8 @@ describe('SearchBarComponent (TDD)', () => {
       endDate: '2024-01-05',
     })
 
-    const form = compiled.querySelector('form[data-testid="search-form"]')
-    form.dispatchEvent(new Event('submit'))
+    const form = compiled.querySelector('form[data-testid="search-form"]') as HTMLFormElement | null
+    form?.dispatchEvent(new Event('submit'))
 
     expect(component.search.emit).toHaveBeenCalled()
   })
@@ -64,8 +64,8 @@ describe('SearchBarComponent (TDD)', () => {
     })
     fixture.detectChanges()
 
-    const btn = compiled.querySelector('ion-button[data-testid="search-button"]')
-    expect(btn.disabled).toBeTruthy()
+    const btn = compiled.querySelector('ion-button[data-testid="search-button"]') as HTMLButtonElement | null
+    expect(btn?.disabled).toBeTruthy()
   })
 })
 /* eslint-enable @typescript-eslint/no-unsafe-argument -- Re-enable after test file */

@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/payments-spec",
+    "types": [
+      "jasmine"
+    ]
+  },
+  "files": [
+    "./src/payment-tests.ts"
+  ],
+  "include": [
+    "src/app/features/payments/**/*.ts"
+  ]
+}

@@ -91,8 +91,8 @@ describe('DisputesListComponent (TDD)', () => {
     spyOn(component.viewDispute, 'emit')
     fixture.detectChanges()
 
-    const card = compiled.querySelector('[data-testid="dispute-card"]')
-    card.click()
+    const card = compiled.querySelector('[data-testid="dispute-card"]') as HTMLElement | null
+    card?.click()
 
     expect(component.viewDispute.emit).toHaveBeenCalledWith('1')
   })

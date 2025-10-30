@@ -87,17 +87,13 @@ export const CreateBookingInputSchema = z
     tax_cents: z.number().int().min(0),
     total_price_cents: z.number().int().positive(),
 
-    // Insurance (opcional)
+    // Insurance (opcional) - maps to insurance_coverage_id UUID in DB
     insurance_policy_id: z.string().uuid().optional(),
-    insurance_coverage_level: z.enum(['basic', 'standard', 'premium']).optional(),
 
     // Extras (opcional)
     extra_driver_count: z.number().int().min(0).max(3).default(0),
     extra_child_seat_count: z.number().int().min(0).max(3).default(0),
     extra_gps: z.boolean().default(false),
-
-    // Special requests
-    special_requests: z.string().max(500, 'Solicitud muy larga').optional(),
 
     // Guarantee
     guarantee_type: GuaranteeTypeEnum.default('credit_card_hold'),
@@ -151,9 +147,6 @@ export const UpdateBookingInputSchema = z.object({
   // Status updates
   status: BookingStatusEnum.optional(),
 
-  // Special requests can be updated
-  special_requests: z.string().max(500).optional(),
-
   // Pickup/dropoff can be adjusted
   pickup_lat: z.number().min(-90).max(90).optional(),
   pickup_lng: z.number().min(-180).max(180).optional(),
@@ -172,7 +165,8 @@ export type UpdateBookingInput = z.infer<typeof UpdateBookingInputSchema>
  */
 export const CancelBookingInputSchema = z.object({
   booking_id: z.string().uuid(),
-  cancelled_by: z.enum(['renter', 'owner', 'admin']),
+  // cancelled_at is auto-set in DB (timestamp)
+  cancelled_by_user_id: z.string().uuid().optional(), // who cancelled (renter, owner, etc)
   cancellation_reason: z.string().min(10, 'Razón de cancelación muy corta').max(500),
   refund_amount_cents: z.number().int().min(0),
 })
@@ -261,9 +255,6 @@ export const CalculateBookingPriceInputSchema = z
     start_date: z.string().datetime(),
     end_date: z.string().datetime(),
 
-    // Insurance (opcional)
-    insurance_coverage_level: z.enum(['basic', 'standard', 'premium']).optional(),
-
     // Extras
     extra_driver_count: z.number().int().min(0).max(3).default(0),
     extra_child_seat_count: z.number().int().min(0).max(3).default(0),
@@ -304,7 +295,7 @@ export type ConfirmBookingInput = z.infer<typeof ConfirmBookingInputSchema>
  */
 export const CompleteBookingInputSchema = z.object({
   booking_id: z.string().uuid(),
-  actual_end_date: z.string().datetime(),
+  actual_end_at: z.string().datetime(),
   final_odometer_km: z.number().int().min(0),
   fuel_level_returned: z.number().min(0).max(100), // porcentaje
   damage_reported: z.boolean().default(false),

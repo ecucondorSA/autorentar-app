@@ -25,8 +25,8 @@ describe('MessageService (Feature Horizontal)', () => {
   let mockNotificationSDK: jasmine.SpyObj<NotificationSDK>
 
   // Mock data
-  const mockSenderId = 'user-sender-123'
-  const mockRecipientId = 'user-recipient-456'
+  const mockSenderId = '550e8400-e29b-41d4-a716-446655440001'
+  const mockRecipientId = '550e8400-e29b-41d4-a716-446655440002'
   const mockBookingId = 'booking-789'
 
   const mockMessage: MessageDTO = {

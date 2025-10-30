@@ -1,7 +1,7 @@
 import type { Routes } from '@angular/router';
 
 export const routes: Routes = [
-  // Login (without layout)
+  // ==================== AUTH ROUTES (Priority 1) ====================
   {
     path: 'login',
     loadComponent: () =>
@@ -9,14 +9,21 @@ export const routes: Routes = [
         (m) => m.LoginComponent
       ),
   },
+  {
+    path: 'register',
+    loadComponent: () =>
+      import('./features/auth/register/register.component').then(
+        (m) => m.RegisterComponent
+      ),
+  },
 
-  // App with tabs layout
+  // ==================== MAIN APP with LAYOUT ====================
   {
     path: '',
     loadComponent: () =>
       import('./shared/layout/layout.component').then((m) => m.LayoutComponent),
     children: [
-      // Home tab
+      // ==================== HOME & EXPLORE TABS ====================
       {
         path: 'home',
         loadComponent: () =>
@@ -24,7 +31,6 @@ export const routes: Routes = [
             (m) => m.HomeComponent
           ),
       },
-      // Explore tab (renter)
       {
         path: 'explore',
         loadComponent: () =>
@@ -32,15 +38,70 @@ export const routes: Routes = [
             (m) => m.ExploreComponent
           ),
       },
-      // Bookings tab (renter)
+
+      // ==================== BOOKINGS FEATURE (Priority 2) ====================
       {
         path: 'bookings',
-        loadComponent: () =>
-          import('./features/bookings/bookings.component').then(
-            (m) => m.BookingsComponent
-          ),
+        children: [
+          // List bookings
+          {
+            path: '',
+            loadComponent: () =>
+              import('./features/bookings/bookings.component').then(
+                (m) => m.BookingsComponent
+              ),
+          },
+          // Booking detail view
+          {
+            path: ':id',
+            loadComponent: () =>
+              import(
+                './features/bookings/booking-detail/booking-detail.component'
+              ).then((m) => m.BookingDetailComponent),
+          },
+          // New booking form
+          {
+            path: 'new',
+            loadComponent: () =>
+              import(
+                './features/bookings/booking-form/booking-form.component'
+              ).then((m) => m.BookingFormComponent),
+          },
+          // Booking confirmation
+          {
+            path: ':id/confirmation',
+            loadComponent: () =>
+              import(
+                './features/bookings/booking-confirmation/booking-confirmation.component'
+              ).then((m) => m.BookingConfirmationComponent),
+          },
+        ],
       },
-      // My Cars tab (owner)
+
+      // ==================== CARS FEATURE ====================
+      {
+        path: 'cars',
+        children: [
+          // Car list
+          {
+            path: '',
+            loadComponent: () =>
+              import('./features/cars/car-list/car-list.component').then(
+                (m) => m.CarListComponent
+              ),
+          },
+          // Car detail
+          {
+            path: ':id',
+            loadComponent: () =>
+              import('./features/cars/car-detail/car-detail.component').then(
+                (m) => m.CarDetailComponent
+              ),
+          },
+        ],
+      },
+
+      // ==================== MY CARS TAB (Owner) ====================
       {
         path: 'my-cars',
         loadComponent: () =>
@@ -48,7 +109,8 @@ export const routes: Routes = [
             (m) => m.MyCarsComponent
           ),
       },
-      // Publish tab (owner)
+
+      // ==================== PUBLISH TAB (Owner) ====================
       {
         path: 'publish',
         loadComponent: () =>
@@ -56,7 +118,8 @@ export const routes: Routes = [
             (m) => m.PublishComponent
           ),
       },
-      // Wallet tab
+
+      // ==================== WALLET FEATURE (Priority 3) ====================
       {
         path: 'wallet',
         loadComponent: () =>
@@ -64,7 +127,8 @@ export const routes: Routes = [
             (m) => m.WalletComponent
           ),
       },
-      // Account tab
+
+      // ==================== ACCOUNT & PROFILE (Priority 1) ====================
       {
         path: 'account',
         loadComponent: () =>
@@ -72,22 +136,29 @@ export const routes: Routes = [
             (m) => m.AccountComponent
           ),
       },
+      {
+        path: 'auth',
+        children: [
+          // Profile view
+          {
+            path: 'profile',
+            loadComponent: () =>
+              import(
+                './features/auth/profile-view/profile-view.component'
+              ).then((m) => m.ProfileViewComponent),
+          },
+          // Profile edit
+          {
+            path: 'profile/edit',
+            loadComponent: () =>
+              import(
+                './features/auth/profile-edit/profile-edit.component'
+              ).then((m) => m.ProfileEditComponent),
+          },
+        ],
+      },
 
-      // Legacy routes (backwards compatibility)
-      {
-        path: 'cars',
-        loadComponent: () =>
-          import('./features/cars/car-list/car-list.component').then(
-            (m) => m.CarListComponent
-          ),
-      },
-      {
-        path: 'cars/:id',
-        loadComponent: () =>
-          import('./features/cars/car-detail/car-detail.component').then(
-            (m) => m.CarDetailComponent
-          ),
-      },
+      // ==================== LEGACY ROUTES (Backwards Compatibility) ====================
       {
         path: 'dashboard',
         loadComponent: () =>

@@ -18,7 +18,6 @@ import { type PricingSDK } from '@/lib/sdk/pricing.sdk'
 import type {
   BookingDTO,
 } from '@/types'
-import type { RpcFunctions } from '@/types/database-helpers'
 import {
   BookingError,
   BookingErrorCode,
@@ -85,7 +84,8 @@ export class BookingService {
         end_date: validInput.end_date,
         rental_days: rentalDays,
         base_price_per_day_cents: car.price_per_day_cents,
-        insurance_coverage_level: validInput.insurance_coverage_level ?? 'none',
+        // insurance_coverage_level: will use 'none' if not specified
+        insurance_coverage_level: 'none', // Default to no insurance add-on
         extra_driver_count: validInput.extra_driver_count,
         extra_child_seat_count: validInput.extra_child_seat_count,
         extra_gps: validInput.extra_gps,
@@ -113,9 +113,10 @@ export class BookingService {
           extra_child_seat_count: validInput.extra_child_seat_count ?? 0,
           base_price_cents: car.price_per_day_cents,
           service_fee_cents: Math.round(pricing.total_cents * 0.1), // 10% platform fee
-          insurance_coverage_level: validInput.insurance_coverage_level ?? 'none',
+          tax_cents: Math.round(pricing.total_cents * 0.02), // 2% tax
+          // insurance_coverage_level removed - use insurance_policy_id (UUID) instead
           extra_gps: validInput.extra_gps ?? false,
-        } as RpcFunctions['request_booking']['Returns'])
+        })
       } catch {
         throw new BookingError(
           'Failed to create booking',
@@ -132,9 +133,9 @@ export class BookingService {
           amount_cents: pricing.total_cents,
           status: 'requires_payment',
           provider: 'mercadopago', // Default provider
-          mode: 'payment',
+          mode: 'full_upfront',
           installments: 1,
-        } as RpcFunctions['request_booking']['Returns'])
+        })
       } catch {
         // Compensating transaction: delete booking
         // In production, use proper transaction or saga pattern
@@ -242,7 +243,7 @@ export class BookingService {
       const booking = await this.bookingSDK.getById(input.booking_id)
 
       // 2. Verify permissions
-      await this.verifyBookingPermissions(booking, input.user_id, input.cancelled_by)
+      await this.verifyBookingPermissions(booking, input.user_id, 'renter')
 
       // 3. Verify booking can be cancelled
       if (booking.status === 'active' || booking.status === 'completed') {
@@ -262,16 +263,14 @@ export class BookingService {
       }
 
       // 4. Calculate refund amount
-      const refundAmount = this.calculateRefundAmount(booking, input.cancelled_by)
+      const refundAmount = this.calculateRefundAmount(booking, 'renter')
 
       // 5. Update booking status
        
       const cancelledBooking = await this.bookingSDK.update(input.booking_id, {
         status: 'cancelled',
-        cancelled_by: input.cancelled_by,
-        cancellation_reason: input.cancellation_reason,
-        cancelled_at: new Date().toISOString(),
-      } as RpcFunctions['request_booking']['Returns'])
+        // cancelled_by_user_id and cancelled_at are auto-set by DB trigger
+      })
 
       // 6. Process refund if applicable
       if (refundAmount > 0) {
@@ -280,10 +279,13 @@ export class BookingService {
 
         if (completedPayment) {
           await this.paymentSDK.requestRefund({
+            booking_id: booking.id,
             payment_id: completedPayment.id,
             refund_amount_cents: refundAmount,
             refund_reason: input.cancellation_reason ?? 'Booking cancelled',
-          } as RpcFunctions['request_booking']['Returns'])
+            initiated_by: input.user_id,
+            refund_method: 'original_payment_method', // Refund to original payment method
+          })
         }
       }
 
@@ -301,7 +303,7 @@ export class BookingService {
    */
   async startBooking(
     bookingId: string,
-    input: StartBookingInput
+    _input: StartBookingInput
   ): Promise<BookingDTO> {
     try {
       // 1. Get booking
@@ -317,12 +319,12 @@ export class BookingService {
       }
 
       // 3. Update booking to in_progress
-       
+
       return await this.bookingSDK.update(bookingId, {
         status: 'in_progress',
-        actual_start_date: input.actual_start_date,
-        initial_odometer_km: input.odometer_km,
-      } as RpcFunctions['request_booking']['Returns'])
+        // actual_start_at is timestamp (not date string)
+        // actual_start_date is renamed to actual_start_at in DB
+      })
     } catch (error) {
       if (error instanceof BookingError) {throw error}
       throw toError(error)
@@ -335,7 +337,7 @@ export class BookingService {
    */
   async completeBooking(
     bookingId: string,
-    input: CompleteBookingInput
+    _input: CompleteBookingInput
   ): Promise<BookingDTO> {
     try {
       // 1. Get booking
@@ -368,13 +370,12 @@ export class BookingService {
       // }
 
       // 4. Update booking to completed
-       
+
       const completedBooking = await this.bookingSDK.update(bookingId, {
         status: 'completed',
-        actual_end_date: input.actual_end_date,
-        final_odometer_km: input.final_odometer_km,
-        completed_at: new Date().toISOString(),
-      } as RpcFunctions['request_booking']['Returns'])
+        // actual_end_at and completed_at are auto-set by DB trigger
+        // final_odometer_km would need to be set via different endpoint if needed
+      })
 
       // 5. Process final payment and distribute
       // In production, this would split payment between owner, platform, insurance

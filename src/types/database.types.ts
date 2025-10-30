@@ -8896,12 +8896,18 @@ export type Database = {
       }
       calculate_dynamic_price: {
         Args: {
-          p_region_id: string
-          p_rental_hours: number
-          p_rental_start: string
-          p_user_id: string
+          p_base_price: number
+          p_city: string
+          p_start_date: string
+          p_end_date: string
         }
-        Returns: Json
+        Returns: {
+          base_price: number
+          zone_multiplier: number
+          seasonal_multiplier: number
+          duration_discount: number
+          final_price: number
+        }
       }
       calculate_fgo_metrics: { Args: never; Returns: Json }
       calculate_pem: {

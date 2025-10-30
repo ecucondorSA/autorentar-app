@@ -1,5 +1,6 @@
 import type { ComponentFixture} from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing'
+import { provideRouter } from '@angular/router'
 
 import { ProfileEditComponent } from './profile-edit.component'
 
@@ -11,6 +12,7 @@ describe('ProfileEditComponent (TDD)', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ProfileEditComponent],
+      providers: [provideRouter([])],
     }).compileComponents()
 
     fixture = TestBed.createComponent(ProfileEditComponent)

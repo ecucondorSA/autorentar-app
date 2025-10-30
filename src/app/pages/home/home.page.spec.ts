@@ -76,8 +76,8 @@ describe('HomePage (TDD)', () => {
     spyOn(component, 'goToCarList')
     fixture.detectChanges()
 
-    const ctaBtn = compiled.querySelector('[data-testid="cta-button"]')
-    ctaBtn?.click()
+    const ctaBtn = compiled.querySelector('[data-testid="cta-button"]') as HTMLElement | null
+    (ctaBtn as HTMLElement)?.click()
 
     expect(component.goToCarList).toHaveBeenCalled()
   })

@@ -85,9 +85,9 @@ describe('CarDetailComponent (TDD)', () => {
     await fixture.whenStable()
     fixture.detectChanges()
 
-    const img = compiled.querySelector('img[data-testid="car-main-image"]')!
+    const img = compiled.querySelector('img[data-testid="car-main-image"]') as HTMLImageElement | null
     expect(img).toBeTruthy()
-    expect(img.src).toContain('car.jpg')
+    expect(img?.src).toContain('car.jpg')
   })
 
   it('should display car price', async () => {

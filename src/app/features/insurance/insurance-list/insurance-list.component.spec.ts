@@ -84,8 +84,8 @@ describe('InsuranceListComponent (TDD)', () => {
     spyOn(component.viewDetails, 'emit')
     fixture.detectChanges()
 
-    const card = compiled.querySelector('[data-testid="insurance-card"]')
-    card.click()
+    const card = compiled.querySelector('[data-testid="insurance-card"]') as HTMLElement | null
+    card?.click()
 
     expect(component.viewDetails.emit).toHaveBeenCalledWith('1')
   })

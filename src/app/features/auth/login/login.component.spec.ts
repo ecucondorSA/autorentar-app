@@ -2,7 +2,7 @@
 import type { ComponentFixture} from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, provideRouter } from '@angular/router';
 
 import { LoginComponent } from './login.component';
 
@@ -17,7 +17,10 @@ describe('LoginComponent', () => {
 
     await TestBed.configureTestingModule({
       imports: [LoginComponent, ReactiveFormsModule],
-      providers: [{ provide: Router, useValue: routerSpyObj }],
+      providers: [
+        { provide: Router, useValue: routerSpyObj },
+        provideRouter([]),
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(LoginComponent);
@@ -111,7 +114,7 @@ describe('LoginComponent', () => {
       });
       fixture.detectChanges();
 
-      expect(submitButton.disabled).toBe(false);
+      expect(submitButton?.disabled).toBe(false);
     });
   });
 
