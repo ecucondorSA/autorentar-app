@@ -166,8 +166,8 @@ export class ReviewService {
         input.reviewee_id,
         input.reviewer_id,
         input.review_type
-      ).catch((err) => {
-        console.error('Failed to send review notification:', err)
+      ).catch((_err: unknown) => {
+        console.error('Failed to send review notification:', _err)
       })
 
       return reviewId
@@ -186,7 +186,7 @@ export class ReviewService {
     try {
       const review = await this.reviewSDK.getById(reviewId)
       return review
-    } catch (_error: unknown) {
+    } catch {
       throw new ReviewError(
         'Review not found',
         ReviewErrorCode.REVIEW_NOT_FOUND,

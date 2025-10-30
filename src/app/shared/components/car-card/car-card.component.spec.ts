@@ -105,3 +105,4 @@ describe('CarCardComponent (TDD)', () => {
   })
 })
 /* eslint-enable @typescript-eslint/no-non-null-assertion -- Re-enable after test file */
+/* eslint-enable @typescript-eslint/no-unsafe-argument -- Re-enable after test file */

@@ -72,8 +72,8 @@ export class MessageService {
         input.recipient_id,
         input.sender_id,
         message.body
-      ).catch((err) => {
-        console.error('Failed to send push notification:', err)
+      ).catch((_err: unknown) => {
+        console.error('Failed to send push notification:', _err)
       })
 
       return message
@@ -130,7 +130,7 @@ export class MessageService {
     try {
       const message = await this.messageSDK.markAsRead(messageId)
       return message
-    } catch (error) {
+    } catch (error: unknown) {
       throw toError(error)
     }
   }
@@ -238,7 +238,7 @@ export class MessageService {
     to: string,
     subject: string,
     body: string
-  ): Promise<void> {
+  ): void {
     // TODO: Integrate with email service (SendGrid, Resend, etc.)
     console.error('Would send email to:', to, subject, body)
   }
@@ -246,7 +246,7 @@ export class MessageService {
   /**
    * Send SMS notification (future implementation)
    */
-  sendSMS(phoneNumber: string, message: string): Promise<void> {
+  sendSMS(phoneNumber: string, message: string): void {
     // TODO: Integrate with SMS service (Twilio, etc.)
     console.error('Would send SMS to:', phoneNumber, message)
   }

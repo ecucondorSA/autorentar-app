@@ -773,5 +773,4 @@ describe('ReviewService (Feature Horizontal)', () => {
     })
   })
 })
-/* Review service tests completed */
-/* eslint-enable @typescript-eslint/unbound-method, @typescript-eslint/no-unsafe-argument */
+/* eslint-enable @typescript-eslint/unbound-method, @typescript-eslint/no-unsafe-argument -- Review service tests: Re-enable linting rules after test file */

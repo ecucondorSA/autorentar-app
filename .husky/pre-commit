@@ -20,7 +20,7 @@ git add -A
 
 # Type check
 echo "🔍 Type checking..."
-pnpm typecheck || {
+pnpm type-check || {
   echo "❌ Type check failed"
   exit 1
 }
