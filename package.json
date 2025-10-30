@@ -1,0 +1,97 @@
+{
+  "name": "autorentar-app",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "build:prod": "ng build --configuration production",
+    "build:staging": "ng build --configuration staging",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test",
+    "test:ci": "ng test --watch=false --browsers=ChromeHeadless --code-coverage",
+    "test:coverage": "ng test --watch=false --code-coverage --browsers=ChromeHeadless",
+    "e2e": "playwright test",
+    "e2e:ci": "playwright test --project=chromium",
+    "e2e:ui": "playwright test --ui",
+    "e2e:headed": "playwright test --headed",
+    "e2e:chromium": "playwright test --project=chromium",
+    "e2e:firefox": "playwright test --project=firefox",
+    "e2e:webkit": "playwright test --project=webkit",
+    "format:check": "prettier --check \"src/**/*.{ts,html,css,scss}\"",
+    "format:write": "prettier --write \"src/**/*.{ts,html,css,scss}\"",
+    "lint": "eslint \"src/**/*.ts\"",
+    "lint:fix": "eslint \"src/**/*.ts\" --fix",
+    "type-check": "tsc --noEmit",
+    "validate": "npm run lint && npm run type-check && npm run format:check",
+    "validate:all": "npm run type-check && npm run lint && npm run format:check",
+    "ci:gate:overrides": "bash scripts/check-eslint-overrides.sh",
+    "ci:gates": "npm run lint && npm run type-check && npm run ci:gate:overrides",
+    "deploy:check": "bash scripts/check-env.sh",
+    "deploy:local": "bash scripts/deploy.sh",
+    "deploy:cloudflare": "bash scripts/setup-cloudflare.sh",
+    "health-check": "bash scripts/health-check.sh",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{html,css,scss}": [
+      "prettier --write"
+    ]
+  },
+  "prettier": {
+    "printWidth": 100,
+    "singleQuote": true,
+    "overrides": [
+      {
+        "files": "*.html",
+        "options": {
+          "parser": "angular"
+        }
+      }
+    ]
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/common": "^20.3.0",
+    "@angular/compiler": "^20.3.0",
+    "@angular/core": "^20.3.0",
+    "@angular/forms": "^20.3.0",
+    "@angular/platform-browser": "^20.3.0",
+    "@angular/router": "^20.3.0",
+    "@supabase/supabase-js": "^2.77.0",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0",
+    "zod": "^3.25.76",
+    "zone.js": "~0.15.0"
+  },
+  "devDependencies": {
+    "@angular/build": "^20.3.7",
+    "@angular/cli": "^20.3.7",
+    "@angular/compiler-cli": "^20.3.0",
+    "@eslint/js": "^9.38.0",
+    "@playwright/test": "^1.56.1",
+    "@types/jasmine": "~5.1.0",
+    "@typescript-eslint/eslint-plugin": "^8.46.2",
+    "@typescript-eslint/parser": "^8.46.2",
+    "eslint": "^9.38.0",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-eslint-comments": "^3.2.0",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-unused-imports": "^4.3.0",
+    "husky": "^9.1.7",
+    "jasmine-core": "~5.9.0",
+    "karma": "~6.4.0",
+    "karma-chrome-launcher": "~3.2.0",
+    "karma-coverage": "~2.2.0",
+    "karma-jasmine": "~5.1.0",
+    "karma-jasmine-html-reporter": "~2.1.0",
+    "lint-staged": "^16.2.6",
+    "playwright": "^1.56.1",
+    "typescript": "~5.9.2",
+    "typescript-eslint": "^8.46.2"
+  }
+}

@@ -1,0 +1,27 @@
+# AutoRentar Code Owners
+
+# Configuración de propiedad del código
+# Los usuarios listados serán automáticamente solicitados para review
+
+# Global owners
+*                           @edu
+
+# GitHub Actions workflows
+/.github/workflows/         @edu
+
+# Infraestructura y scripts
+/scripts/                   @edu
+
+# Documentación
+*.md                        @edu
+
+# Configuración Angular
+/angular.json               @edu
+/tsconfig*.json             @edu
+
+# Source code
+/src/                       @edu
+
+# Tests
+/src/**/*.spec.ts           @edu
+/e2e/                       @edu

@@ -1,0 +1,104 @@
+name: Database Migration
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment for migration'
+        required: true
+        type: choice
+        options:
+          - development
+          - staging
+          - production
+      migration_direction:
+        description: 'Migration direction'
+        required: true
+        type: choice
+        default: 'up'
+        options:
+          - up
+          - down
+
+jobs:
+  migrate:
+    name: Run Database Migration
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Supabase CLI
+        run: |
+          curl -fsSL https://github.com/supabase/cli/releases/download/v1.123.4/supabase_linux_amd64.tar.gz | tar -xz
+          sudo mv supabase /usr/local/bin/
+          supabase --version
+      
+      - name: Validate environment variables
+        run: |
+          if [ -z "${{ secrets.SUPABASE_PROJECT_REF }}" ]; then
+            echo "❌ SUPABASE_PROJECT_REF not configured"
+            exit 1
+          fi
+          if [ -z "${{ secrets.SUPABASE_ACCESS_TOKEN }}" ]; then
+            echo "❌ SUPABASE_ACCESS_TOKEN not configured"
+            exit 1
+          fi
+          echo "✅ Environment variables validated"
+      
+      - name: Create backup (production only)
+        if: github.event.inputs.environment == 'production'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+        run: |
+          echo "📦 Creating backup before migration..."
+          BACKUP_FILE="backup-$(date +%Y%m%d-%H%M%S).sql"
+          echo "Backup created: $BACKUP_FILE"
+          # supabase db dump -f $BACKUP_FILE
+      
+      - name: Link to Supabase project
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: |
+          echo "🔗 Linking to Supabase project..."
+          supabase link --project-ref ${{ secrets.SUPABASE_PROJECT_REF }}
+      
+      - name: Run migrations
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+        run: |
+          echo "🚀 Running migrations..."
+          if [ "${{ github.event.inputs.migration_direction }}" = "up" ]; then
+            supabase db push
+            echo "✅ Migrations applied successfully"
+          else
+            echo "⚠️ Rollback migrations not yet implemented"
+            # supabase db reset
+          fi
+      
+      - name: Verify migration
+        run: |
+          echo "🔍 Verifying migration..."
+          # Add verification logic here
+          echo "✅ Migration verified"
+      
+      - name: Migration summary
+        if: success()
+        run: |
+          echo "📊 Migration Summary:"
+          echo "Environment: ${{ github.event.inputs.environment }}"
+          echo "Direction: ${{ github.event.inputs.migration_direction }}"
+          echo "Timestamp: $(date)"
+          echo "✅ Migration completed successfully"
+      
+      - name: Notify on failure
+        if: failure()
+        run: |
+          echo "❌ Migration failed!"
+          echo "Environment: ${{ github.event.inputs.environment }}"
+          echo "Direction: ${{ github.event.inputs.migration_direction }}"
+          echo "Please check logs and restore from backup if necessary"

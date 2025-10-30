@@ -1,0 +1,8 @@
+# Redirect all to index.html for Angular SPA routing
+/*    /index.html   200
+
+# Optional: Redirect www to non-www (uncomment if needed)
+# https://www.autorentar.com/*  https://autorentar.com/:splat  301!
+
+# Optional: Redirect non-www to www (uncomment if needed)
+# https://autorentar.com/*  https://www.autorentar.com/:splat  301!

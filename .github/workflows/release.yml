@@ -1,0 +1,85 @@
+name: Release Management
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release (e.g., v1.0.0)'
+        required: true
+        type: string
+
+jobs:
+  create-release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Get version from tag or input
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "version=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+          else
+            echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build release
+        run: npm run build
+        env:
+          NODE_ENV: production
+      
+      - name: Run tests
+        run: npm run test:ci
+      
+      - name: Generate changelog
+        id: changelog
+        run: |
+          if git describe --tags --abbrev=0 HEAD^ 2>/dev/null; then
+            PREVIOUS_TAG=$(git describe --tags --abbrev=0 HEAD^)
+            git log ${PREVIOUS_TAG}..HEAD --pretty=format:"- %s (%h)" > CHANGELOG.txt
+          else
+            git log --pretty=format:"- %s (%h)" > CHANGELOG.txt
+          fi
+          echo "Changelog generated"
+      
+      - name: Create release archive
+        run: |
+          tar -czf autorentar-${{ steps.version.outputs.version }}.tar.gz dist/
+      
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.version.outputs.version }}
+          name: Release ${{ steps.version.outputs.version }}
+          body_path: CHANGELOG.txt
+          draft: false
+          prerelease: false
+          files: |
+            autorentar-${{ steps.version.outputs.version }}.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Release notification
+        if: success()
+        run: |
+          echo "🎉 Release ${{ steps.version.outputs.version }} created successfully!"
+          echo "Check releases at: ${{ github.server_url }}/${{ github.repository }}/releases"
