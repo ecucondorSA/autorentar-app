@@ -239,3 +239,4 @@ describe('CarListComponent (TDD)', () => {
     expect(component.cars()).toEqual([])
   })
 })
+/* eslint-enable @typescript-eslint/unbound-method, @typescript-eslint/no-floating-promises, @typescript-eslint/no-unnecessary-condition -- Re-enable after test file */

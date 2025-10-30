@@ -50,3 +50,4 @@ describe('MyCarsComponent (TDD)', () => {
     expect(compiled.querySelector('[data-testid="car-list"]')).toBeTruthy()
   })
 })
+/* eslint-enable @typescript-eslint/no-unsafe-argument -- Re-enable after test file */

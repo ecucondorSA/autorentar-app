@@ -98,9 +98,9 @@ describe('LoginComponent', () => {
 
     it('should disable submit button when form is invalid', () => {
       fixture.detectChanges();
-      const submitButton = compiled.querySelector(
+      const submitButton = compiled.querySelector<HTMLIonButtonElement>(
         'ion-button[data-testid="submit-login"]'
-      ) as HTMLIonButtonElement | null;
+      );
 
       expect(submitButton?.disabled).toBe(true);
 
@@ -178,9 +178,9 @@ describe('LoginComponent', () => {
         password: 'password123',
       });
 
-      const form = compiled.querySelector(
+      const form = compiled.querySelector<HTMLFormElement>(
         'form[data-testid="login-form"]'
-      ) as HTMLFormElement | null;
+      );
       form?.dispatchEvent(new Event('submit'));
 
       expect(onSubmitSpy).toHaveBeenCalled();
@@ -243,3 +243,4 @@ describe('LoginComponent', () => {
     });
   });
 });
+/* eslint-enable @typescript-eslint/unbound-method -- Re-enable after test file */

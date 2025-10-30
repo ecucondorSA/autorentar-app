@@ -40,3 +40,4 @@ describe('BookingsReceivedComponent (TDD)', () => {
     expect(compiled.querySelector('ion-button[data-testid="reject-booking"]')).toBeTruthy()
   })
 })
+/* eslint-enable @typescript-eslint/no-unsafe-argument -- Re-enable after test file */

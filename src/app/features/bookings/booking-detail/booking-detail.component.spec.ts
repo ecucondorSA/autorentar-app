@@ -46,3 +46,4 @@ describe('BookingDetailComponent (TDD)', () => {
     expect(compiled.querySelector('ion-button[data-testid="cancel-booking"]')).toBeTruthy()
   })
 })
+/* eslint-enable @typescript-eslint/no-unsafe-argument -- Re-enable after test file */

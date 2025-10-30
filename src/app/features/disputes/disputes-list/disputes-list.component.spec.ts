@@ -110,3 +110,4 @@ describe('DisputesListComponent (TDD)', () => {
     expect(compiled.querySelector('[data-testid="evidence-count"]')).toBeTruthy()
   })
 })
+/* eslint-enable @typescript-eslint/no-unsafe-argument -- Re-enable after test file */

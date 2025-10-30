@@ -132,3 +132,4 @@ describe('CarDetailComponent (TDD)', () => {
     expect(compiled.querySelector('[data-testid="loading-spinner"]')).toBeNull()
   })
 })
+/* eslint-enable @typescript-eslint/unbound-method, @typescript-eslint/no-non-null-assertion -- Re-enable after test file */

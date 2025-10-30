@@ -56,3 +56,4 @@ describe('CarPublishComponent (TDD)', () => {
     expect(compiled.querySelector('ion-button[data-testid="publish-button"]')).toBeTruthy()
   })
 })
+/* eslint-enable @typescript-eslint/no-unsafe-argument -- Re-enable after test file */

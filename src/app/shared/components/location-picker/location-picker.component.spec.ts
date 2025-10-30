@@ -87,3 +87,4 @@ describe('LocationPickerComponent (TDD)', () => {
     expect(confirmBtn?.disabled).toBeTruthy()
   })
 })
+/* eslint-enable @typescript-eslint/no-unsafe-argument -- Re-enable after test file */

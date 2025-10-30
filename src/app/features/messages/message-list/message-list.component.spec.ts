@@ -40,3 +40,4 @@ describe('MessageListComponent (TDD)', () => {
     expect(compiled.querySelector('[data-testid="last-message"]')).toBeTruthy()
   })
 })
+/* eslint-enable @typescript-eslint/no-unsafe-argument -- Re-enable after test file */

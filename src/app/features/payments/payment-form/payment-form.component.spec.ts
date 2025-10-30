@@ -36,3 +36,4 @@ describe('PaymentFormComponent (TDD)', () => {
     expect(compiled.querySelector('[data-testid="payment-breakdown"]')).toBeTruthy()
   })
 })
+/* eslint-enable @typescript-eslint/no-unsafe-argument -- Re-enable after test file */

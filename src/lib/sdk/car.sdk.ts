@@ -449,3 +449,4 @@ export class CarSDK extends BaseSDK {
 
 // Singleton instance
 export const carSDK = new CarSDK(supabase)
+/* eslint-enable @typescript-eslint/no-unnecessary-condition -- Re-enable after SDK file */

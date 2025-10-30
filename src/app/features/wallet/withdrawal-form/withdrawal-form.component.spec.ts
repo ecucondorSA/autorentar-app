@@ -110,3 +110,4 @@ describe('WithdrawalFormComponent (TDD)', () => {
     expect(compiled.querySelector('[data-testid="confirmation-modal"]')).toBeTruthy()
   })
 })
+/* eslint-enable @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-unnecessary-condition -- Re-enable after test file */

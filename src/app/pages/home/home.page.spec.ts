@@ -93,3 +93,4 @@ describe('HomePage (TDD)', () => {
     expect(compiled.querySelector('[data-testid="featured-loading"]')).toBeTruthy()
   })
 })
+/* eslint-enable @typescript-eslint/no-unsafe-argument -- Re-enable after test file */

@@ -98,3 +98,4 @@ describe('WalletDashboardComponent (TDD)', () => {
     expect(transactions.length).toBe(2)
   })
 })
+/* eslint-enable @typescript-eslint/no-unsafe-argument -- Re-enable after test file */

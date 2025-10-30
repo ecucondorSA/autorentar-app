@@ -40,3 +40,4 @@ describe('CarEditComponent (TDD)', () => {
     expect(compiled.querySelector('ion-button[data-testid="delete-button"]')).toBeTruthy()
   })
 })
+/* eslint-enable @typescript-eslint/no-unsafe-argument -- Re-enable after test file */

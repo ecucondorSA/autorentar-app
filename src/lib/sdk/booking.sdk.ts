@@ -468,3 +468,4 @@ export class BookingSDK extends BaseSDK {
 
 // Singleton instance
 export const bookingSDK = new BookingSDK(supabase)
+/* eslint-enable @typescript-eslint/no-unnecessary-condition -- Re-enable after SDK file */

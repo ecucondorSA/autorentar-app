@@ -657,3 +657,4 @@ describe('NotificationService (Feature Horizontal)', () => {
     })
   })
 })
+/* eslint-enable @typescript-eslint/unbound-method -- Re-enable after test file */

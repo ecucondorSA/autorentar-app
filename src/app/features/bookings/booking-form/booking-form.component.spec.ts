@@ -44,3 +44,4 @@ describe('BookingFormComponent (TDD)', () => {
     expect(compiled.querySelector('ion-button[data-testid="book-now-button"]')).toBeTruthy()
   })
 })
+/* eslint-enable @typescript-eslint/no-unsafe-argument -- Re-enable after test file */

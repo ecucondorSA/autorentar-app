@@ -36,3 +36,4 @@ describe('ReviewFormComponent (TDD)', () => {
     expect(compiled.querySelector('ion-button[data-testid="submit-review"]')).toBeTruthy()
   })
 })
+/* eslint-enable @typescript-eslint/no-unsafe-argument -- Re-enable after test file */

@@ -40,3 +40,4 @@ describe('FooterComponent (TDD)', () => {
     expect(compiled.querySelector('[data-testid="legal-links"]')).toBeTruthy()
   })
 })
+/* eslint-enable @typescript-eslint/no-unsafe-argument -- Re-enable after test file */

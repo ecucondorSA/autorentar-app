@@ -38,3 +38,4 @@ describe('ReviewsListComponent (TDD)', () => {
     expect(compiled.querySelector('[data-testid="empty-reviews"]')).toBeTruthy()
   })
 })
+/* eslint-enable @typescript-eslint/no-unsafe-argument -- Re-enable after test file */

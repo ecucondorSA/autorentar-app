@@ -38,3 +38,4 @@ describe('MyBookingsComponent (TDD)', () => {
     expect(compiled.querySelector('[data-testid="status-tabs"]')).toBeTruthy()
   })
 })
+/* eslint-enable @typescript-eslint/no-unsafe-argument -- Re-enable after test file */

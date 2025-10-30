@@ -395,3 +395,4 @@ export class DocumentSDK extends BaseSDK {
 
 // Singleton instance
 export const documentSDK = new DocumentSDK(supabase)
+/* eslint-enable @typescript-eslint/no-unnecessary-condition -- Re-enable after SDK file */

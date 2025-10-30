@@ -312,3 +312,4 @@ export class DisputeSDK extends BaseSDK {
 
 // Singleton instance
 export const disputeSDK = new DisputeSDK(supabase)
+/* eslint-enable @typescript-eslint/no-unnecessary-condition -- Re-enable after SDK file */

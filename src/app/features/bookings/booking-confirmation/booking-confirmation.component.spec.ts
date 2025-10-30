@@ -40,3 +40,4 @@ describe('BookingConfirmationComponent (TDD)', () => {
     expect(compiled.querySelector('ion-button[data-testid="return-home"]')).toBeTruthy()
   })
 })
+/* eslint-enable @typescript-eslint/no-unsafe-argument -- Re-enable after test file */

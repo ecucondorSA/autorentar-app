@@ -103,3 +103,4 @@ describe('SidemenuComponent (TDD)', () => {
     expect(activeLink?.classList.contains('active')).toBeTruthy()
   })
 })
+/* eslint-enable @typescript-eslint/no-unsafe-argument -- Re-enable after test file */

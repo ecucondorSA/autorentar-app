@@ -103,3 +103,4 @@ describe('InsuranceListComponent (TDD)', () => {
     expect(compiled.querySelector('[data-testid="policy-status"]')).toBeTruthy()
   })
 })
+/* eslint-enable @typescript-eslint/no-unsafe-argument -- Re-enable after test file */

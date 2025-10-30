@@ -45,3 +45,4 @@ describe('DocumentUploadComponent (TDD)', () => {
     expect(compiled.querySelector('[data-testid="upload-progress"]')).toBeTruthy()
   })
 })
+/* eslint-enable @typescript-eslint/no-unsafe-argument -- Re-enable after test file */

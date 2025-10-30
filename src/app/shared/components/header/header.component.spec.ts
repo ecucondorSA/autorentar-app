@@ -64,3 +64,4 @@ describe('HeaderComponent (TDD)', () => {
     expect(toggle).toBeTruthy()
   })
 })
+/* eslint-enable @typescript-eslint/no-unsafe-argument -- Re-enable after test file */

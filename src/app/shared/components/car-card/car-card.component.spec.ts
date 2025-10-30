@@ -104,3 +104,4 @@ describe('CarCardComponent (TDD)', () => {
     expect(card?.hasAttribute('button')).toBeTruthy()
   })
 })
+/* eslint-enable @typescript-eslint/no-non-null-assertion -- Re-enable after test file */
