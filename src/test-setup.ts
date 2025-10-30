@@ -18,3 +18,4 @@
 
 // Import zone testing after env setup
 import 'zone.js/testing'
+/* eslint-enable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/prefer-nullish-coalescing -- Re-enable after test setup */

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument -- Test mocks use Promise<any> */
 /* eslint-disable @typescript-eslint/unbound-method -- Test file with Jasmine spies */
 /**
  * MessageService Tests (Feature Horizontal)
@@ -544,3 +545,4 @@ describe('MessageService (Feature Horizontal)', () => {
   })
 })
 /* eslint-enable @typescript-eslint/unbound-method -- Re-enable after test file */
+/* eslint-enable @typescript-eslint/no-unsafe-argument -- Re-enable after test file */

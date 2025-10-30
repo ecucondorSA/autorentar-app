@@ -223,7 +223,7 @@ export class MessageService {
 
       if (pushTokens.length > 0) {
         // TODO: Integrate with push notification service (FCM, OneSignal, etc.)
-        console.log('Would send push notification to:', pushTokens)
+        console.error('Would send push notification to:', pushTokens)
       }
     } catch (error) {
       // Non-critical error, log and continue
@@ -234,21 +234,21 @@ export class MessageService {
   /**
    * Send email notification (future implementation)
    */
-  async sendEmail(
+  sendEmail(
     to: string,
     subject: string,
     body: string
   ): Promise<void> {
     // TODO: Integrate with email service (SendGrid, Resend, etc.)
-    console.log('Would send email to:', to, subject, body)
+    console.error('Would send email to:', to, subject, body)
   }
 
   /**
    * Send SMS notification (future implementation)
    */
-  async sendSMS(phoneNumber: string, message: string): Promise<void> {
+  sendSMS(phoneNumber: string, message: string): Promise<void> {
     // TODO: Integrate with SMS service (Twilio, etc.)
-    console.log('Would send SMS to:', phoneNumber, message)
+    console.error('Would send SMS to:', phoneNumber, message)
   }
 }
 

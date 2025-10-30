@@ -186,7 +186,7 @@ export class ReviewService {
     try {
       const review = await this.reviewSDK.getById(reviewId)
       return review
-    } catch (error: unknown) {
+    } catch (_error: unknown) {
       throw new ReviewError(
         'Review not found',
         ReviewErrorCode.REVIEW_NOT_FOUND,
