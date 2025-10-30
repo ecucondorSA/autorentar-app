@@ -1,8 +1,3 @@
-/**
- * Profile SDK
- * Handles all profile-related operations
- */
-
 import {
   CreateProfileInputSchema,
   UpdateProfileInputSchema,
@@ -18,6 +13,12 @@ import {
   type TablesUpdate,
   parseProfile,
 } from '@/types'
+import type { ProfileInsert, ProfileUpdate, ProfileRow } from '@/types/database-helpers'
+/**
+ * Profile SDK
+ * Handles all profile-related operations
+ */
+
 
 import { toError } from '../errors'
 import { supabase } from '../supabase'
@@ -71,7 +72,7 @@ export class ProfileSDK extends BaseSDK {
 
       const { data, error } = await this.supabase
         .from('profiles')
-        .insert(validData as never)
+        .insert(validData as ProfileInsert)
         .select()
         .single()
 
@@ -94,7 +95,7 @@ export class ProfileSDK extends BaseSDK {
 
       const { data, error } = await this.supabase
         .from('profiles')
-        .update(validData as never)
+        .update(validData as ProfileUpdate)
         .eq('id', id)
         .select()
         .single()
@@ -164,7 +165,7 @@ export class ProfileSDK extends BaseSDK {
         .update({
           date_of_birth: validData.date_of_birth,
           kyc_status: 'pending',
-        } as never)
+        } as ProfileRow)
         .eq('id', validData.user_id)
         .select()
         .single()
@@ -333,7 +334,7 @@ export class ProfileSDK extends BaseSDK {
     try {
       const { error } = await this.supabase
         .from('profiles')
-        .update({ is_active: false } as never)
+        .update({ is_active: false } as ProfileUpdate)
         .eq('id', userId)
         .select()
         .single()

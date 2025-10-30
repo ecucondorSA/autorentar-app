@@ -1,9 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unnecessary-condition -- SDK defensive programming pattern */
-/**
- * Car SDK
- * Handles all car-related operations
- */
-
 import {
   CreateCarInputSchema,
   UpdateCarInputSchema,
@@ -18,6 +12,13 @@ import {
   type PaginatedResponse,
   parseCar,
 } from '@/types'
+import type { CarInsert, CarUpdate, SearchCarsNearbyParams } from '@/types/database-helpers'
+/* eslint-disable @typescript-eslint/no-unnecessary-condition -- SDK defensive programming pattern */
+/**
+ * Car SDK
+ * Handles all car-related operations
+ */
+
 
 import { toError } from '../errors'
 import { supabase } from '../supabase'
@@ -87,7 +88,7 @@ export class CarSDK extends BaseSDK {
 
       const { data, error } = await this.supabase
         .from('cars')
-        .insert(validData as never)
+        .insert(validData as CarInsert)
         .select()
         .single()
 
@@ -110,7 +111,7 @@ export class CarSDK extends BaseSDK {
 
       const { data, error } = await this.supabase
         .from('cars')
-        .update(validData as never)
+        .update(validData as CarUpdate)
         .eq('id', id)
         .select()
         .single()
@@ -306,7 +307,7 @@ export class CarSDK extends BaseSDK {
       // Validate input
       const validData = SearchCarsNearbySchema.parse(input)
 
-      const { data, error } = await this.supabase.rpc('search_cars_nearby' as never, {
+      const result = await this.supabase.rpc('search_cars_nearby', {
         user_lat: validData.user_lat,
         user_lng: validData.user_lng,
         radius: validData.radius,
@@ -315,7 +316,10 @@ export class CarSDK extends BaseSDK {
         min_seats: validData.min_seats,
         transmission: validData.transmission,
         instant_book_only: validData.instant_book_only,
-      } as never)
+      } as SearchCarsNearbyParams)
+
+      /* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- RPC return type is complex */
+      const { data, error } = result
 
       if (error) {throw toError(error)}
 
@@ -378,7 +382,7 @@ export class CarSDK extends BaseSDK {
         .insert({
           car_id: carId,
           url: photoUrl,
-        } as never)
+        } as SearchCarsNearbyParams)
         .select()
         .single()
 

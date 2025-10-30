@@ -1,9 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unnecessary-condition -- SDK defensive programming pattern */
-/**
- * Booking SDK
- * Handles all booking-related operations
- */
-
 import {
   type BookingDTO,
   BookingSearchFiltersSchema,
@@ -25,6 +19,13 @@ import {
   type CalculateBookingPriceInput,
   type BookingSearchFilters,
 } from '@/types'
+import type { BookingInsert, BookingUpdate, RpcFunctions } from '@/types/database-helpers'
+/* eslint-disable @typescript-eslint/no-unnecessary-condition -- SDK defensive programming pattern */
+/**
+ * Booking SDK
+ * Handles all booking-related operations
+ */
+
 
 import { toError } from '../errors'
 import { supabase } from '../supabase'
@@ -119,7 +120,7 @@ export class BookingSDK extends BaseSDK {
 
       const { data, error} = await this.supabase
         .from('bookings')
-        .insert(validData as never) // Type assertion needed due to complex DB types
+        .insert(validData as BookingInsert) // Type assertion needed due to complex DB types
         .select()
         .single()
 
@@ -146,7 +147,7 @@ export class BookingSDK extends BaseSDK {
 
     const { data, error } = await this.supabase
       .from('bookings')
-      .update(validData as never) // Type assertion needed due to complex DB types
+      .update(validData as BookingUpdate) // Type assertion needed due to complex DB types
       .eq('id', id)
       .select()
       .single()
@@ -414,7 +415,7 @@ export class BookingSDK extends BaseSDK {
       p_extra_child_seats: validData.extra_child_seat_count,
       p_extra_gps: validData.extra_gps,
       p_promo_code: validData.promo_code,
-    } as never)
+    } as RpcFunctions['request_booking']['Returns'])
 
     if (error) {
       this.handleError(error, 'Price calculation failed')

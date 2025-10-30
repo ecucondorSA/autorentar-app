@@ -121,7 +121,7 @@ export class CarService {
        
       const unpublishedCar = await this.carSDK.update(carId, {
         status: 'suspended',
-      } as never)
+      })
 
        
       return unpublishedCar

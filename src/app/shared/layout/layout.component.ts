@@ -1,18 +1,44 @@
 import { CommonModule } from '@angular/common'
-import { Component } from '@angular/core'
+import { Component, signal, computed } from '@angular/core'
 import { RouterOutlet, RouterLink } from '@angular/router'
 import {
   IonHeader,
   IonToolbar,
   IonTitle,
   IonContent,
-  IonFooter,
+  IonTabBar,
+  IonTabButton,
+  IonTabs,
+  IonIcon,
   IonButtons,
   IonButton,
-  IonIcon,
+  IonSelect,
+  IonSelectOption,
+  IonBadge,
+  IonAvatar,
+  IonLabel,
 } from '@ionic/angular/standalone'
 import { addIcons } from 'ionicons'
-import { home, car, person, logIn } from 'ionicons/icons'
+import {
+  home,
+  search,
+  calendar,
+  car,
+  wallet,
+  person,
+  notifications,
+  add,
+} from 'ionicons/icons'
+
+type UserRole = 'renter' | 'owner'
+
+interface TabConfig {
+  id: string
+  label: string
+  icon: string
+  route: string
+  testId: string
+}
 
 @Component({
   selector: 'app-layout',
@@ -25,76 +51,246 @@ import { home, car, person, logIn } from 'ionicons/icons'
     IonToolbar,
     IonTitle,
     IonContent,
-    IonFooter,
+    IonTabBar,
+    IonTabButton,
+    IonTabs,
+    IonIcon,
     IonButtons,
     IonButton,
-    IonIcon,
+    IonSelect,
+    IonSelectOption,
+    IonBadge,
+    IonAvatar,
+    IonLabel,
   ],
   template: `
+    <!-- Header -->
     <ion-header data-testid="app-header">
       <ion-toolbar>
+        <!-- Logo -->
         <ion-title data-testid="app-logo">
-          <a routerLink="/" class="logo-link">AutoRentar</a>
+          <a routerLink="/home" class="logo-link">AutoRentar</a>
         </ion-title>
 
-        <ion-buttons slot="end" data-testid="main-nav">
-          <ion-button routerLink="/cars">
-            <ion-icon slot="icon-only" name="car"></ion-icon>
+        <ion-buttons slot="end">
+          <!-- Role Selector -->
+          <ion-select
+            [value]="currentRole()"
+            (ionChange)="onRoleChange($event)"
+            interface="popover"
+            data-testid="role-selector"
+            class="role-selector"
+          >
+            <ion-select-option value="renter">Renter</ion-select-option>
+            <ion-select-option value="owner">Owner</ion-select-option>
+          </ion-select>
+
+          <!-- Notifications -->
+          <ion-button data-testid="notifications-button">
+            <ion-icon slot="icon-only" name="notifications"></ion-icon>
+            @if (notificationCount() > 0) {
+              <ion-badge color="danger" class="notification-badge">
+                {{ notificationCount() }}
+              </ion-badge>
+            }
           </ion-button>
-          <ion-button routerLink="/login">
-            <ion-icon slot="icon-only" name="log-in"></ion-icon>
+
+          <!-- User Avatar -->
+          <ion-button data-testid="user-avatar" routerLink="/account">
+            <ion-avatar class="user-avatar">
+              <img
+                [src]="userAvatar()"
+                alt="User avatar"
+              />
+            </ion-avatar>
           </ion-button>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
 
-    <ion-content data-testid="main-content">
-      <router-outlet></router-outlet>
-    </ion-content>
+    <!-- Tabs with Content -->
+    <ion-tabs>
+      <!-- Content -->
+      <ion-content data-testid="main-content">
+        <router-outlet></router-outlet>
+      </ion-content>
 
-    <ion-footer data-testid="app-footer">
-      <ion-toolbar>
-        <div class="footer-content">
-          <p data-testid="footer-copyright">
-            © 2025 AutoRentar. Todos los derechos reservados.
-          </p>
-        </div>
-      </ion-toolbar>
-    </ion-footer>
+      <!-- Bottom Tab Bar (contextual based on role) -->
+      <ion-tab-bar slot="bottom" data-testid="bottom-tab-bar">
+        @for (tab of currentTabs(); track tab.id) {
+          <ion-tab-button
+            [tab]="tab.id"
+            [attr.data-testid]="tab.testId"
+            [routerLink]="tab.route"
+          >
+            <ion-icon [name]="tab.icon"></ion-icon>
+            <ion-label>{{ tab.label }}</ion-label>
+          </ion-tab-button>
+        }
+      </ion-tab-bar>
+    </ion-tabs>
   `,
-  styles: [`
-    .logo-link {
-      text-decoration: none;
-      color: inherit;
-      font-weight: bold;
-      font-size: 1.2rem;
-    }
+  styles: [
+    `
+      /* Header Styles */
+      .logo-link {
+        text-decoration: none;
+        color: inherit;
+        font-weight: bold;
+        font-size: 1.2rem;
+      }
 
-    .footer-content {
-      text-align: center;
-      padding: 1rem;
-      font-size: 0.875rem;
-      color: var(--ion-color-medium);
-    }
+      .role-selector {
+        font-size: 0.875rem;
+        max-width: 120px;
+      }
 
-    .footer-content p {
-      margin: 0;
-    }
+      .notification-badge {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        font-size: 0.625rem;
+        min-width: 16px;
+        height: 16px;
+      }
 
-    ion-header {
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
+      .user-avatar {
+        width: 32px;
+        height: 32px;
+      }
 
-    ion-footer {
-      border-top: 1px solid var(--ion-color-light);
-    }
-  `]
+      ion-header {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Tab Bar Styles */
+      ion-tab-bar {
+        border-top: 1px solid var(--ion-color-light);
+        --background: var(--ion-color-light);
+      }
+
+      ion-tab-button {
+        --color: var(--ion-color-medium);
+        --color-selected: var(--ion-color-primary);
+      }
+
+      /* Responsive: Hide tab bar on desktop, show sidebar instead */
+      @media (min-width: 768px) {
+        /* TODO: Implement sidebar for desktop in future iteration */
+      }
+    `,
+  ],
 })
-/* eslint-disable @typescript-eslint/no-extraneous-class -- Layout component only initializes icons in constructor */
 export class LayoutComponent {
+  // State
+  readonly currentRole = signal<UserRole>('renter')
+  readonly notificationCount = signal(0)
+  readonly userAvatar = signal('https://via.placeholder.com/150')
+
+  // Tab configurations
+  private readonly renterTabs: TabConfig[] = [
+    {
+      id: 'home',
+      label: 'Inicio',
+      icon: 'home',
+      route: '/home',
+      testId: 'tab-home',
+    },
+    {
+      id: 'explore',
+      label: 'Explorar',
+      icon: 'search',
+      route: '/explore',
+      testId: 'tab-explore',
+    },
+    {
+      id: 'bookings',
+      label: 'Reservas',
+      icon: 'calendar',
+      route: '/bookings',
+      testId: 'tab-bookings',
+    },
+    {
+      id: 'wallet',
+      label: 'Wallet',
+      icon: 'wallet',
+      route: '/wallet',
+      testId: 'tab-wallet',
+    },
+    {
+      id: 'account',
+      label: 'Cuenta',
+      icon: 'person',
+      route: '/account',
+      testId: 'tab-account',
+    },
+  ]
+
+  private readonly ownerTabs: TabConfig[] = [
+    {
+      id: 'home',
+      label: 'Inicio',
+      icon: 'home',
+      route: '/home',
+      testId: 'tab-home',
+    },
+    {
+      id: 'my-cars',
+      label: 'Mis Autos',
+      icon: 'car',
+      route: '/my-cars',
+      testId: 'tab-my-cars',
+    },
+    {
+      id: 'publish',
+      label: 'Publicar',
+      icon: 'add',
+      route: '/publish',
+      testId: 'tab-publish',
+    },
+    {
+      id: 'wallet',
+      label: 'Wallet',
+      icon: 'wallet',
+      route: '/wallet',
+      testId: 'tab-wallet',
+    },
+    {
+      id: 'account',
+      label: 'Cuenta',
+      icon: 'person',
+      route: '/account',
+      testId: 'tab-account',
+    },
+  ]
+
+  // Computed: tabs change based on current role
+  readonly currentTabs = computed(() => {
+    return this.currentRole() === 'renter' ? this.renterTabs : this.ownerTabs
+  })
+
   constructor() {
     // Register icons
-    addIcons({ home, car, person, logIn })
+    addIcons({
+      home,
+      search,
+      calendar,
+      car,
+      wallet,
+      person,
+      notifications,
+      add,
+    })
+  }
+
+  // Public methods for testing
+  switchRole(role: UserRole): void {
+    this.currentRole.set(role)
+  }
+
+  // Event handlers
+  onRoleChange(event: CustomEvent): void {
+    const role = event.detail.value as UserRole
+    this.switchRole(role)
   }
 }
-/* eslint-enable @typescript-eslint/no-extraneous-class -- Re-enable after layout component */

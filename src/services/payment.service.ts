@@ -14,6 +14,7 @@ import { paymentSDK, type PaymentSDK } from '@/lib/sdk/payment.sdk'
 import type {
   PaymentDTO,
 } from '@/types'
+import type { WalletInitiateDepositParams } from '@/types/database-helpers'
 import {
   type ProcessPaymentInput,
   ProcessPaymentInputSchema,
@@ -86,7 +87,7 @@ export class PaymentService {
             provider: validInput.provider,
             mode: 'payment',
             installments: 1,
-          } as never)
+          } as WalletInitiateDepositParams)
         }
       } catch {
         throw new PaymentError(

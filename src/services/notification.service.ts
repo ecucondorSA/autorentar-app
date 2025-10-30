@@ -15,6 +15,7 @@ import type {
   CreateNotificationInput,
   SendBulkNotificationInput,
 } from '@/types'
+import type { NotificationType } from '@/types/database-helpers'
 
 import { toError } from '../lib/errors'
 
@@ -78,7 +79,7 @@ export class NotificationService {
       const notifications = await this.notificationSDK.getUserNotifications({
         user_id: userId,
         unread_only: options?.unread_only ?? false,
-        type: options?.type as never,
+        type: options?.type as NotificationType,
         limit: options?.limit ?? 20,
         offset: options?.offset ?? 0,
       })

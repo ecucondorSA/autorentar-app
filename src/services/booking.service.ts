@@ -17,6 +17,7 @@ import { type PricingSDK } from '@/lib/sdk/pricing.sdk'
 import type {
   BookingDTO,
 } from '@/types'
+import type { RpcFunctions } from '@/types/database-helpers'
 import {
   BookingError,
   BookingErrorCode,
@@ -113,7 +114,7 @@ export class BookingService {
           service_fee_cents: Math.round(pricing.total_cents * 0.1), // 10% platform fee
           insurance_coverage_level: validInput.insurance_coverage_level ?? 'none',
           extra_gps: validInput.extra_gps ?? false,
-        } as never)
+        } as RpcFunctions['request_booking']['Returns'])
       } catch {
         throw new BookingError(
           'Failed to create booking',
@@ -132,7 +133,7 @@ export class BookingService {
           provider: 'mercadopago', // Default provider
           mode: 'payment',
           installments: 1,
-        } as never)
+        } as RpcFunctions['request_booking']['Returns'])
       } catch {
         // Compensating transaction: delete booking
         // In production, use proper transaction or saga pattern
@@ -269,7 +270,7 @@ export class BookingService {
         cancelled_by: input.cancelled_by,
         cancellation_reason: input.cancellation_reason,
         cancelled_at: new Date().toISOString(),
-      } as never)
+      } as RpcFunctions['request_booking']['Returns'])
 
       // 6. Process refund if applicable
       if (refundAmount > 0) {
@@ -281,7 +282,7 @@ export class BookingService {
             payment_id: completedPayment.id,
             refund_amount_cents: refundAmount,
             refund_reason: input.cancellation_reason ?? 'Booking cancelled',
-          } as never)
+          } as RpcFunctions['request_booking']['Returns'])
         }
       }
 
@@ -320,7 +321,7 @@ export class BookingService {
         status: 'in_progress',
         actual_start_date: input.actual_start_date,
         initial_odometer_km: input.odometer_km,
-      } as never)
+      } as RpcFunctions['request_booking']['Returns'])
     } catch (error) {
       if (error instanceof BookingError) {throw error}
       throw toError(error)
@@ -372,7 +373,7 @@ export class BookingService {
         actual_end_date: input.actual_end_date,
         final_odometer_km: input.final_odometer_km,
         completed_at: new Date().toISOString(),
-      } as never)
+      } as RpcFunctions['request_booking']['Returns'])
 
       // 5. Process final payment and distribute
       // In production, this would split payment between owner, platform, insurance

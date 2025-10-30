@@ -1,8 +1,3 @@
-/**
- * Payment SDK
- * Handles payment processing operations
- */
-
 import {
   CreatePaymentInputSchema,
   RefundRequestSchema,
@@ -15,6 +10,12 @@ import {
   type PaymentStatus,
   parsePayment,
 } from '@/types'
+import type { PaymentInsert } from '@/types/database-helpers'
+/**
+ * Payment SDK
+ * Handles payment processing operations
+ */
+
 
 import { toError } from '../errors'
 import { supabase } from '../supabase'
@@ -52,7 +53,7 @@ export class PaymentSDK extends BaseSDK {
 
       const { data, error } = await this.supabase
         .from('payments')
-        .insert(validData as never)
+        .insert(validData as PaymentInsert)
         .select()
         .single()
 
